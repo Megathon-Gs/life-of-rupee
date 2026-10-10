@@ -1,0 +1,21 @@
+{
+  "tool": "scripted (Pillow) + tools/asset-lint/contact-sheet.ts",
+  "toolVersion": "compose script, 2026-10-10",
+  "prompt": "not applicable: composed from art/approved",
+  "referenceIds": [
+    "art/approved/**"
+  ],
+  "licence": "Original work composed in code by us from approved assets under art/approved; no third-party material; commercial use allowed",
+  "date": "2026-10-10",
+  "kind": "tile",
+  "tags": [
+    "review",
+    "contact-sheet"
+  ],
+  "frameSize": [
+    1280,
+    272
+  ],
+  "notes": "1:1 composition of the acceptance scene on one street: sky, far skyline, mid trees/wires, apartment filler, home, bank (greets variant) with the player and the bank teller (greet frame 3, west), kirana, shop-house filler, rural stretch (agri/co-op market), a walking player. Padded to the 16 px grid with road colour. REVIEW IMAGE: not a game asset, do not copy to art/approved. Buildings are aligned on their base row (last row at least 60% of the widest row), so the kirana plinth sits flush on the pavement; the scooter wheels may overlap the pavement by 2 px. The foreground-props layer was removed (owner: weird on the road, not Indian); no foreground layer is shown.",
+  "reviewFlags": "product owner approval of the contact sheet is the gate"
+}

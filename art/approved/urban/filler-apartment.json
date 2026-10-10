@@ -1,0 +1,25 @@
+{
+  "tool": "PixelLab MCP create_image_pixflux",
+  "toolVersion": "not exposed by MCP (queried 2026-10-10)",
+  "prompt": "mid-rise apartment block, side view, flat orthographic facade, 4 storey, plastered cream and sand walls, regular balconies with railings and potted plants, split-AC units on brackets, black water tanks on the flat roof with parapet, covered ground-floor parking opening and one door, warm late-afternoon light from upper left. Not a tourist postcard; no religious icons, cows, slums, rags; no text, letters, numerals, logos or Telugu on any sign. No text, no letters, no numerals, no logos, no watermark, no signage lettering; signboards are blank.",
+  "referenceIds": [
+    "upload:5f39d0a9-28cf-44a4-a6a4-579a4e73109d (palette A strip, forced palette)",
+    "pixellab job 04e80aff-187e-4332-9886-d8e09ac00442",
+    "art/bible/reference/cand-a-home.png (same seed 7 and enums)"
+  ],
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-10",
+  "kind": "tile",
+  "tags": [
+    "facade",
+    "filler",
+    "apartment",
+    "urban"
+  ],
+  "frameSize": [
+    160,
+    160
+  ],
+  "notes": "160x160 seed 7 side/single color outline/basic shading/medium detail, transparent bg, forced palette; inspected at 8x, no lettering (small blue object by the door is a planter)",
+  "reviewFlags": "architecture and dress are GUESS: needs photo-reference pass and Hyderabad/Telangana reviewer"
+}

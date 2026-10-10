@@ -1,0 +1,23 @@
+{
+  "tool": "scripted (Pillow)",
+  "toolVersion": "draw-tiles script, Pillow, 2026-10-10",
+  "prompt": "not applicable: drawn in code from art/bible/palette.json",
+  "referenceIds": [
+    "art/bible/palette.json",
+    "art/bible/art-bible.md"
+  ],
+  "licence": "Original work drawn in code by us from palette A; no third-party material; commercial use allowed",
+  "date": "2026-10-10",
+  "kind": "tile",
+  "tags": [
+    "repeat-x",
+    "parallax",
+    "sky"
+  ],
+  "frameSize": [
+    192,
+    272
+  ],
+  "notes": "192x272 (>=270 logical, grid-multiple); 2x2 checker on two sky bands only (5fa3d6/9fd3e6 y24-39 and 9fd3e6/d3eef0 y128-143), flat 5fa3d6 band only 24 px (critic: top band was too tall); clouds vary in length and spacing; scroll factor 0.1; last column copied from first so edge columns match",
+  "reviewFlags": "no text, numerals or logos by construction"
+}

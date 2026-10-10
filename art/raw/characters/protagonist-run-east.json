@@ -1,0 +1,24 @@
+{
+  "tool": "PixelLab MCP create_character + animate_character",
+  "toolVersion": "not exposed by MCP (queried 2026-10-10)",
+  "prompt": "teenage student with backpack, short dark hair, coral kurta-style top, plain solid blue jeans, white sneakers, friendly neutral expression, mid-brown skin, standing upright, full body, clean clustered shading, dark ink outline. No text, no letters, no numerals, no logos, no watermark, no signage lettering; signboards are blank.",
+  "referenceIds": [
+    "PixelLab character 323523d9-418b-4983-8c30-fc3b6488c240 (standard, view side, size 42, stylized, single color outline, basic shading, low detail)",
+    "upload:5f39d0a9-28cf-44a4-a6a4-579a4e73109d"
+  ],
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-10",
+  "kind": "sheet",
+  "tags": [
+    "character",
+    "protagonist",
+    "run",
+    "east"
+  ],
+  "frameSize": [
+    32,
+    48
+  ],
+  "notes": "rig 60x60 canvas cropped to 32x48 with shared x anchor, bottom-aligned; locally palette-snapped to palette A (nearest colour) with alpha binarised; ground-shadow pixels removed; template running-6-frames, frame 1 (crouched flight pose) dropped so opaque-height drift is within 1 px: 5 frames",
+  "reviewFlags": "architecture and dress are GUESS: needs photo-reference pass and Hyderabad/Telangana reviewer"
+}

@@ -1,0 +1,21 @@
+{
+  "tool": "scripted (Pillow) + tools/asset-lint/contact-sheet.ts",
+  "toolVersion": "compose script, 2026-10-10",
+  "prompt": "not applicable: composed from art/approved",
+  "referenceIds": [
+    "art/approved/**"
+  ],
+  "licence": "Original work composed in code by us from approved assets under art/approved; no third-party material; commercial use allowed",
+  "date": "2026-10-10",
+  "kind": "tile",
+  "tags": [
+    "review",
+    "contact-sheet"
+  ],
+  "frameSize": [
+    1184,
+    1360
+  ],
+  "notes": "234 logical px window at scale 5: rural-connected stretch (agri-supply, co-op shed, house with solar). REVIEW IMAGE: not a game asset, do not copy to art/approved. The foreground-props layer was removed (owner: weird on the road, not Indian); no foreground layer is shown.",
+  "reviewFlags": "product owner approval of the contact sheet is the gate"
+}

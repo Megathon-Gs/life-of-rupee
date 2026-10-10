@@ -1,0 +1,25 @@
+{
+  "tool": "PixelLab MCP create_image_pixflux",
+  "toolVersion": "not exposed by MCP (queried 2026-10-10)",
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-10",
+  "prompt": "street edge props in a row, side view: neem tree with round crown, street lamp, electricity pole with wires, bus stop shelter with bench and blank route board, parked two-wheeler, planter. Warm late-afternoon light from upper left. No text, no letters, no numerals, no logos, no watermark, no signage lettering; signboards are blank.",
+  "referenceIds": [
+    "upload:5f39d0a9-28cf-44a4-a6a4-579a4e73109d (palette A strip, 32x1)",
+    "pixellab job 7aabbbdf-5fda-48c8-8da5-f4a27a115045",
+    "art/bible/reference/cand-a-street.png"
+  ],
+  "notes": "320x96 seed 7 same enums, transparent bg; local edit: erased the round yellow sign head and upper pole (read as a prohibition sign); reused unchanged from art/bible/reference/cand-a-street (P0-03)",
+  "reviewFlags": "architecture and dress are GUESS: needs photo-reference pass and Hyderabad/Telangana reviewer",
+  "kind": "tile",
+  "tags": [
+    "street",
+    "props",
+    "greenery",
+    "urban"
+  ],
+  "frameSize": [
+    320,
+    96
+  ]
+}

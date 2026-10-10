@@ -1,0 +1,23 @@
+{
+  "tool": "PixelLab MCP create_image_pixflux",
+  "toolVersion": "not exposed by MCP (queried 2026-10-10)",
+  "prompt": "distant city skyline in soft haze, side view, flat silhouettes with no outlines: mid-rise apartment towers, a metro viaduct on pillars, a few water tanks, a hazy tree line, evenly spread along the full width, low contrast pale lavender and sky blue, warm late-afternoon light from upper left, nothing near the ground line except tree tops. Not a tourist postcard; no religious icons, temples, cows, slums; no text, letters, numerals, logos or Telugu. No text, no letters, no numerals, no logos, no watermark, no signage lettering; signboards are blank.",
+  "referenceIds": [
+    "upload:d163239c-21c0-4ff3-9d0e-f58ee023eb14 (8-colour haze subset of palette A, forced palette)",
+    "pixellab job a5e220b7-20d2-4b91-bcfe-897a1b1ef1bb"
+  ],
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-10",
+  "kind": "tile",
+  "tags": [
+    "repeat-x",
+    "parallax",
+    "far-skyline"
+  ],
+  "frameSize": [
+    768,
+    96
+  ],
+  "notes": "384x96 seed 31, lineless/flat/low detail. no_background was ignored (opaque 9fd3e6 sky): keyed to alpha 0 locally by flood fill of components, floating specks (<30 px) deleted, tower fill d3eef0 remapped to 9fd3e6 so towers do not merge into the horizon sky. Made seamless by appending the horizontal mirror (768 px wide, edge columns identical). Scroll factor 0.3; bottom of the layer sits on the building base line y=226. Phone width only shows ~234 logical px.",
+  "reviewFlags": "architecture is GUESS: Hyderabad-style skyline/metro viaduct needs reviewer check"
+}

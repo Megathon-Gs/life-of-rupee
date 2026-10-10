@@ -1,0 +1,21 @@
+{
+  "tool": "scripted (Pillow) + tools/asset-lint/contact-sheet.ts",
+  "toolVersion": "compose script, 2026-10-10",
+  "prompt": "not applicable: composed from art/approved",
+  "referenceIds": [
+    "art/approved/**"
+  ],
+  "licence": "Original work composed in code by us from approved assets under art/approved; no third-party material; commercial use allowed",
+  "date": "2026-10-10",
+  "kind": "tile",
+  "tags": [
+    "review",
+    "contact-sheet"
+  ],
+  "frameSize": [
+    3120,
+    960
+  ],
+  "notes": "catalogue of all 34 approved assets from tools/asset-lint/contact-sheet.ts at scale 1 (background recoloured from 202020 to palette ink 191a33) REVIEW IMAGE: not a game asset, do not copy to art/approved. The foreground-props layer was removed (owner: weird on the road, not Indian); no foreground layer is shown.",
+  "reviewFlags": "product owner approval of the contact sheet is the gate"
+}

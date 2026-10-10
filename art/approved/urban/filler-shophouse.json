@@ -1,0 +1,25 @@
+{
+  "tool": "PixelLab MCP create_image_pixflux",
+  "toolVersion": "not exposed by MCP (queried 2026-10-10)",
+  "prompt": "town shop-house, side view, flat orthographic facade, 2 storey, plastered terracotta and cream walls, closed roll-up shutter in jade-slate on the ground floor with a wooden side door, upper floor family home with a small balcony, clothes line and barred windows, flat roof with parapet, an empty rectangular fascia plate above the shutter, warm late-afternoon light from upper left. Not a tourist postcard; no religious icons, cows, slums, rags; no text, letters, numerals, logos or Telugu on any sign. No text, no letters, no numerals, no logos, no watermark, no signage lettering; signboards are blank.",
+  "referenceIds": [
+    "upload:5f39d0a9-28cf-44a4-a6a4-579a4e73109d (palette A strip, forced palette)",
+    "pixellab job 827e0f9f-0120-4734-b864-bde0839e4e52",
+    "art/bible/reference/cand-a-home.png (same seed 7 and enums)"
+  ],
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-10",
+  "kind": "tile",
+  "tags": [
+    "facade",
+    "filler",
+    "shophouse",
+    "town"
+  ],
+  "frameSize": [
+    160,
+    160
+  ],
+  "notes": "160x160 seed 7, same enums, transparent bg, forced palette. REPAIR: the grey fascia strip above the shutter had teal pseudo-lettering marks (x25-131, y88-93); repainted flat 8a86a8 with a 55507a shade row, local edit, palette colours only. Round sign on the left is a blank cream disc (inspected at 8x).",
+  "reviewFlags": "architecture and dress are GUESS: needs photo-reference pass and Hyderabad/Telangana reviewer"
+}

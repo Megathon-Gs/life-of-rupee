@@ -1,0 +1,23 @@
+{
+  "tool": "scripted (Pillow)",
+  "toolVersion": "draw-tiles script, Pillow, 2026-10-10",
+  "prompt": "not applicable: drawn in code from art/bible/palette.json",
+  "referenceIds": [
+    "art/bible/palette.json",
+    "art/bible/art-bible.md"
+  ],
+  "licence": "Original work drawn in code by us from palette A; no third-party material; commercial use allowed",
+  "date": "2026-10-10",
+  "kind": "tile",
+  "tags": [
+    "repeat-x",
+    "road",
+    "kerb"
+  ],
+  "frameSize": [
+    32,
+    32
+  ],
+  "notes": "top 5 rows kerb, rest road 55507a; lane dash 8px every 16px, periodic",
+  "reviewFlags": "no text, numerals or logos by construction"
+}

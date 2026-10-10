@@ -1,0 +1,24 @@
+{
+  "tool": "PixelLab MCP create_character + animate_character",
+  "toolVersion": "not exposed by MCP (queried 2026-10-10)",
+  "prompt": "adult woman bank teller, tall and slim, neat low bun, pale teal blouse with a lanyard and a plain blank ID card, dark trousers, closed shoes, warm professional smile, deep brown skin, standing upright, full body, clean clustered shading, dark ink outline. No text, no letters, no numerals, no logos, no watermark, no signage lettering; signboards are blank.",
+  "referenceIds": [
+    "PixelLab character 925265b0-f46f-4863-b6ef-e8ce6e2844e7 (standard, view side, size 42, stylized, single color outline, basic shading, low detail)",
+    "upload:5f39d0a9-28cf-44a4-a6a4-579a4e73109d"
+  ],
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-10",
+  "kind": "sheet",
+  "tags": [
+    "character",
+    "bank-teller",
+    "idle",
+    "east"
+  ],
+  "frameSize": [
+    32,
+    48
+  ],
+  "notes": "rig 60x60 canvas cropped to 32x48 with a shared x anchor; sprite was 49-50 px tall (bun), so 1-2 leg rows were deleted locally to fit 48; locally palette-snapped to palette A, alpha binarised, ground shadow removed; template breathing-idle, 4 frames",
+  "reviewFlags": "architecture and dress are GUESS: needs photo-reference pass and Hyderabad/Telangana reviewer"
+}

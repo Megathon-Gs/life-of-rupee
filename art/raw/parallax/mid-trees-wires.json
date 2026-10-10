@@ -1,0 +1,23 @@
+{
+  "tool": "PixelLab MCP create_image_pixflux",
+  "toolVersion": "not exposed by MCP (queried 2026-10-10)",
+  "prompt": "mid-distance street edge, side view, evenly spread along the full width: round neem and gulmohar tree crowns on slim trunks, electricity poles with sagging overhead wires between them, a few rooftop black water tanks, low compound walls, soft clustered shading, warm late-afternoon light from upper left, empty at the bottom edge. Not a tourist postcard; no religious icons, cows, slums; no text, letters, numerals, logos or Telugu. No text, no letters, no numerals, no logos, no watermark, no signage lettering; signboards are blank.",
+  "referenceIds": [
+    "upload:1857c05e-3bcf-41f2-ae2a-0cda53e372c4 (12-colour green/ink/haze subset of palette A, forced palette)",
+    "pixellab job 0ee04d94-a726-4ef8-91ec-0fda32f2938e"
+  ],
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-10",
+  "kind": "tile",
+  "tags": [
+    "repeat-x",
+    "parallax",
+    "mid-trees-wires"
+  ],
+  "frameSize": [
+    384,
+    80
+  ],
+  "notes": "384x80 seed 31, selective outline/basic shading/low detail. The tool added a ground strip (kerb and road, rows 69-79) that was erased locally (street layer draws the ground); haze/pavement pixels in rows 67-68 removed. Last column copied from the first so repeat-x edge columns match (1 px change). Scroll factor 0.6; layer bottom sits on the building base line y=226. Compound-wall fill is pale green c4de6e with brown patches (reads as weathered plaster; revisit if the reviewer dislikes it). Inspected at 8x: no lettering.",
+  "reviewFlags": "architecture and vegetation are GUESS: needs photo-reference pass and Hyderabad/Telangana reviewer"
+}

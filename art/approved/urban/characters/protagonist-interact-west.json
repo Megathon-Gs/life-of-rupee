@@ -1,0 +1,24 @@
+{
+  "tool": "PixelLab MCP create_character + animate_character",
+  "toolVersion": "not exposed by MCP (queried 2026-10-10)",
+  "prompt": "teenage student with backpack, short dark hair, coral kurta-style top, plain solid blue jeans, white sneakers, friendly neutral expression, mid-brown skin, standing upright, full body, clean clustered shading, dark ink outline. No text, no letters, no numerals, no logos, no watermark, no signage lettering; signboards are blank.",
+  "referenceIds": [
+    "PixelLab character 323523d9-418b-4983-8c30-fc3b6488c240",
+    "upload:5f39d0a9-28cf-44a4-a6a4-579a4e73109d"
+  ],
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-10",
+  "kind": "sheet",
+  "tags": [
+    "character",
+    "protagonist",
+    "interact",
+    "west"
+  ],
+  "frameSize": [
+    32,
+    48
+  ],
+  "notes": "rig canvas cropped to 32x48, bottom-aligned, anchored 2 px left of idle so the forward arm fits; locally palette-snapped to palette A, alpha binarised; custom v3 clip (standing upright, raising one forearm to tap a screen), frame 3 dropped because the arm exceeded the 32 px window; clip prompt: standing upright in place, raising one forearm to tap a screen with a finger, then lowering it; west = exact per-frame pixel mirror of the east sheet (light now from upper right; engine should prefer scale.x=-1 on east)",
+  "reviewFlags": "architecture and dress are GUESS: needs photo-reference pass and Hyderabad/Telangana reviewer"
+}
