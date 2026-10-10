@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
-const baseURL = 'http://127.0.0.1:4173'
+const webPort = Number(process.env.E2E_PORT ?? 4173)
+const baseURL = `http://127.0.0.1:${webPort}`
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -41,7 +42,11 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'pnpm build && pnpm preview --host 127.0.0.1',
+    // In CI: a dedicated port, strictPort (fail if taken), and never reuse a foreign
+    // server. Locally: reuse a dev/preview server on the default port for speed.
+    command: process.env.CI
+      ? `pnpm build && pnpm preview --host 127.0.0.1 --port ${webPort} --strictPort`
+      : 'pnpm build && pnpm preview --host 127.0.0.1',
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

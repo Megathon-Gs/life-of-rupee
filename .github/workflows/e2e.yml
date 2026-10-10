@@ -18,6 +18,21 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+      # Self-hosted runner is shared with agent dev servers. A stale `vite preview`
+      # (or any process) holding the E2E port makes Playwright's webServer fail with
+      # "http://127.0.0.1:4173 is already used". Free the port before we start.
+      - name: Free E2E port (self-hosted runner hygiene)
+        run: |
+          for p in 4173 4174; do
+            if command -v fuser >/dev/null 2>&1; then
+              fuser -k -n tcp "$p" 2>/dev/null || true
+            else
+              pids=$(ss -ltnp 2>/dev/null | awk -v P=":$p" '$4 ~ P {print $NF}' | grep -oE 'pid=[0-9]+' | cut -d= -f2 || true)
+              [ -n "$pids" ] && kill $pids 2>/dev/null || true
+            fi
+          done
+          sleep 1
+          ss -ltn 2>/dev/null | grep -E ':(4173|4174)\b' && { echo "port still busy"; exit 1; } || echo "E2E ports free"
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
       - name: Set Chrome path for Lighthouse CI
