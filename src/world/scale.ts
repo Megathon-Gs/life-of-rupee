@@ -26,3 +26,8 @@ export function logicalWidth(viewportWidthDevicePx: number, scaled: number): num
 export function bandHeight(viewport: Viewport): number {
   return Math.round(viewport.width >= viewport.height ? viewport.height : viewport.height * 0.6)
 }
+
+/** Device px of extra sky above a bottom-anchored stage: the band minus its whole-scale stage. */
+export function stageOffsetY(bandDeviceHeight: number, scaled: number): number {
+  return Math.max(0, Math.round(bandDeviceHeight) - LOGICAL_HEIGHT * scaled)
+}

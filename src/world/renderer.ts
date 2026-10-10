@@ -7,7 +7,7 @@ import type {
   WorldRenderer,
   WorldVisuals,
 } from '@/core/contracts'
-import { bandHeight, logicalWidth, LOGICAL_HEIGHT, scaleFor } from './scale'
+import { bandHeight, logicalWidth, LOGICAL_HEIGHT, scaleFor, stageOffsetY } from './scale'
 import {
   BUILDING_HEIGHT,
   BUILDING_WIDTH,
@@ -147,7 +147,7 @@ export class PixiWorldRenderer implements WorldRenderer {
       .init({
         width: Math.max(1, Math.round(width * dpr)),
         height: Math.max(1, Math.round(height * dpr)),
-        backgroundColor: this.textures.sky,
+        backgroundAlpha: 0,
         antialias: false,
         resolution: 1,
         autoStart: !this.test,
@@ -272,10 +272,15 @@ export class PixiWorldRenderer implements WorldRenderer {
     this.logicalViewportWidth = logicalWidth(deviceWidth, this.scale)
 
     this.app?.renderer.resize(deviceWidth, deviceHeight)
+    // The stage fills the band, bottom-anchored; the scale remainder above it is sky, and the
+    // canvas below the band stays transparent so the app surface shows through.
+    const band = bandHeight({ width: deviceWidth, height: deviceHeight })
+    const offsetY = stageOffsetY(band, this.scale)
     this.worldRoot.scale.set(this.scale)
+    this.worldRoot.y = offsetY
     this.layoutLayers()
     this.updateCamera()
-    this.drawBackground(deviceWidth, deviceHeight)
+    this.drawBackground(deviceWidth, band, offsetY)
   }
 
   private layoutLayers(): void {
@@ -292,11 +297,13 @@ export class PixiWorldRenderer implements WorldRenderer {
     this.protagonist.y = GROUND_Y
   }
 
-  private drawBackground(deviceWidth: number, deviceHeight: number): void {
-    const groundY = Math.round(GROUND_Y * this.scale)
+  private drawBackground(deviceWidth: number, band: number, offsetY: number): void {
+    const groundY = offsetY + Math.round(GROUND_Y * this.scale)
     this.background
       .clear()
-      .rect(0, groundY, deviceWidth, Math.max(0, deviceHeight - groundY))
+      .rect(0, 0, deviceWidth, band)
+      .fill(this.textures.sky)
+      .rect(0, groundY, deviceWidth, Math.max(0, band - groundY))
       .fill(this.textures.pavement)
   }
 

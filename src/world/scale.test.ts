@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { bandHeight, logicalWidth, scaleFor } from './scale'
+import { bandHeight, logicalWidth, scaleFor, stageOffsetY } from './scale'
 
 describe('scaleFor', () => {
   it('floors the band height to whole multiples of 270', () => {
@@ -28,5 +28,17 @@ describe('bandHeight', () => {
 
   it('uses 60% of the height in portrait', () => {
     expect(bandHeight({ width: 360, height: 740 })).toBe(444)
+  })
+})
+
+describe('stageOffsetY', () => {
+  it('leaves the integer-scale remainder as sky above a bottom-anchored stage', () => {
+    expect(stageOffsetY(1332, 4)).toBe(252)
+    expect(stageOffsetY(900, 3)).toBe(90)
+    expect(stageOffsetY(270, 1)).toBe(0)
+  })
+
+  it('never goes negative for a band shorter than the stage', () => {
+    expect(stageOffsetY(100, 1)).toBe(0)
   })
 })
