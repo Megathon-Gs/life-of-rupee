@@ -1,0 +1,29 @@
+name: E2E and performance gates
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.10.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Set Chrome path for Lighthouse CI
+        run: echo "CHROME_PATH=$(find "$HOME/.cache/ms-playwright" -path '*/chrome-linux64/chrome' -type f -print -quit)" >> "$GITHUB_ENV"
+      - run: pnpm e2e
+        env:
+          CI: true
+      - run: pnpm build
+      - run: pnpm exec lhci autorun --config=lighthouserc.json
