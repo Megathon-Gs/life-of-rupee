@@ -1,0 +1,41 @@
+{
+  "_needsReview": true,
+  "loc": {
+    "home": "ఇల్లు",
+    "bank": "బ్యాంకు",
+    "kirana": "కిరాణా దుకాణం",
+    "filler1": "సమాజ కేంద్రం",
+    "filler2": "బస్ స్టాప్"
+  },
+  "branch": {
+    "money-management": "డబ్బు నిర్వహణ",
+    "financial-access": "ఆర్థిక ప్రాప్యత",
+    "financial-safety": "ఆర్థిక భద్రత",
+    "borrowing": "అప్పు & బాధ్యతలు",
+    "growth-economy": "వృద్ధి & ఆర్థిక వ్యవస్థ అవగాహన"
+  },
+  "node": {
+    "money": {
+      "budgeting": "బడ్జెట్",
+      "saving": "పొదుపు & డిపాజిట్లు",
+      "spending": "ఖర్చు & రసీదులు",
+      "independence": "ఆర్థిక స్వాతంత్ర్యం"
+    },
+    "access": {
+      "identity": "ఆర్థిక గుర్తింపు",
+      "payments": "డిజిటల్ చెల్లింపులు"
+    },
+    "safety": {
+      "fraud": "మోసాన్ని గుర్తించడం",
+      "insurance": "బీమా & అత్యవసరాలు"
+    },
+    "borrowing": {
+      "income": "ఆదాయం & పన్నులు",
+      "emi": "అప్పులు & EMI"
+    },
+    "growth": {
+      "inflation": "ద్రవ్యోల్బణం & కొనుగోలు శక్తి",
+      "investing": "పెట్టుబడి & నష్టభయం"
+    }
+  }
+}

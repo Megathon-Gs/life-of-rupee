@@ -1,0 +1,40 @@
+{
+  "loc": {
+    "home": "Home",
+    "bank": "Bank",
+    "kirana": "Kirana Store",
+    "filler1": "Community Centre",
+    "filler2": "Bus Stop"
+  },
+  "branch": {
+    "money-management": "Money Management",
+    "financial-access": "Financial Access",
+    "financial-safety": "Financial Safety",
+    "borrowing": "Borrowing & Responsibilities",
+    "growth-economy": "Understanding Growth & Economy"
+  },
+  "node": {
+    "money": {
+      "budgeting": "Budgeting",
+      "saving": "Saving & Deposits",
+      "spending": "Spending & Receipts",
+      "independence": "Financial Independence"
+    },
+    "access": {
+      "identity": "Financial Identity",
+      "payments": "Digital Payments"
+    },
+    "safety": {
+      "fraud": "Spotting Fraud",
+      "insurance": "Insurance & Emergencies"
+    },
+    "borrowing": {
+      "income": "Income & Taxes",
+      "emi": "Loans & EMI"
+    },
+    "growth": {
+      "inflation": "Inflation & Purchasing Power",
+      "investing": "Investing & Risk"
+    }
+  }
+}
