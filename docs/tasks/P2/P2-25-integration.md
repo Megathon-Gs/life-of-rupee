@@ -1,14 +1,15 @@
 # Task brief: P2 integration — the full twelve-level journey
 
-Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P2-25 · Depends on: P2-03 to P2-24
+Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P2-25 · Depends on: P2-03 to P2-24, IN-02
 
 ## Target
-`src/content/world.ts`, `src/content/skillTree.ts` (node mapping only), `src/content/levels/index.ts`, `src/ui/interactions/index.ts`, `src/app/**`, `src/world/**` (district wiring), `src/transitions/**`, `public/assets/**`, `tests/e2e/p2/**`, `src/content/levels/l09/level.ts` (one world choice only)
+`src/content/world.ts`, `src/content/skillTree.ts` (node mapping only), `src/content/levels/index.ts`, `src/ui/interactions/index.ts`, `src/app/**`, `src/world/**` (district wiring), `src/transitions/**`, `public/assets/**`, `tests/e2e/p2/**`, `src/content/levels/l09/level.ts` (one world choice only), `src/content/interiors.ts`, `public/interiors/**`
 
 ## Change
 - Add the `high-street` and `rural-connected` districts and the `market`, `workplace`, `insurance-desk` and `learning-centre` locations to `world.ts` with `unlockedBy`; rebuild atlases with `pnpm build:assets`.
 - Register BudgetAllocator, ReceiptInspector, TimeSlider, ScenarioChain and Levels 1, 3, 6, 7, 8, 10, 11, 12.
 - Level 9: record `loan.activeInstallment: 'true'` as a world choice when the player takes a loan; no other edit to Level 9.
+- Interior backdrops: add `market`, `workplace`, `home`, `insurance-desk` and `learning-centre` to `src/content/interiors.ts` (from IN-02) and copy the P2-08/P2-09 images to `public/interiors/`; `home` uses the upgraded variant when `savings.goalMet` is `'true'`.
 - Wire P2-18 visuals to sprites; wire sync (P2-20), the consent screen (P2-22) and the `/educator` route (P2-21) into the app; apply P2-23's PWA config.
 - Transitions for the new interactions following product plan §5 (receipt slides up, time-lapse for TimeSlider).
 - CSP `connect-src` allows only the app origin and the sync origin.

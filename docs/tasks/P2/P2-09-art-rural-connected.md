@@ -11,6 +11,7 @@ With the PixelLab MCP and `art/bible/` references, extend the kit:
 - Insurance desk beside a vehicle workshop (Level 10), with a covered and an uncovered incident prop (e.g. a damaged two-wheeler and a worn part).
 - Financial learning centre (Level 11), neutral and distinct from the capstone centre.
 - Two NPCs (insurance agent, learning-centre guide): idle + talk.
+- Interior backdrops (static, same spec as IN-01: 384×288, key subject in the central 384×128 band, ≤ 60 KB) for `insurance-desk` and `learning-centre`, under `art/approved/interiors/`.
 - Lit/unlit variants where a building unlocks; one reusable street-furniture set for the district (lamps, planters, signboard blanks, two-wheelers).
 - Sidecars, `pnpm lint:assets` clean, and a contact sheet showing the new district beside the P0 street at phone size.
 

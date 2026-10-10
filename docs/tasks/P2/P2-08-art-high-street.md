@@ -10,6 +10,7 @@ With the PixelLab MCP and `art/bible/` references, extend the kit:
 - Town/peri-urban high street: a market with a billing counter (Levels 6 and 7), a workplace/services office (Level 8), a bus stop and small workshops.
 - A home interior detail set for Level 1 and the savings home upgrade (P2-18): a plain and an upgraded variant.
 - Two NPCs (shopkeeper at the billing counter, office manager): idle + talk.
+- Interior backdrops (static, same spec as IN-01: 384×288, key subject in the central 384×128 band, ≤ 60 KB) for `market`, `workplace` and `home` (plain and upgraded variants), under `art/approved/interiors/`.
 - Lit/unlit variants where a building unlocks; one reusable street-furniture set for the district (lamps, planters, signboard blanks, two-wheelers).
 - Sidecars, `pnpm lint:assets` clean, and a contact sheet showing the new district beside the P0 street at phone size.
 

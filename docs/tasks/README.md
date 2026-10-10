@@ -221,7 +221,7 @@ P2-25 depends on every task from P2-03 to P2-24; the graph shows only the edges 
 | [P2-22](P2/P2-22-consent-flow.md) | Consent flow and data policies ⛩ | P2-01 | `src/ui/screens/Consent/`, `locales/*/consent.json`, `docs/privacy/` | Fast + NGO |
 | [P2-23](P2/P2-23-offline-hardening.md) | Offline hardening | P2-01 | `src/platform/pwa/`, `vite.config.ts` (PWA block), `tests/e2e/offline/` | Strong reasoning |
 | [P2-24](P2/P2-24-telugu.md) | Telugu pass for P2 strings ⛩ | P2-03 to 06, P2-10 to 17, P2-21, P2-22 | `src/content/locales/te/` | Translator + fast agent |
-| [P2-25](P2/P2-25-integration.md) | P2 integration: full journey | P2-03 to P2-24 | `src/content/world.ts`, both registries, `src/app/`, `src/world/`, `tests/e2e/p2/` | Strong reasoning |
+| [P2-25](P2/P2-25-integration.md) | P2 integration: full journey | P2-03 to P2-24, IN-02 | `src/content/world.ts`, both registries, `src/app/`, `src/world/`, `tests/e2e/p2/` | Strong reasoning |
 | [P2-26](P2/P2-26-accessibility-audit.md) | Accessibility audit and fixes | P2-25 | `tests/a11y/`, `docs/accessibility-audit.md` | Fast + real devices |
 | [P2-27](P2/P2-27-pilot-g2.md) | NGO pilot and gate G2 ⛩ | P2-25, P2-26 | `docs/pilot/`, `tests/e2e/g2/` | Product owner + NGO educator |
 
