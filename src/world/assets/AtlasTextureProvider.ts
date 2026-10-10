@@ -10,7 +10,8 @@ import {
 import { findFrame, type AtlasManifest } from './manifest'
 
 /** Palette A sky and pavement colours (art/bible/palette.json). */
-export const SKY_COLOUR = 0xd3eef0
+/** The flat top band of the sky art, so the scale remainder above the stage is seamless. */
+export const SKY_COLOUR = 0x5fa3d6
 export const PAVEMENT_COLOUR = 0xb98260
 
 /** Logical height of a parallax band; mirrors the renderer's stage height. */
