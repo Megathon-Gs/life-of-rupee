@@ -1,0 +1,65 @@
+{
+  "hud": {
+    "label": "Town",
+    "navLabel": "Move along the street",
+    "previous": "Previous place",
+    "next": "Next place",
+    "settings": "Settings",
+    "progress": "Place {current} of {total}"
+  },
+  "dialogue": {
+    "label": "Conversation with {speaker}",
+    "continue": "Continue",
+    "done": "Done",
+    "skip": "Skip conversation"
+  },
+  "panel": {
+    "close": "Close"
+  },
+  "results": {
+    "titlePass": "Level complete",
+    "titleRetry": "Not complete yet",
+    "starsSummary": "You earned {stars, plural, =0 {no stars} one {# star} other {# stars}} out of 3.",
+    "starsLost": "{lost, plural, one {# star was} other {# stars were}} lost. The review shows why, and trying again can win it back.",
+    "allStars": "Every decision was safe. No stars lost.",
+    "reviewTitle": "What changed my result?",
+    "reviewEmpty": "Nothing to review this time.",
+    "skillPointer": "Skill: {skill}",
+    "severity": {
+      "minor": "Small slip",
+      "major": "Important mistake",
+      "critical": "Safety mistake"
+    },
+    "retry": "Try again",
+    "continue": "Back to the street",
+    "firstAttemptKept": "Your first attempt stays saved. Replaying can only raise your best stars."
+  },
+  "skillTree": {
+    "title": "Skill tree",
+    "progress": "{done} of {total} skills learned",
+    "state": {
+      "lit": "Learned",
+      "available": "Up next",
+      "locked": "Locked"
+    },
+    "needs": "Needs {skills}",
+    "newlyLit": "Just learned",
+    "back": "Back to the street"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "motion": "Motion",
+    "motionSystem": "Match my device",
+    "motionReduced": "Reduce motion",
+    "motionFull": "Full motion",
+    "motionHint": "Reduced motion swaps travel for a quick fade and shows stars all at once.",
+    "sound": "Sound",
+    "mute": "Mute all sound",
+    "textSize": "Text size",
+    "textStandard": "Standard",
+    "textLarge": "Large",
+    "textLarger": "Larger",
+    "done": "Done"
+  }
+}

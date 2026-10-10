@@ -1,0 +1,50 @@
+.inspector {
+  display: grid;
+  gap: var(--sp-4);
+}
+
+.prompt {
+  max-width: var(--measure);
+}
+
+/* The fictional document: ruled paper with a jade header band. */
+.document {
+  display: grid;
+  margin: var(--px);
+  background: var(--color-surface-sunk);
+  box-shadow: var(--bezel), inset 0 var(--sp-3) 0 0 var(--c-jade-500);
+  padding: var(--sp-5) var(--sp-3) var(--sp-3);
+  gap: var(--sp-2);
+}
+
+.field {
+  display: grid;
+  gap: var(--sp-1);
+  min-height: var(--tap-min);
+  padding: var(--sp-2) var(--sp-3);
+  border: 0;
+  border-bottom: var(--px) dashed var(--color-surface-rule);
+  background: transparent;
+  text-align: left;
+}
+
+.field:hover {
+  background: var(--color-surface);
+}
+
+.field[aria-pressed='true'] {
+  background: var(--color-lit-soft);
+  box-shadow: var(--bezel);
+  border-bottom-color: transparent;
+}
+
+.fieldLabel {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+}
+
+.fieldValue {
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-tight);
+  overflow-wrap: anywhere;
+}

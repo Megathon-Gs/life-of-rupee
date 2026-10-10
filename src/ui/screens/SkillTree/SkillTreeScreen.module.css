@@ -1,0 +1,181 @@
+.screen {
+  display: grid;
+  gap: var(--sp-5);
+  padding: var(--sp-5) var(--sp-4) var(--sp-6);
+  background: var(--color-surface);
+  min-height: 100%;
+}
+
+.header {
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.title {
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+}
+
+.progress {
+  display: grid;
+  gap: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  font-weight: var(--fw-semibold);
+}
+
+/* One pixel cell per skill: the whole tree's progress at a glance. */
+.meter {
+  display: flex;
+  gap: var(--px);
+  padding: var(--sp-1);
+  justify-self: start;
+  background: var(--color-surface-ink);
+}
+
+.cell {
+  width: var(--sp-4);
+  height: var(--sp-3);
+  background: var(--c-ink-500);
+}
+
+.cell[data-state='lit'] {
+  background: var(--color-lit);
+}
+
+.cell[data-state='available'] {
+  background: var(--c-sand-200);
+}
+
+.branches {
+  display: grid;
+  gap: var(--sp-5);
+}
+
+.branchTitle {
+  margin-bottom: var(--sp-3);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  padding-bottom: var(--sp-1);
+  border-bottom: var(--px) solid var(--color-edge);
+}
+
+/* Nodes hang off a vertical path; lit stretches of the path turn jade. */
+.nodes {
+  position: relative;
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.node {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--sp-6) 1fr;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.node:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: calc(var(--sp-6) / 2 - var(--px));
+  top: var(--sp-6);
+  bottom: calc(var(--sp-3) * -1);
+  width: calc(var(--px) * 2);
+  background: var(--color-surface-rule);
+}
+
+.node[data-state='lit']:not(:last-child)::after {
+  background: var(--color-path);
+}
+
+.marker {
+  display: grid;
+  place-items: center;
+  width: var(--sp-6);
+  height: var(--sp-6);
+  margin: var(--px);
+  background: var(--color-surface);
+  box-shadow: var(--bezel);
+  color: var(--color-edge);
+}
+
+.node[data-state='lit'] .marker {
+  background: var(--color-lit);
+  box-shadow: var(--bezel), var(--drop-1);
+}
+
+.node[data-state='locked'] .marker {
+  background: var(--color-locked);
+  color: var(--color-text-muted);
+  box-shadow: none;
+  outline: var(--px) dashed var(--color-text-muted);
+  outline-offset: calc(var(--px) * -1);
+}
+
+.node[data-just-lit] .marker {
+  animation: glow calc(var(--dur-star) * 3) var(--ease-out) both;
+}
+
+.nodeText {
+  display: grid;
+  min-width: 0;
+}
+
+.nodeLabel {
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-tight);
+  overflow-wrap: anywhere;
+}
+
+.node[data-state='locked'] .nodeLabel {
+  color: var(--color-text-muted);
+}
+
+.nodeState,
+.nodeNeeds {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+}
+
+.node[data-just-lit] .nodeState {
+  justify-self: start;
+  padding: 0 var(--sp-1);
+  background: var(--color-lit-soft);
+  color: var(--color-text);
+  font-weight: var(--fw-bold);
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@keyframes glow {
+  0% {
+    box-shadow:
+      var(--bezel),
+      0 0 0 var(--sp-3) var(--c-marigold-100);
+  }
+}
+
+@media (min-width: 768px) {
+  .screen {
+    padding: var(--sp-7) var(--sp-6);
+  }
+
+  .title {
+    font-size: var(--fs-3xl);
+  }
+
+  .branches {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--sp-5);
+  }
+
+  .branchTitle {
+    min-height: calc(var(--fs-md) * var(--lh-tight) * 2);
+  }
+}

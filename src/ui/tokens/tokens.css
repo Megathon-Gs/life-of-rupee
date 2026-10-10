@@ -1,0 +1,164 @@
+/*
+ * Paisa Street design tokens (P0-11).
+ *
+ * Raw palette: art/bible/palette.json, Palette A "Chai-hour storybook" (P0-03).
+ * Components only use the semantic names below the raw block.
+ * The world is pixel art at 480×270 logical px on a 16 px grid; the UI is crisp
+ * modern DOM that borrows one thing from the world: a stepped "pixel bezel"
+ * edge (2 px notched corners, hard offset drop) instead of soft rounded cards.
+ */
+:root {
+  /* Raw palette: plan §4 family */
+  --c-sand-50: #fff1d0;
+  --c-sand-100: #f3d9a4;
+  --c-sand-200: #dcb27f;
+  --c-sand-400: #b98260;
+  --c-ink-900: #191a33;
+  --c-ink-700: #2e3059;
+  --c-ink-500: #55507a;
+  --c-jade-700: #0d4f60;
+  --c-jade-500: #2eab93;
+  --c-jade-100: #d3eef0;
+  --c-marigold-400: #ffd34e;
+  --c-marigold-600: #cc6a1e;
+  --c-marigold-100: #f3d9a4;
+  --c-coral-500: #d9605d;
+  --c-coral-700: #823a3a;
+  --c-coral-100: #f4c7a1;
+  --c-leaf-600: #3b8048;
+  --c-sky-200: #9fd3e6;
+  --c-sky-400: #5fa3d6;
+  --c-terracotta-600: #b9523c;
+
+  /* Semantic colour */
+  --color-surface: var(--c-sand-50);
+  --color-surface-sunk: var(--c-sand-100);
+  --color-surface-rule: var(--c-sand-200);
+  --color-surface-ink: var(--c-ink-900);
+  --color-text: var(--c-ink-900);
+  --color-text-muted: var(--c-ink-700);
+  --color-text-on-ink: var(--c-sand-50);
+  --color-edge: var(--c-ink-900);
+  --color-action: var(--c-jade-700);
+  --color-action-text: var(--c-sand-50);
+  --color-action-quiet: var(--c-jade-100);
+  --color-star: var(--c-marigold-400);
+  --color-star-edge: var(--c-marigold-600);
+  --color-star-empty: var(--c-sand-200);
+  --color-loss: var(--c-coral-700);
+  --color-loss-soft: var(--c-coral-100);
+  --color-lit: var(--c-marigold-400);
+  --color-lit-soft: var(--c-marigold-100);
+  --color-path: var(--c-jade-500);
+  --color-locked: var(--c-sand-200);
+  --color-scrim: rgb(25 26 51 / 0.55);
+  --color-sky: var(--c-sky-200);
+
+  /* Focus: a 3 px ring with a paper halo so it reads on paper, ink and jade */
+  --focus-ring-color: var(--c-ink-900);
+  --focus-halo-color: var(--c-sand-50);
+  --focus-ring: 0 0 0 3px var(--focus-halo-color), 0 0 0 6px var(--focus-ring-color);
+
+  /* Pixel language. One UI pixel = 2 CSS px. */
+  --px: 2px;
+  --bezel: 0 calc(var(--px) * -1) 0 0 var(--color-edge), 0 var(--px) 0 0 var(--color-edge),
+    calc(var(--px) * -1) 0 0 0 var(--color-edge), var(--px) 0 0 0 var(--color-edge);
+  --drop-1: calc(var(--px) * 2) calc(var(--px) * 2) 0 0 var(--color-edge);
+  --drop-2: calc(var(--px) * 3) calc(var(--px) * 3) 0 0 var(--color-edge);
+  --radius-none: 0;
+
+  /* Space: 16 px grid with 4 px subdivisions */
+  --grid: 16px;
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+  --tap-min: 48px;
+  --measure: 34em;
+
+  /* Type */
+  /* Telugu stays in the latin stack so a lone Telugu word (the language picker) still renders */
+  --font-latin: 'Noto Sans', 'Noto Sans Telugu', system-ui, sans-serif;
+  --font-telugu: 'Noto Sans Telugu', 'Noto Sans', system-ui, sans-serif;
+  --fw-regular: 400;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* Motion */
+  --dur-instant: 80ms;
+  --dur-quick: 150ms;
+  --dur-base: 240ms;
+  --dur-sheet: 320ms;
+  --dur-star: 420ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in: cubic-bezier(0.5, 0, 0.75, 0);
+  --ease-pop: cubic-bezier(0.3, 1.5, 0.5, 1);
+
+  /* Layers */
+  --z-world: 0;
+  --z-hud: 10;
+  --z-sheet: 20;
+  --z-panel: 30;
+  --z-screen: 40;
+
+  /* World frame (logical px); the renderer scales by integers only */
+  --world-w: 480;
+  --world-h: 270;
+  --world-tile: 16;
+}
+
+/*
+ * Text-scale-aware tokens live on the UI root so the Settings text size
+ * (1, 1.25, 1.5) recomputes every size below it.
+ */
+[data-ps-ui] {
+  --text-scale: 1;
+  --font-body: var(--font-latin);
+  --lh-tight: 1.25;
+  --lh-body: 1.5;
+  --fs-xs: calc(14px * var(--text-scale));
+  --fs-sm: calc(15px * var(--text-scale));
+  --fs-md: calc(17px * var(--text-scale));
+  --fs-lg: calc(20px * var(--text-scale));
+  --fs-xl: calc(24px * var(--text-scale));
+  --fs-2xl: calc(29px * var(--text-scale));
+  --fs-3xl: calc(35px * var(--text-scale));
+}
+
+[data-ps-ui][data-text-scale='1.25'] {
+  --text-scale: 1.25;
+}
+
+[data-ps-ui][data-text-scale='1.5'] {
+  --text-scale: 1.5;
+}
+
+/* Telugu: taller ascenders and stacked vowel signs need more leading */
+[data-ps-ui]:lang(te) {
+  --font-body: var(--font-telugu);
+  --lh-tight: 1.5;
+  --lh-body: 1.8;
+}
+
+/* Reduced motion: OS preference or the in-game toggle */
+@media (prefers-reduced-motion: reduce) {
+  [data-ps-ui]:not([data-reduced-motion='false']) {
+    --dur-instant: 0ms;
+    --dur-quick: 0ms;
+    --dur-base: 0ms;
+    --dur-sheet: 0ms;
+    --dur-star: 0ms;
+  }
+}
+
+[data-ps-ui][data-reduced-motion='true'] {
+  --dur-instant: 0ms;
+  --dur-quick: 0ms;
+  --dur-base: 0ms;
+  --dur-sheet: 0ms;
+  --dur-star: 0ms;
+}

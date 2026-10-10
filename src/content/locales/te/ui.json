@@ -1,0 +1,67 @@
+{
+  "_needsReview": true,
+  "_meta": { "translationStatus": "Draft Telugu for the UI shell (P0-11). Needs review by an NGO educator before release." },
+  "hud": {
+    "label": "పట్టణం",
+    "navLabel": "వీధి వెంట కదలండి",
+    "previous": "మునుపటి స్థలం",
+    "next": "తర్వాతి స్థలం",
+    "settings": "సెట్టింగ్‌లు",
+    "progress": "{total}లో {current}వ స్థలం"
+  },
+  "dialogue": {
+    "label": "{speaker}తో సంభాషణ",
+    "continue": "కొనసాగించండి",
+    "done": "పూర్తయింది",
+    "skip": "సంభాషణను దాటవేయండి"
+  },
+  "panel": {
+    "close": "మూసివేయండి"
+  },
+  "results": {
+    "titlePass": "స్థాయి పూర్తయింది",
+    "titleRetry": "ఇంకా పూర్తి కాలేదు",
+    "starsSummary": "మీరు 3లో {stars, plural, =0 {ఒక్క నక్షత్రం కూడా పొందలేదు} one {# నక్షత్రం పొందారు} other {# నక్షత్రాలు పొందారు}}.",
+    "starsLost": "{lost, plural, one {# నక్షత్రం} other {# నక్షత్రాలు}} తగ్గాయి. ఎందుకో సమీక్ష చూపిస్తుంది; మళ్లీ ప్రయత్నిస్తే వాటిని తిరిగి పొందవచ్చు.",
+    "allStars": "ప్రతి నిర్ణయం సురక్షితంగా ఉంది. ఏ నక్షత్రమూ తగ్గలేదు.",
+    "reviewTitle": "నా ఫలితం ఎందుకు మారింది?",
+    "reviewEmpty": "ఈసారి సమీక్షించడానికి ఏమీ లేదు.",
+    "skillPointer": "నైపుణ్యం: {skill}",
+    "severity": {
+      "minor": "చిన్న పొరపాటు",
+      "major": "ముఖ్యమైన పొరపాటు",
+      "critical": "భద్రతా పొరపాటు"
+    },
+    "retry": "మళ్లీ ప్రయత్నించండి",
+    "continue": "వీధికి తిరిగి వెళ్లండి",
+    "firstAttemptKept": "మీ మొదటి ప్రయత్నం భద్రంగా ఉంటుంది. మళ్లీ ఆడితే మీ ఉత్తమ నక్షత్రాలు పెరగగలవు, తగ్గవు."
+  },
+  "skillTree": {
+    "title": "నైపుణ్య వృక్షం",
+    "progress": "{total}లో {done} నైపుణ్యాలు నేర్చుకున్నారు",
+    "state": {
+      "lit": "నేర్చుకున్నారు",
+      "available": "తర్వాతిది",
+      "locked": "లాక్ చేయబడింది"
+    },
+    "needs": "ముందుగా: {skills}",
+    "newlyLit": "ఇప్పుడే నేర్చుకున్నారు",
+    "back": "వీధికి తిరిగి వెళ్లండి"
+  },
+  "settings": {
+    "title": "సెట్టింగ్‌లు",
+    "language": "భాష",
+    "motion": "కదలిక",
+    "motionSystem": "నా పరికరం ప్రకారం",
+    "motionReduced": "కదలిక తగ్గించండి",
+    "motionFull": "పూర్తి కదలిక",
+    "motionHint": "కదలిక తగ్గిస్తే ప్రయాణం త్వరిత మసకబారడంగా మారుతుంది, నక్షత్రాలు ఒకేసారి కనిపిస్తాయి.",
+    "sound": "శబ్దం",
+    "mute": "అన్ని శబ్దాలను ఆపండి",
+    "textSize": "అక్షరాల పరిమాణం",
+    "textStandard": "సాధారణం",
+    "textLarge": "పెద్దది",
+    "textLarger": "ఇంకా పెద్దది",
+    "done": "పూర్తయింది"
+  }
+}

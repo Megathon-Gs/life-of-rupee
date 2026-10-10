@@ -1,0 +1,14 @@
+.box {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  display: grid;
+  place-items: end center;
+  background: var(--c-sky-200);
+}
+
+.canvas {
+  display: block;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}

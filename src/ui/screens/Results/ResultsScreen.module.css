@@ -1,0 +1,256 @@
+.screen {
+  min-height: 100%;
+  background: var(--color-surface);
+}
+
+/* The sheet is the paper; on desktop it floats over a sky backdrop like the panels do. */
+.sheet {
+  display: grid;
+  grid-template-areas:
+    'score'
+    'review'
+    'actions';
+  gap: var(--sp-5);
+  align-content: start;
+  min-height: 100%;
+  padding: var(--sp-5) var(--sp-4) var(--sp-4);
+}
+
+.score {
+  grid-area: score;
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-3);
+  text-align: center;
+}
+
+.title {
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-3);
+  padding: var(--sp-4) var(--sp-4) var(--sp-3);
+  background: var(--color-surface-ink);
+  box-shadow: inset 0 calc(var(--px) * -3) 0 0 var(--c-marigold-400);
+}
+
+.star {
+  display: block;
+  line-height: 0;
+}
+
+.star svg {
+  display: block;
+}
+
+/* Not yet revealed: a dim socket where the star will land. */
+.star[data-revealed='false'] {
+  opacity: 0.2;
+  filter: grayscale(1);
+}
+
+.star[data-revealed='true'] {
+  animation: land var(--dur-star) var(--ease-pop) both;
+}
+
+.star[data-revealed='true'][data-state='lost'] {
+  animation-name: crack;
+}
+
+.summary {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-tight);
+}
+
+.loss {
+  font-size: var(--fs-md);
+  max-width: var(--measure);
+  color: var(--color-text-muted);
+}
+
+.review {
+  grid-area: review;
+  display: grid;
+  gap: var(--sp-3);
+  align-content: start;
+}
+
+.reviewTitle {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+}
+
+.items {
+  display: grid;
+  gap: var(--sp-4);
+}
+
+/* Each review item is a ledger entry: a coloured margin rule, not a floating card. */
+.item {
+  display: grid;
+  gap: var(--sp-3);
+  padding: var(--sp-1) 0 var(--sp-1) var(--sp-4);
+  border-left: calc(var(--px) * 3) solid var(--c-marigold-400);
+}
+
+.item[data-severity='critical'] {
+  border-left-color: var(--color-loss);
+}
+
+.severity {
+  justify-self: start;
+  padding: 0 var(--sp-2);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  line-height: 1.8;
+  background: var(--color-lit-soft);
+}
+
+.item[data-severity='critical'] .severity {
+  background: var(--color-loss-soft);
+  color: var(--color-loss);
+}
+
+.parts {
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.part {
+  display: grid;
+  gap: var(--sp-1);
+}
+
+.partLabel {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  color: var(--color-text-muted);
+}
+
+.partText {
+  margin: 0;
+  font-size: var(--fs-md);
+  max-width: var(--measure);
+}
+
+/* "Safer choice" is the one to remember: set it on a jade rule. */
+.part:nth-child(2) {
+  padding-left: var(--sp-3);
+  border-left: var(--px) solid var(--c-jade-500);
+}
+
+.skill {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  font-weight: var(--fw-semibold);
+}
+
+.empty {
+  color: var(--color-text-muted);
+}
+
+/* Phone: actions stay on screen under the review while it scrolls. */
+.actions {
+  grid-area: actions;
+  position: sticky;
+  bottom: 0;
+  margin: 0 calc(var(--sp-4) * -1);
+  padding: var(--sp-3) var(--sp-4) max(var(--sp-3), env(safe-area-inset-bottom));
+  background: var(--color-surface);
+  border-top: var(--px) solid var(--color-edge);
+  box-shadow: 0 calc(var(--sp-3) * -1) var(--sp-3) calc(var(--sp-2) * -1) rgb(25 26 51 / 0.18);
+}
+
+.buttons {
+  display: flex;
+  gap: var(--sp-3);
+}
+
+.buttons > * {
+  flex: 1 1 0;
+  min-width: 0;
+  padding-inline: var(--sp-2);
+}
+
+.note {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  max-width: var(--measure);
+}
+
+@keyframes land {
+  0% {
+    transform: translateY(calc(var(--sp-4) * -1)) scale(0.6);
+    opacity: 0;
+  }
+}
+
+@keyframes crack {
+  0% {
+    transform: scale(1.15);
+  }
+  40% {
+    transform: translateX(-3px);
+  }
+  70% {
+    transform: translateX(3px);
+  }
+}
+
+@media (min-width: 768px) {
+  .screen {
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    padding: var(--sp-6);
+    background: var(--color-sky);
+  }
+
+  .sheet {
+    width: min(62rem, 100%);
+    min-height: 0;
+    grid-template-columns: minmax(16rem, 22rem) minmax(0, 1fr);
+    grid-template-areas:
+      'score review'
+      'actions review';
+    grid-template-rows: auto 1fr;
+    align-items: start;
+    column-gap: var(--sp-7);
+    padding: var(--sp-7);
+    background: var(--color-surface);
+    box-shadow: var(--bezel), var(--drop-2);
+    margin: var(--px);
+  }
+
+  .title {
+    font-size: var(--fs-3xl);
+  }
+
+  .actions {
+    position: static;
+    margin: 0;
+    padding: 0;
+    border-top: 0;
+    align-self: start;
+    background: none;
+  }
+
+  .buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .buttons > * {
+    flex: 0 0 auto;
+    padding-inline: var(--sp-5);
+  }
+}

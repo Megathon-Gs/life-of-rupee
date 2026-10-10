@@ -1,0 +1,115 @@
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-panel);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--color-scrim);
+  animation: fade var(--dur-base) var(--ease-out) both;
+}
+
+/* Phone: a sheet that rises from the bottom and never covers the whole street. */
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: min(92dvh, 100%);
+  margin: 0 var(--px);
+  background: var(--color-surface);
+  box-shadow: var(--bezel), 0 calc(var(--px) * -3) 0 0 var(--c-jade-500);
+  animation: rise var(--dur-sheet) var(--ease-out) both;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-4);
+  border-bottom: var(--px) solid var(--color-edge);
+}
+
+.title {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  overflow-wrap: anywhere;
+}
+
+.body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: var(--sp-4);
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4) max(var(--sp-4), env(safe-area-inset-bottom));
+  border-top: var(--px) solid var(--color-surface-rule);
+  background: var(--color-surface);
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(var(--sp-7));
+    opacity: 0;
+  }
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(var(--sp-7));
+    opacity: 0;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Desktop: dock right, leave the street visible and readable on the left. */
+@media (min-width: 768px) {
+  .layer {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .panel {
+    width: min(36rem, 50vw);
+    max-height: none;
+    height: calc(100% - var(--sp-5) * 2);
+    margin: var(--sp-5);
+    box-shadow: var(--bezel), var(--drop-2);
+    animation-name: slide;
+  }
+
+  .header {
+    padding: var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-5);
+  }
+
+  .title {
+    font-size: var(--fs-xl);
+  }
+
+  .body {
+    padding: var(--sp-5);
+  }
+
+  .footer {
+    padding: var(--sp-4) var(--sp-5);
+  }
+}

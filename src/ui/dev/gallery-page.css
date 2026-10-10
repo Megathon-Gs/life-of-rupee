@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  background: var(--c-sand-100);
+}
+
+.gallery {
+  padding: 16px;
+  font-family: var(--font-latin);
+  color: var(--c-ink-900);
+}
+
+.gallery-title {
+  margin: 0 0 16px;
+  font-size: 24px;
+}
+
+.gallery-columns {
+  display: grid;
+  gap: 32px;
+}
+
+@media (min-width: 900px) {
+  .gallery-columns {
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  }
+}
+
+.gallery-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

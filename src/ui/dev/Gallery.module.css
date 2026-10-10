@@ -1,0 +1,60 @@
+.column {
+  display: grid;
+  gap: var(--sp-6);
+  min-width: 0;
+}
+
+.block {
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.label {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-muted);
+}
+
+/*
+ * A stage is a phone-height box. `transform` makes it the containing block for
+ * PanelShell's fixed layer, so several panels can sit side by side here.
+ */
+.stage {
+  position: relative;
+  height: 720px;
+  overflow: auto;
+  transform: translateZ(0);
+  background: var(--color-surface);
+  box-shadow: var(--bezel);
+  margin: var(--px);
+}
+
+.soloRoot {
+  height: 100dvh;
+}
+
+.soloStage {
+  height: 100%;
+}
+
+.soloFrame {
+  position: relative;
+  height: 100%;
+  overflow: auto;
+  transform: translateZ(0);
+  background: var(--color-surface);
+}
+
+.street {
+  position: absolute;
+  inset: 0;
+}
+
+.entrance {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  translate: -50% 0;
+  width: max-content;
+  max-width: calc(100% - var(--sp-6));
+}

@@ -1,0 +1,116 @@
+.settings {
+  display: grid;
+  gap: var(--sp-5);
+}
+
+.group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.legend {
+  padding: 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.option {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+}
+
+/* The native input stays in the tree for AT and keyboard; the face is drawn. */
+.input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.face {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap-min);
+  margin: var(--px);
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--color-surface);
+  box-shadow: var(--bezel);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-tight);
+  text-align: center;
+}
+
+.input:checked + .face {
+  background: var(--color-surface-ink);
+  color: var(--color-text-on-ink);
+  box-shadow:
+    var(--bezel),
+    inset 0 calc(var(--px) * -2) 0 0 var(--c-marigold-400);
+}
+
+.input:focus-visible + .face,
+.input:focus-visible + .track {
+  outline: 3px solid var(--focus-ring-color);
+  outline-offset: 3px;
+}
+
+.hint {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  max-width: var(--measure);
+}
+
+.toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-height: var(--tap-min);
+  font-weight: var(--fw-semibold);
+}
+
+.track {
+  flex: none;
+  display: flex;
+  align-items: center;
+  width: 56px;
+  height: 32px;
+  margin: var(--px);
+  padding: var(--sp-1);
+  background: var(--color-surface-sunk);
+  box-shadow: var(--bezel);
+}
+
+.thumb {
+  width: 24px;
+  height: 24px;
+  background: var(--color-edge);
+  transition: transform var(--dur-quick) var(--ease-out);
+}
+
+.input:checked + .track {
+  background: var(--color-action);
+}
+
+.input:checked + .track .thumb {
+  transform: translateX(24px);
+  background: var(--color-surface);
+}
