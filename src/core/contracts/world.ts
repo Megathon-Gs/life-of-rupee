@@ -1,5 +1,12 @@
 import { z } from 'zod'
+import type { WorldEffect } from './content'
 import type { LocationId } from './ids'
+
+/** Level 5 completion flag used by the Level 9 callback. */
+export const FRAUD_WARNING_WORLD_EFFECT = {
+  key: 'fraud.seenWarningSigns',
+  value: 'true',
+} as const satisfies WorldEffect
 
 /** Schema for visual variants derived from saved world flags. */
 export const WorldVisualsSchema = z.record(z.string(), z.string())

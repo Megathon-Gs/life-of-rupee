@@ -10,6 +10,9 @@ export const LocationIdSchema = z.string().min(1).brand<'LocationId'>()
 /** Branded id of a world location. */
 export type LocationId = z.infer<typeof LocationIdSchema>
 
+/** Location ids used by the P1 demo. */
+export const P1_LOCATION_IDS = ['phone-shop', 'showroom', 'capstone'] as const
+
 /** Schema for a skill-tree node id. */
 export const SkillNodeIdSchema = z.string().min(1).brand<'SkillNodeId'>()
 /** Branded id of a skill-tree node. */
@@ -29,3 +32,15 @@ export type SourceId = z.infer<typeof SourceIdSchema>
 export const ErrorCategorySchema = z.string().regex(/^[a-z0-9_]+(\.[a-z0-9_]+)+$/)
 /** Stable dotted error code; the only learning signal that may leave the device. */
 export type ErrorCategory = z.infer<typeof ErrorCategorySchema>
+
+/** Stable error codes used by Levels 4, 5 and 9. */
+export const P1_ERROR_CATEGORIES = [
+  'upi.pin_to_receive',
+  'upi.wrong_payee',
+  'fraud.shared_otp',
+  'fraud.clicked_link',
+  'fraud.urgency',
+  'loan.ignored_total_cost',
+  'loan.emi_only',
+  'loan.missed_payment',
+] as const

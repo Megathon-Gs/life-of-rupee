@@ -38,7 +38,14 @@ export const WorldEffectSchema = z.object({ key: z.string(), value: z.string() }
 /** A world choice recorded on completion, e.g. { key: 'vehicle', value: 'bicycle' }. */
 export type WorldEffect = z.infer<typeof WorldEffectSchema>
 
-const stepBase = { id: z.string() }
+/** Schema for a step condition compared against derived world flags. */
+export const StepConditionSchema = z
+  .object({ flag: z.string(), equals: z.union([z.string(), z.boolean()]) })
+  .strict()
+/** A derived world flag and the value required to show a step. */
+export type StepCondition = z.infer<typeof StepConditionSchema>
+
+const stepBase = { id: z.string(), when: StepConditionSchema.optional() }
 
 /** Schema for the NPC hook step. */
 export const HookStepSchema = z
@@ -139,6 +146,7 @@ export const LocationDefSchema = z
     doorX: z.number(),
     buildingAsset: z.string(),
     labelKey: z.string(),
+    unlockedBy: z.array(LevelIdSchema).readonly().optional(),
   })
   .strict()
 /** A snap point on the street with its door and building asset. */

@@ -50,6 +50,8 @@ export const InLevelSnapshotSchema = z
     events: z.array(InteractionEventSchema),
     seed: z.number().int().optional(),
     startedAt: z.string().optional(),
+    /** Step-id decisions fixed at level start and reused on resume, even if world flags change. */
+    conditionResults: z.record(z.string().min(1), z.boolean()).optional(),
   })
   .strict()
 /** Mid-level progress saved so closing the tab resumes at the same step. */
@@ -101,3 +103,16 @@ export const DerivedSchema = z
   .strict()
 /** Stars, skills, locations, world flags and wallet recomputed from the save. */
 export type Derived = z.infer<typeof DerivedSchema>
+
+/** Local teacher view: summed best level stars per branch and a completed-level count. */
+export const TeacherSummarySchema = z
+  .object({
+    starsByBranch: z.array(
+      z.object({ labelKey: z.string().min(1), stars: z.number().int().nonnegative() }).strict(),
+    ),
+    /** Number of distinct levels with at least one star, not number of attempts. */
+    levelsCompleted: z.number().int().nonnegative(),
+  })
+  .strict()
+/** Display-only learning totals; no learner, profile, attempt or level identifiers. */
+export type TeacherSummary = z.infer<typeof TeacherSummarySchema>
