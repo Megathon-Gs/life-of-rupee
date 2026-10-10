@@ -1,0 +1,114 @@
+{
+  "_meta": {
+    "translationStatus": "English text reviewed and approved by NGO educator (user approval), 2026-10-10."
+  },
+  "hook": {
+    "1": "Ravi: This message wants an answer before you've read it.",
+    "2": "Mina: It says I'll lose my chance if I don't act right now.",
+    "3": "Ravi: Let's check what it's actually asking you to do."
+  },
+  "sign": {
+    "urgency": "Urgency: pushes you to act right now",
+    "impersonation": "Impersonation: claims to be your bank or an official body",
+    "link": "Unknown link: asks you to open or tap a link",
+    "otpPin": "OTP or PIN request: asks for a secret code",
+    "prize": "Too-good-to-be-true prize or reward",
+    "payment": "Payment request: asks you to send money"
+  },
+  "lesson": {
+    "title": "Spot the warning signs",
+    "prompt": "Read each fictional message. Tap the warning signs you see, then mark it safe or fraud.",
+    "hint1": "Look for words that push you to act right now.",
+    "hint2": "Check who claims to be sending it, what it wants you to open, and whether it asks for a code, a PIN or money.",
+    "explanation": "Fraud messages often create false urgency, pretend to be a bank or an official body, and push you to open unknown links. Verify the sender before you click anything, and never share an OTP, PIN or password. A routine notice that asks for none of these can be safe.",
+    "urgent": {
+      "sender": "Your Bank Helpdesk (demo)",
+      "body": "Final warning: your account will be blocked in 10 minutes unless you update your KYC. Tap kyc-update.example/now to keep it active."
+    },
+    "routine": {
+      "sender": "School Library (demo)",
+      "body": "Your library book is due on Friday. Please return it at the desk."
+    }
+  },
+  "decision": {
+    "title": "Sort the messages on Mina's phone",
+    "prompt": "Ravi is holding Mina's phone. For each fictional message, tap the warning signs, then decide: safe or fraud. Do not reply, tap or pay.",
+    "hint1": "Ask what each message wants you to do: share a code, tap a link or send money?",
+    "hint2": "A message can sound official and still be fraud. A routine notice that asks for no secret, link or money, and that you can check with the sender, can be safe.",
+    "explanation": "A message is unsafe when it rushes you, pretends to be official, sends you to an unknown link, or asks for an OTP, PIN or money for a prize. Never share an OTP or PIN. A routine notice that asks for none of these can be safe, but verify the sender before you click anything.",
+    "otp": {
+      "sender": "Account Care Desk (demo)",
+      "body": "Urgent: your card will be blocked today. Reply now with the OTP we sent you and your card PIN to stop this."
+    },
+    "prize": {
+      "sender": "Festival Lucky Draw (demo)",
+      "body": "Congratulations! You won a festival prize. Pay a small fee of ₹49 within one hour to claim it."
+    },
+    "link": {
+      "sender": "Parcel Desk (demo)",
+      "body": "Your parcel is held at the depot. Open parcel-fix.example/release before it is sent back today."
+    },
+    "safe": {
+      "sender": "Ravi's Phone Shop (demo)",
+      "body": "Hi Mina, your phone screen repair is ready. Collect it from the counter and show the slip Ravi gave you."
+    }
+  },
+  "consequence": {
+    "stopped": "Nothing was shared, tapped or paid",
+    "explanation": "You checked what each message asked for before acting. If a real message like this arrives, do not share an OTP or PIN and do not tap unknown links. Report financial fraud at cybercrime.gov.in or call 1930, and tell your bank straight away about any payment you did not make. This is a practice game: never type real codes, PINs or personal details here."
+  },
+  "transfer": {
+    "power": {
+      "title": "A different sender, the same push",
+      "prompt": "Sort these new fictional messages. Look at what each one demands, not at words you saw before.",
+      "hint1": "Is there a deadline that leaves no time to check?",
+      "hint2": "Does it claim to be an office, and does it want you to open a link?",
+      "explanation": "A different sender can use the same push. Ignore messages that create false urgency, verify the sender before clicking any link, and do not enter personal details through unknown links.",
+      "urgent": {
+        "sender": "Power Supply Desk (demo)",
+        "body": "Your electricity connection will be cut tonight. Open power-bill.example/now right away to keep it."
+      },
+      "routine": {
+        "sender": "Class Notices (demo)",
+        "body": "Tomorrow's science class moves to Room 4. No reply is needed."
+      }
+    },
+    "lucky": {
+      "title": "A prize with different wording",
+      "prompt": "Sort these new fictional messages. Decide what each one asks you to do.",
+      "hint1": "Does the message ask you to send money to get something?",
+      "hint2": "A prize that arrives with a payment request is a warning sign.",
+      "explanation": "Fraudsters send attractive prize offers and often start by asking for a small sum, then ask for more. A prize that comes with a payment request is a warning sign, however the message is worded.",
+      "routine": {
+        "sender": "Sports Club (demo)",
+        "body": "Practice is at 5 pm on Saturday at the school ground. See you there."
+      },
+      "request": {
+        "sender": "Gift Voucher Team (demo)",
+        "body": "You are today's lucky winner! To receive your gift voucher, send ₹20 to prize.desk@demo."
+      }
+    }
+  },
+  "claim": {
+    "otpPin": "RBI's KYC-fraud leaflet says never to share OTP, PIN, passwords or confidential information. RBI's January 2022 consumer advisory says fraudsters try to obtain details such as account numbers, login IDs, passwords, PINs, UPI PINs and OTPs.",
+    "urgency": "RBI's KYC-fraud leaflet advises ignoring messages that create false urgency, and RBI's 2022 advisory describes calls or emails that threaten to block an account over non-updated KYC.",
+    "links": "RBI's KYC-fraud leaflet says to verify the sender before clicking any link, not to enter KYC details through unknown links, and that banks never send links asking for personal details or a KYC update.",
+    "impersonation": "RBI's 2022 advisory says fraudsters pose as banks, e-wallet providers or telecom companies. RBI's fictitious-offers release says RBI never contacts the public through unsolicited calls or emails asking for money or personal information.",
+    "prizes": "RBI says fraudsters send attractive lottery or prize offers, first ask for small sums as processing or similar fees, and then demand more money; RBI does not send SMS, letters or emails about lottery winnings. NPCI warns that unknown people may promise rewards in exchange for entering a UPI PIN.",
+    "report": "RBI's KYC-fraud leaflet says to report financial fraud immediately at cybercrime.gov.in or by calling 1930. The National Cyber Crime Reporting Portal page lists 1930 as the Cyber Crime Helpline. RBI's 2022 advisory says to tell your bank or service provider immediately about an unauthorised transaction and to inform the local police or cybercrime branch."
+  },
+  "fraud": {
+    "shared_otp": {
+      "review": "Your choice: you treated a message that asks for an OTP and a PIN as safe. Safer choice: never share an OTP or PIN, whoever the message says it is from, and do not reply. Concept: an OTP or PIN is a secret that is only for you. Why it matters: fraudsters try to collect details such as PINs and OTPs, so nobody should ever be given them."
+    },
+    "paid_request": {
+      "review": "Your choice: you treated a message asking for a fee to claim a prize as safe. Safer choice: do not pay anything; fraudsters often start with a small fee and then ask for more. Concept: a prize that comes with a payment request is a warning sign. Why it matters: after the first payment, more demands can follow."
+    },
+    "clicked_link": {
+      "review": "Your choice: you treated an urgent message with an unknown link as safe. Safer choice: do not tap the link; verify the sender another way first, because banks do not send links asking for personal details or a KYC update. Concept: urgency and unknown links go together in fraud messages. Why it matters: the rush is meant to make you tap before you think."
+    },
+    "misclassified": {
+      "review": "Your choice: you marked a harmless routine notice as fraud. Safer choice: look at what it asks. A notice that asks for no code, PIN, money or link, and that you can verify with the sender, can be safe. Concept: judge a message by its request and its sender, not just its tone. Why it matters: telling real warning signs from ordinary messages makes your checking more reliable."
+    }
+  }
+}

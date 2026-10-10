@@ -239,7 +239,7 @@ describe('reviewItems', () => {
       {
         error: 'fraud.shared_otp',
         severity: 'critical',
-        skillNode: 'fraud.safety',
+        skillNode: 'safety.fraud',
         reviewKey: 'fraud.shared_otp.review',
       },
     ])
