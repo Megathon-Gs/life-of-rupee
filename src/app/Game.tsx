@@ -12,13 +12,14 @@ import {
   useReducedMotion,
   type UiSettings,
 } from '@/ui/shell'
-import { PixiWorldRenderer } from '@/world'
+import { GROUND_Y, PixiWorldRenderer } from '@/world'
 import { LevelPanel } from './LevelPanel'
 import { levelAt } from './levels'
 import type { AppMode } from './mode'
 import { useDerived, useGame, useGameStore } from './store'
 import { loadTextureProvider } from './textures'
 import { LocationLabels } from './LocationLabels'
+import { stageMetrics } from './stage'
 import { enterLocation, exitLocation, onArrive } from './transitions'
 import styles from './App.module.css'
 
@@ -152,6 +153,44 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
     rendererRef.current?.applyVisuals(visuals)
     if (mode.test) rendererRef.current?.step(16)
   }, [ready, visuals, mode.test])
+
+  // While a bottom sheet is open the street is laid out in the part of the screen above it.
+  useEffect(() => {
+    const renderer = rendererRef.current
+    if (!ready || !renderer) return
+    const apply = (inset: number) => {
+      renderer.setBottomInset(inset * (window.devicePixelRatio || 1))
+      if (mode.test) renderer.step(16)
+    }
+    if (panel === null) {
+      apply(0)
+      return
+    }
+    const dialog = document.querySelector('[role="dialog"]')
+    if (!dialog) return
+    const measure = () => {
+      const rect = dialog.getBoundingClientRect()
+      // A side panel (wide screens) leaves the street alone; only a full-width sheet counts.
+      apply(rect.width >= window.innerWidth * 0.9 ? Math.max(0, window.innerHeight - rect.top) : 0)
+    }
+    measure()
+    const observer = new ResizeObserver(measure)
+    observer.observe(dialog)
+    return () => observer.disconnect()
+  }, [ready, panel, mode.test])
+
+  // The door cue sits above the protagonist, wherever the stage lands for this screen.
+  useEffect(() => {
+    const band = bandRef.current
+    if (!ready || !band) return
+    const place = () => {
+      const { unit, offsetY } = stageMetrics(band)
+      band.style.setProperty('--door-top', `${offsetY + (GROUND_Y - 80) * unit}px`)
+    }
+    place()
+    window.addEventListener('resize', place)
+    return () => window.removeEventListener('resize', place)
+  }, [ready])
 
   // The ticker only exists once the renderer is ready; test mode steps it by hand.
   useEffect(() => {

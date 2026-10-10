@@ -33,8 +33,12 @@ export interface TextureProvider {
   readonly pavement: number
   /** Tileable texture for a parallax band. */
   layer(name: LayerName): Texture
+  /** Optional: a sky tall enough to cover `extraRows` logical rows above the stage. */
+  skyExtended?(extraRows: number): Texture
   /** Building block for a location, already reflecting the current visuals. */
   building(location: LocationDef, visuals: WorldVisuals): BuildingSprite
+  /** Optional: every frame of a state's cycle, drawn facing right, for the renderer to play. */
+  protagonistFrames?(state: ProtagonistState): readonly Texture[]
   /** Protagonist frame, drawn facing right; the renderer flips it for left. */
   protagonist(state: ProtagonistState): Texture
 }
