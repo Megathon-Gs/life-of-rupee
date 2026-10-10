@@ -108,6 +108,15 @@ def main():
             close_issue(G, a.dry_run, num, strip)
             iss["state"] = "CLOSED"
 
+    # 2a-bis) strip stale workflow labels from closed task issues
+    for iss in issues:
+        if iss["state"] != "CLOSED" or not issue_key(iss["title"]): continue
+        stale = [l["name"] for l in iss["labels"] if l["name"] in WORKFLOW_LABELS]
+        if stale:
+            print(f"strip: #{iss['number']} [{issue_key(iss['title'])}] closed cleanup {stale}")
+            run(G + ["issue", "edit", str(iss["number"])]
+                + sum((["--remove-label", l] for l in stale), []), a.dry_run)
+
     # 2b) unblock issues whose dependencies are all closed
     for iss in issues:
         if iss["state"] != "OPEN": continue
