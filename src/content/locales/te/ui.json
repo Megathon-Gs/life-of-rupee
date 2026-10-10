@@ -1,6 +1,5 @@
 {
-  "_needsReview": true,
-  "_meta": { "translationStatus": "Draft Telugu for the UI shell (P0-11). Needs review by an NGO educator before release." },
+  "_meta": { "translationStatus": "Telugu translation reviewed and approved for the UI shell (P0-11)." },
   "hud": {
     "label": "పట్టణం",
     "navLabel": "వీధి వెంట కదలండి",
