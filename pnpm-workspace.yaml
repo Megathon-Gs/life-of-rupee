@@ -1,0 +1,10 @@
+# pnpm settings. A single-package repo still uses this file as the home for settings
+# that pnpm no longer reads from package.json.
+#
+# Native/tooling packages that must run their install scripts. pnpm 12 blocks
+# unreviewed build scripts by default (`strictDepBuilds`), so each is approved here.
+allowBuilds:
+  '@ffmpeg-installer/linux-x64': true
+  cpu-features: true
+  esbuild: true
+  sharp: true

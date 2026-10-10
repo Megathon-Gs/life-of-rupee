@@ -1,0 +1,2 @@
+# Git LFS: generator output for raw art (per docs/technical-implementation-plan.md).
+art/raw/**/*.png filter=lfs diff=lfs merge=lfs -text
