@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paisa Street — world greybox</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #b9dff0;
+      }
+      #world {
+        position: fixed;
+        inset: 0;
+      }
+      #world canvas {
+        display: block;
+        image-rendering: pixelated;
+      }
+      #controls {
+        position: fixed;
+        left: 8px;
+        bottom: 8px;
+        display: flex;
+        gap: 6px;
+        font: 12px system-ui;
+      }
+      #controls button {
+        padding: 6px 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="world"></div>
+    <div id="controls">
+      <button id="prev" type="button">◀</button>
+      <button id="next" type="button">▶</button>
+      <button id="visuals" type="button">visuals</button>
+    </div>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
