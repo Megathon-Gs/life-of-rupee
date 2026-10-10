@@ -1,0 +1,89 @@
+{
+  "_meta": {
+    "translationStatus": "English text reviewed and approved by NGO educator (user approval), 2026-10-10. All people, offers and numbers are fictional."
+  },
+  "hook": {
+    "1": "Phone ad: EASY LOAN! Instant approval, no documents, today only!",
+    "2": "Dev: “Today only” is a pressure sign. Lenders regulated by the RBI must give you a Key Facts Statement before you sign, and for loans of a week or longer its terms must stay valid for at least three working days.",
+    "3": "Dev: Compare the full terms first. You can always leave without borrowing."
+  },
+  "lesson": {
+    "title": "Same loan, two lengths",
+    "prompt": "Mina, a fictional future adult, is thinking about a ₹60,000 loan for a second-hand scooter she needs for work. Both offers charge 12% a year and a one-time fee of ₹600. Only the repayment length differs. Open each offer and find which one costs less to repay overall. Borrowing is optional; Mina is only comparing.",
+    "hint1": "A loan has three parts: the amount you borrow (principal), the interest, and any fees. Which of them changes when the length changes?",
+    "hint2": "Compare the total repaid over the whole loan, not just one monthly instalment.",
+    "explanation": "The 12-month offer has the higher EMI, about ₹5,331 a month, but Mina repays about ₹64,571 in total: ₹60,000 principal, about ₹3,971 interest and the ₹600 fee. The 36-month offer has the lower EMI, about ₹1,993 a month, but Mina repays about ₹72,343 in total: ₹60,000 principal, about ₹11,743 interest and the same ₹600 fee. At the same rate, a longer loan means more months of interest. Interest and fees are separate costs, and a lower EMI is not the same as a cheaper loan. EMI and the number of months are linked: for floating-rate EMI-based personal loans, RBI requires lenders to tell borrowers at sanction how a change in the benchmark rate can change the EMI, the tenor or both.",
+    "twelveLabel": "Offer 1: 12 months",
+    "twelveAssumptions": "Borrow ₹60,000 at 12% a year, repaid in equal monthly instalments (EMIs) over 12 months. One-time fee: ₹600.",
+    "thirtySixLabel": "Offer 2: 36 months",
+    "thirtySixAssumptions": "Borrow ₹60,000 at 12% a year, repaid in equal monthly instalments (EMIs) over 36 months. One-time fee: ₹600."
+  },
+  "decision": {
+    "title": "Choose Mina's loan offer",
+    "prompt": "Mina, a fictional future adult, earns ₹42,000 a month. Rent takes ₹15,000 and essentials take ₹17,000, which leaves ₹10,000 a month before any loan, or ₹6,00,000 over the next five years (60 months). She wants to borrow ₹60,000 for a second-hand scooter for her commute, and she wants at least ₹5,30,000 of that leftover money to stay available for savings and emergencies. Compare the offers. Mina can also choose not to borrow.",
+    "hint1": "Check two things for each offer: can Mina pay the EMI from the ₹10,000 left each month, and how much does she repay in total, fee included?",
+    "hint2": "To keep ₹5,30,000 of her ₹6,00,000, Mina's loan payments over the five years must stay at or below ₹70,000. Which offer does that?",
+    "explanation": "Offer 2 (18 months) has an EMI of about ₹3,659 and repays about ₹66,461 in total, so about ₹5,33,539 of Mina's ₹6,00,000 stays free over five years, above her ₹5,30,000 target. Offer 1 (60 months) has the lowest EMI, about ₹1,335, but repays about ₹80,680 and leaves about ₹5,19,320. Offer 3 (36 months) has an EMI of about ₹1,993 but a ₹3,000 fee; it repays about ₹74,743 and leaves about ₹5,25,257. Offers 1 and 3 both fall short of her target.",
+    "sixtyLabel": "Offer 1: 60 months",
+    "sixtyAssumptions": "Borrow ₹60,000 at 12% a year, repaid in equal monthly instalments (EMIs) over 60 months. One-time fee: ₹600. Late charge for a missed instalment: ₹250.",
+    "eighteenLabel": "Offer 2: 18 months",
+    "eighteenAssumptions": "Borrow ₹60,000 at 12% a year, repaid in equal monthly instalments (EMIs) over 18 months. One-time fee: ₹600. Late charge for a missed instalment: ₹250.",
+    "thirtySixLabel": "Offer 3: 36 months with a larger fee",
+    "thirtySixAssumptions": "Borrow ₹60,000 at 12% a year, repaid in equal monthly instalments (EMIs) over 36 months. One-time fee: ₹3,000. Late charge for a missed instalment: ₹250."
+  },
+  "consequence": {
+    "squeeze": "Offer 1 has the lowest EMI, about ₹1,335, but it keeps a payment in Mina's budget for 60 months and repays about ₹80,680 in total. Over five years it would leave about ₹5,19,320 for savings and emergencies, below her ₹5,30,000 target.",
+    "ends": "Offer 2 repays about ₹66,461 over 18 months. From month 19, all ₹10,000 of Mina's monthly leftover money is free again, and about ₹5,33,539 stays free over five years.",
+    "explanation": "Offer 1 feels lighter each month: about ₹8,665 is left after its EMI, against about ₹6,341 under Offer 2. But the low EMI keeps a payment in Mina's budget for 42 months longer and its total cost of borrowing is about ₹14,219 more (about ₹80,680 repaid against ₹66,461). The other side matters too: Offer 2's higher EMI, about ₹3,659, is the right choice only because it fits inside Mina's ₹10,000 a month. If it did not fit, the right choice would be the offer that fits and costs least overall, or postponing. Monthly affordability and total cost are separate checks. Every instalment competes with rent, essentials, savings and emergencies for the same money, and it is due even in a hard month. In this fictional offer, a missed instalment is still due and adds a stated ₹250 late charge. In real loans, RBI rules for regulated lenders say a penalty for breaking a material loan term must be a penal charge, not extra interest added to the rate, and its amount and reason must be stated in the loan agreement and the Key Facts Statement, as applicable. The Key Facts Statement also shows the APR, which includes the interest rate and other charges, and fees it does not list cannot be charged without your explicit consent. Borrowing can help when the purpose is planned, every cost is understood and the payments fit the budget. When they do not fit, postponing and saving first can be safer. Never enter real personal or financial details in this game."
+  },
+  "transfer": {
+    "kiran": {
+      "title": "Kiran's tools loan",
+      "prompt": "Kiran, a fictional future adult, earns ₹29,000 a month. Rent takes ₹10,000 and essentials take ₹15,000, which leaves ₹4,000 a month. Kiran wants to borrow ₹48,000 at 12% a year for work tools. Which offer should Kiran choose? Kiran can also choose not to borrow.",
+      "hint1": "First check which EMIs Kiran can pay from the ₹4,000 left each month.",
+      "hint2": "Among the offers Kiran can pay, choose the one with the lowest total repaid, fee included.",
+      "explanation": "The 12-month offer has an EMI of about ₹4,265, which is more than the ₹4,000 Kiran has left, so payments would be missed. The 48-month offer has the lowest EMI, about ₹1,264, but repays about ₹60,673. The 24-month offer has an EMI of about ₹2,260, which Kiran can pay, and repays about ₹55,429 including a ₹1,200 fee. It is the cheapest offer Kiran can afford.",
+      "twelveLabel": "Offer 1: 12 months",
+      "twelveAssumptions": "Borrow ₹48,000 at 12% a year, repaid in equal monthly instalments (EMIs) over 12 months. No fee. Late charge for a missed instalment: ₹250.",
+      "fortyEightLabel": "Offer 2: 48 months",
+      "fortyEightAssumptions": "Borrow ₹48,000 at 12% a year, repaid in equal monthly instalments (EMIs) over 48 months. No fee. Late charge for a missed instalment: ₹250.",
+      "twentyFourLabel": "Offer 3: 24 months with a fee",
+      "twentyFourAssumptions": "Borrow ₹48,000 at 12% a year, repaid in equal monthly instalments (EMIs) over 24 months. One-time fee: ₹1,200. Late charge for a missed instalment: ₹250."
+    },
+    "ravi": {
+      "title": "Ravi, a fictional future adult, earns ₹28,000 a month. Rent takes ₹11,000 and essentials take ₹14,500, which leaves ₹2,500. He wants to keep at least ₹1,500 of that each month for emergencies, so he can pay an EMI of at most ₹1,000. He is thinking of borrowing ₹48,000 at 12% a year for a used scooter. Offer 1: 24 months, EMI about ₹2,260, one-time fee ₹1,200. Offer 2: 48 months, EMI about ₹1,264, no fee. Both offers state a ₹250 late charge for a missed instalment. Answer the three questions.",
+      "choiceLabel": "What should Ravi do?",
+      "fortyEight": "Take the 48-month offer because its EMI is lower",
+      "postpone": "Postpone borrowing and save first",
+      "twentyFour": "Take the 24-month offer because its EMI fits in the ₹2,500 left",
+      "totalLabel": "Compared with the 24-month offer, what does the 48-month offer's lower EMI mean?",
+      "totalWrong": "It is the cheaper loan because each instalment is smaller.",
+      "totalRight": "Each instalment is smaller, but Ravi would repay about ₹60,673 in total against about ₹55,429, so it costs more.",
+      "missedLabel": "Suppose Ravi borrows and one month is very tight. What is true in this fictional offer?",
+      "missedRight": "The instalment is still due and a missed one adds the stated ₹250 late charge, so Ravi should borrow only if every instalment fits.",
+      "missedWrong": "Skipping one instalment is harmless because nothing else happens."
+    }
+  },
+  "claim": {
+    "kfs": "RBI's April 2024 circular on the Key Facts Statement (KFS) says regulated lenders shall provide a KFS to all prospective borrowers, in a standardised format and in a language they understand, to help them take an informed view before executing the loan contract.",
+    "kfsValidity": "A KFS carries a validity period of at least three working days for loans with a tenor of seven days or more. The lender is bound by the terms of the loan indicated in the KFS if the borrower agrees to them during the validity period.",
+    "apr": "RBI defines the Annual Percentage Rate (APR) as the annual cost of credit to the borrower, which includes the interest rate and all other charges associated with the credit facility. The KFS includes a computation sheet of the APR and the amortisation schedule of the loan over its tenor.",
+    "unlistedFees": "Fees and charges that are not mentioned in the KFS cannot be charged to the borrower at any stage during the term of the loan without the borrower's explicit consent.",
+    "emi": "RBI describes an equated periodic instalment as an equated or fixed amount of repayment, made up of both principal and interest, paid at regular intervals for a fixed number of intervals so that the loan is completely repaid. Instalments at monthly intervals are called EMIs.",
+    "penalCharges": "Under RBI's August 2023 circular on penal charges in loan accounts, a penalty for non-compliance with material terms of a loan contract is treated as a penal charge and not levied as penal interest added to the rate of interest. Penal charges are not capitalised, so no further interest is computed on them, and their amount must be reasonable and commensurate with the non-compliance.",
+    "penalDisclosure": "The amount of and the reason for penal charges must be clearly disclosed to the customer in the loan agreement and in the most important terms and conditions or Key Fact Statement, as applicable.",
+    "emiOrTenor": "For floating-rate EMI-based personal loans, RBI requires lenders to tell borrowers clearly at the time of sanction about the possible impact of a change in the benchmark interest rate on the loan, leading to changes in the EMI, the tenor or both."
+  },
+  "loan": {
+    "ignored_total_cost": {
+      "review": "Your choice: you picked the offer with the lowest EMI without comparing the total repaid. Safer choice: compare principal, interest, fees and total repaid for every offer, then check that the EMI fits what is left each month. Concept: at the same rate, a longer tenure lowers the EMI but adds months of interest, so the total repaid goes up. Why it matters: the low EMI keeps a payment in your budget for longer and the loan costs more."
+    },
+    "emi_only": {
+      "review": "Your choice: you judged an offer by its EMI alone. Safer choice: also check the fees, the total repaid and how much money remains for emergencies and savings after the EMI. The Key Facts Statement shows the APR, which includes the interest rate and other charges. Concept: the EMI is only the monthly part of the cost; fees and the length of the loan are separate parts. Why it matters: an EMI that looks affordable can hide extra cost or leave too little cushion."
+    },
+    "missed_payment": {
+      "review": "Your choice: you picked an offer whose payments do not fit, or assumed a missed instalment is harmless. Safer choice: borrow only when every EMI fits after rent and essentials, and treat each due date as fixed. Concept: a missed instalment is still due and can bring a late charge stated in the loan terms; RBI's rules say such a penalty is a penal charge, not extra interest added to the rate. Why it matters: missed payments make a loan costlier and harder to manage."
+    }
+  },
+  "translationStatus": "English text reviewed and approved by NGO educator (user approval), 2026-10-10."
+}

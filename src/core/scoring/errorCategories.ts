@@ -9,7 +9,9 @@ export const errorCategories: Readonly<Record<string, ErrorCategoryDef>> = Objec
     { code: 'fraud.clicked_link', severity: 'major', skillNode: 'safety.fraud' },
     { code: 'fraud.misclassified', severity: 'minor', skillNode: 'safety.fraud' },
     { code: 'fraud.paid_request', severity: 'critical', skillNode: 'safety.fraud' },
-    { code: 'loan.ignored_total_cost', severity: 'major', skillNode: 'loan.cost' },
+    { code: 'loan.ignored_total_cost', severity: 'major', skillNode: 'borrowing.emi' },
+    { code: 'loan.emi_only', severity: 'major', skillNode: 'borrowing.emi' },
+    { code: 'loan.missed_payment', severity: 'major', skillNode: 'borrowing.emi' },
     {
       code: 'inflation.nominal_vs_real',
       severity: 'major',
