@@ -26,7 +26,7 @@ export function transitionPanel(options: PanelTransition): Promise<void> {
   const surface = getComputedStyle(panel)
   Object.assign(proxy.style, {
     position: 'fixed',
-    zIndex: '9999',
+    zIndex: '0',
     pointerEvents: 'none',
     background: surface.backgroundColor,
     boxShadow: surface.boxShadow,
@@ -85,6 +85,7 @@ export function transitionPanel(options: PanelTransition): Promise<void> {
       // Keep the repeat-visit Skip footer visible and inside the modal's focus trap.
       panel.style.background = 'transparent'
       panel.style.boxShadow = 'none'
+      panel.style.zIndex = '1'
       gsap.set(contents, { opacity: 0 })
       const timeline = gsap.timeline({ onComplete: finish })
       animation = timeline

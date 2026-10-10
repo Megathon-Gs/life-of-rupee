@@ -43,6 +43,11 @@ describe('bank transition', () => {
   it('Skip completes the whole repeat transition and removes its proxy', async () => {
     const { options, onSkipReady, panel } = setup(true)
     const finished = transitionPanel(options)
+    expect(Number(panel.style.zIndex)).toBeGreaterThan(
+      Number(
+        document.querySelector<HTMLElement>('[data-testid="bank-transition-proxy"]')!.style.zIndex,
+      ),
+    )
     onSkipReady.mock.calls[0]![0]()
     await finished
     expect(panel.style.opacity).toBe('')

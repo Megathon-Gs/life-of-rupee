@@ -1,10 +1,33 @@
 import { defineConfig, devices } from '@playwright/test'
+import { createServer } from 'node:net'
 
-const baseURL = 'http://127.0.0.1:4173'
+// CI shares this VM with worktrees; never reuse another checkout's preview server.
+const port = process.env.PAISA_E2E_PORT
+  ? Number(process.env.PAISA_E2E_PORT)
+  : process.env.CI
+    ? await new Promise<number>((resolve, reject) => {
+        const server = createServer()
+        server.on('error', reject)
+        server.listen(0, '127.0.0.1', () => {
+          const address = server.address()
+          if (!address || typeof address === 'string') {
+            server.close()
+            reject(new Error('Could not allocate a preview port'))
+            return
+          }
+          server.close((error) => (error ? reject(error) : resolve(address.port)))
+        })
+      })
+    : 4173
+if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('Invalid preview port')
+// Playwright workers reload this config and must inherit the parent's allocated port.
+process.env.PAISA_E2E_PORT = String(port)
+const baseURL = `http://127.0.0.1:${port}`
 
 export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: true,
+  workers: process.env.CI ? 2 : undefined,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? 'github' : 'list',
@@ -41,7 +64,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'pnpm build && pnpm preview --host 127.0.0.1',
+    command: `pnpm build && pnpm preview --host 127.0.0.1 --port ${port} --strictPort`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

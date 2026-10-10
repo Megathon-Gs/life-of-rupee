@@ -12,9 +12,10 @@ async function arrive(page: Page, deterministic = false) {
   await expect(page.getByTestId('door-cue')).toBeFocused()
 }
 
-/** Measure inside the browser so driver round trips are not part of the timing budget. */
-async function timedEntry(page: Page): Promise<number> {
-  return page.getByTestId('door-cue').evaluate(
+/** Drive the browser animation clock explicitly; CI CPU contention is not animation time. */
+async function timedEntry(page: Page, budget: number): Promise<number> {
+  await page.clock.pauseAt(new Date(await page.evaluate(() => Date.now() + 1000)))
+  const finished = page.getByTestId('door-cue').evaluate(
     (door) =>
       new Promise<number>((resolve) => {
         const start = performance.now()
@@ -29,13 +30,19 @@ async function timedEntry(page: Page): Promise<number> {
         ;(door as HTMLElement).click()
       }),
   )
+  await expect(band(page)).toHaveAttribute('data-transitioning', 'true')
+  await page.clock.runFor(budget)
+  const duration = await finished
+  await page.clock.resume()
+  return duration
 }
 
 test('first entry completes within 1.2 s; repeat entry can Skip and survives reload', async ({
   page,
 }) => {
+  await page.clock.install()
   await arrive(page)
-  expect(await timedEntry(page)).toBeLessThanOrEqual(1200)
+  expect(await timedEntry(page, 1200)).toBeLessThanOrEqual(1200)
   await expect(page.getByRole('button', { name: 'Skip entry animation' })).toHaveCount(0)
   await page.getByRole('button', { name: 'Close', exact: true }).click()
   await expect(page.getByRole('dialog')).toHaveCount(0)
@@ -58,9 +65,10 @@ test('first entry completes within 1.2 s; repeat entry can Skip and survives rel
 })
 
 test('reduced-motion entry has no proxy and completes within 200 ms', async ({ page }) => {
+  await page.clock.install()
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await arrive(page)
-  expect(await timedEntry(page)).toBeLessThanOrEqual(200)
+  expect(await timedEntry(page, 200)).toBeLessThanOrEqual(200)
   await expect(page.getByTestId('bank-transition-proxy')).toHaveCount(0)
 })
 
@@ -80,6 +88,9 @@ test('bank entry end state matches its viewport reference', async ({ page }) => 
   await page.keyboard.press('Enter')
   await expect(band(page)).toHaveAttribute('data-transitioning', 'false')
   await expect(page.getByRole('dialog')).toBeVisible()
+  await page.evaluate(() =>
+    Promise.all(document.getAnimations().map((animation) => animation.finished)),
+  )
   const dialogue = page.getByRole('region', { name: /Street guide/ })
   const dialogueRect = await dialogue.boundingBox()
   const panelRect = await page.getByRole('dialog').boundingBox()

@@ -33,12 +33,20 @@ and Telugu `app.json` strings, `src/world/renderer.ts` and its tests, and
 `tests/e2e/transitions.spec.ts` with its three viewport references. The frozen
 contracts, UI internals, dependencies, and registries remain unchanged.
 
+The requested follow-up review also fixes shared-runner failures in `vite.config.ts`
+(two unit-test workers to avoid starving accessibility scans) and
+`playwright.config.ts` (a separately allocated preview port and two workers in CI).
+
 The renderer exposes a concrete `transitionLocation` extension for the bank camera
 and light; the frozen `WorldRenderer` contract is not changed. The app owns the
 modal/travel lock and records `bank-entry` through the existing `transitionSeen`
 action only when entry finishes. Animation cancellation cleans up DOM proxies
 and stops camera/light tweens. Reduced motion uses only a 150 ms fade; test mode
 jumps to the end state.
+
+The e2e timing assertions drive Playwright's browser clock explicitly, rather than
+counting shared-runner CPU scheduling delays as animation time. The real Android
+no-stutter gate remains unchecked; no simulated test replaces that human check.
 
 ## Observable acceptance
 

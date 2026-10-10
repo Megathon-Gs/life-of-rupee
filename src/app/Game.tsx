@@ -166,8 +166,8 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
     if (travelling || !arrivedRef.current) return
     arrivedRef.current = false
     doorRef.current?.focus()
-    return onArrive(doorRef.current, reducedMotion)
-  }, [travelling, locationId, reducedMotion])
+    return onArrive(doorRef.current, reducedMotion || mode.test)
+  }, [travelling, locationId, reducedMotion, mode.test])
 
   useLayoutEffect(() => {
     const entry = entryRef.current

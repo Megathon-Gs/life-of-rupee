@@ -12,6 +12,8 @@ export default defineConfig({
     },
   },
   test: {
+    // Keep the shared runner from starving the accessibility scans.
+    maxWorkers: 2,
     environment: 'jsdom',
     passWithNoTests: true,
     exclude: [...configDefaults.exclude, 'tests/e2e/**'],
