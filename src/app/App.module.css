@@ -86,30 +86,3 @@
   margin: 0;
   padding: var(--sp-4);
 }
-
-/* Per-location labels above each building; positioned from the street layer offset. */
-.labels {
-  position: absolute;
-  inset: 0;
-  z-index: var(--z-hud);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.label {
-  position: absolute;
-  left: 0;
-  top: 0;
-  max-width: 10rem;
-  padding: var(--sp-1) var(--sp-2);
-  border-radius: 4px;
-  background: rgb(25 26 51 / 85%);
-  color: #fff;
-  font-size: 0.875rem;
-  line-height: 1.2;
-  text-align: center;
-  white-space: nowrap;
-}

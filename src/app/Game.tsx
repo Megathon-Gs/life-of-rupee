@@ -17,8 +17,7 @@ import { LevelPanel } from './LevelPanel'
 import { levelAt } from './levels'
 import type { AppMode } from './mode'
 import { useDerived, useGame, useGameStore } from './store'
-import { loadTextureProvider } from './textures'
-import { LocationLabels } from './LocationLabels'
+import { createTextureProvider } from './textures'
 import { enterLocation, exitLocation, onArrive } from './transitions'
 import styles from './App.module.css'
 
@@ -104,33 +103,32 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
     const band = bandRef.current
     const host = hostRef.current
     if (!band || !host) return
+    const renderer = new PixiWorldRenderer({
+      world,
+      textures: createTextureProvider(),
+      test: mode.test,
+    })
+    rendererRef.current = renderer
+    renderer.onArrive((id) => void onArrive(id))
+    renderer.mount(host)
     let cancelled = false
     let initialised = false
     let detach = () => {}
-    let renderer: PixiWorldRenderer | undefined
-    const onResize = () => {
-      renderer?.resize()
-      if (mode.test) renderer?.step(16)
-    }
-    // The art atlases load before the renderer is built, so every texture is ready to draw.
-    void loadTextureProvider().then(async (textures) => {
-      if (cancelled) return
-      const created = new PixiWorldRenderer({ world, textures, test: mode.test })
-      renderer = created
-      rendererRef.current = created
-      created.onArrive((id) => void onArrive(id))
-      created.mount(host)
-      window.addEventListener('resize', onResize)
-      await created.whenReady()
+    void renderer.whenReady().then(async () => {
       initialised = true
       if (cancelled) return
-      created.resize()
-      await created.travelTo(store.getState().save.position.locationId, { reducedMotion: true })
+      renderer.resize()
+      await renderer.travelTo(store.getState().save.position.locationId, { reducedMotion: true })
       if (cancelled) return
-      if (mode.test) created.step(16)
+      if (mode.test) renderer.step(16)
       detach = attachTravelInput(band, machine, (cmd) => void latest.current.runCommand(cmd))
       setReady(true)
     })
+    const onResize = () => {
+      renderer.resize()
+      if (mode.test) renderer.step(16)
+    }
+    window.addEventListener('resize', onResize)
     return () => {
       cancelled = true
       detach()
@@ -138,11 +136,8 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
       rendererRef.current = null
       // Destroying before Pixi has initialised throws, so a fast unmount (StrictMode, a quick
       // profile switch) waits for init; the renderer then removes its own canvas.
-      const current = renderer
-      if (current) {
-        if (initialised) current.destroy()
-        else void current.whenReady().then(() => current.destroy())
-      }
+      if (initialised) renderer.destroy()
+      else void renderer.whenReady().then(() => renderer.destroy())
       setReady(false)
     }
   }, [machine, mode.test, store])
@@ -219,7 +214,6 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
           onNext={() => step(1)}
           onOpenSettings={() => openPanel({ kind: 'settings' })}
         />
-        <LocationLabels renderer={ready ? rendererRef.current : null} hidden={panel !== null} />
         {ready && level && !travelling && (
           <div className={styles.door}>
             <Button ref={doorRef} variant="primary" data-testid="door-cue" onClick={enter}>

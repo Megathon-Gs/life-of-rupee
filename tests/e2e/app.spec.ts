@@ -225,27 +225,3 @@ test('scrolling inside the level panel does not move the world', async ({ page }
   await expect(band(page)).toHaveAttribute('data-location', 'bank')
   await expect(band(page)).toHaveAttribute('inert', /.*/)
 })
-
-test('first-level load transfers at most 1.5 MB', async ({ page }) => {
-  let bytes = 0
-  page.on('response', async (response) => {
-    const sizes = await response
-      .request()
-      .sizes()
-      .catch(() => null)
-    if (sizes) bytes += sizes.responseBodySize + sizes.responseHeadersSize
-  })
-  await startNewProfile(page)
-  await page.waitForLoadState('networkidle')
-  expect(bytes).toBeGreaterThan(0)
-  expect(bytes).toBeLessThanOrEqual(1.5 * 1024 * 1024)
-})
-
-test('labels each location from i18n and hides them while a panel is open', async ({ page }) => {
-  await startNewProfile(page)
-  await expect(page.getByTestId('label-home')).toBeVisible()
-  await expect(page.getByTestId('label-bank')).toHaveCount(1)
-  await travelTo(page, 'bank')
-  await page.getByTestId('door-cue').click()
-  await expect(page.getByTestId('label-bank')).toBeHidden()
-})
