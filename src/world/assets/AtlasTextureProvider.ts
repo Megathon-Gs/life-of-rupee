@@ -7,7 +7,7 @@ import {
   type ProtagonistState,
   type TextureProvider,
 } from '../textures'
-import { findFrame, type AtlasManifest } from './manifest'
+import { findFrame, type AtlasFrame, type AtlasManifest } from './manifest'
 
 /** Palette A sky and pavement colours (art/bible/palette.json). */
 /** The flat top band of the sky art, so the scale remainder above the stage is seamless. */
@@ -67,6 +67,7 @@ export class AtlasTextureProvider implements TextureProvider {
   readonly pavement = PAVEMENT_COLOUR
 
   private readonly cache = new Map<string, Texture>()
+  private readonly alpha = new Map<string, ImageData>()
 
   constructor(
     private readonly manifest: AtlasManifest,
@@ -74,14 +75,41 @@ export class AtlasTextureProvider implements TextureProvider {
   ) {}
 
   /** Texture for a named frame at its native size, or `Texture.EMPTY` when absent. */
-  frame(name: string, part?: { index: number; w: number }): Texture {
-    const key = part ? `${name}#${part.index}` : name
+  /** Rows from `top` of a frame up to its last non-transparent pixel row, or the full height. */
+  private opaqueHeight(district: string, frame: AtlasFrame): number {
+    const image = this.atlases[district]?.image
+    if (!HAS_2D || !image) return frame.h
+    let alpha = this.alpha.get(district)
+    if (!alpha) {
+      const canvas = document.createElement('canvas')
+      const { width, height } = this.manifest.districts[district]!
+      canvas.width = width
+      canvas.height = height
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return frame.h
+      ctx.drawImage(image, 0, 0)
+      alpha = ctx.getImageData(0, 0, width, height)
+      this.alpha.set(district, alpha)
+    }
+    for (let row = frame.h - 1; row >= 0; row -= 1) {
+      for (let col = 0; col < frame.w; col += 1) {
+        const at = ((frame.y + row) * alpha.width + frame.x + col) * 4 + 3
+        if (alpha.data[at]! > 0) return row + 1
+      }
+    }
+    return frame.h
+  }
+
+  frame(name: string, part?: { index: number; w: number }, trim = false): Texture {
+    const key = `${part ? `${name}#${part.index}` : name}${trim ? ':trim' : ''}`
     const cached = this.cache.get(key)
     if (cached) return cached
     const found = findFrame(this.manifest, name)
     const atlas = found && this.atlases[found.district]
     if (!found || !atlas) return Texture.EMPTY
-    const { x, y, w, h } = found.frame
+    const { x, y, w } = found.frame
+    // Trimming drops transparent rows at the bottom so a sprite anchored there stands on the ground.
+    const h = trim ? this.opaqueHeight(found.district, found.frame) : found.frame.h
     const width = part ? part.w : w
     const left = x + (part ? part.index * part.w : 0)
     const texture = new Texture({ source: atlas.source, frame: new Rectangle(left, y, width, h) })
@@ -144,7 +172,19 @@ export class AtlasTextureProvider implements TextureProvider {
       (variant && VARIANT_FRAMES[location.buildingAsset]?.[variant]) ??
       BUILDING_FRAMES[location.buildingAsset] ??
       location.buildingAsset
-    return { texture: this.frame(name), tint: 0xffffff }
+    return { texture: this.frame(name, undefined, true), tint: 0xffffff }
+  }
+
+  protagonistFrames(state: ProtagonistState): readonly Texture[] {
+    const { sheet, index } = PROTAGONIST_STATES[state]
+    const found = findFrame(this.manifest, sheet)?.frame
+    if (!found) return []
+    // The arrive sheet is a pose to hold, not a cycle.
+    if (state === 'arrive') return [this.frame(sheet, { index, w: PROTAGONIST_FRAME.w })]
+    const count = Math.max(1, Math.floor(found.w / PROTAGONIST_FRAME.w))
+    return Array.from({ length: count }, (_, i) =>
+      this.frame(sheet, { index: i, w: PROTAGONIST_FRAME.w }),
+    )
   }
 
   protagonist(state: ProtagonistState): Texture {
@@ -223,7 +263,11 @@ export class AtlasTextureProvider implements TextureProvider {
     const found = findFrame(this.manifest, frameName)?.frame
     if (!found) return undefined
     // The sky fills the band from the top; the skyline and trees stand on the ground line.
-    const dy = name === 'sky' ? 0 : GROUND_Y - found.h
+    const rows =
+      name === 'sky'
+        ? found.h
+        : this.opaqueHeight(findFrame(this.manifest, frameName)!.district, found)
+    const dy = name === 'sky' ? 0 : GROUND_Y - rows
     return draw(found.w, BAND_HEIGHT, (ctx, image) => {
       blit(ctx, image, frameName, 0, dy)
     })

@@ -1,11 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { world } from '@/content/world'
-import { BUILDING_HEIGHT, fitScale, GROUND_Y, stageOffsetY, type PixiWorldRenderer } from '@/world'
+import { BUILDING_HEIGHT, GROUND_Y, type PixiWorldRenderer } from '@/world'
+import { stageMetrics } from './stage'
 import styles from './App.module.css'
 
 /** Logical px the label sits below the sprite's top edge, where the facades' transparent headroom ends. */
-const LABEL_DROP = 16
+const LABEL_DROP = 32
 
 export interface LocationLabelsProps {
   /** Null until the renderer is ready; labels stay hidden until then. */
@@ -30,12 +31,7 @@ export function LocationLabels({ renderer, hidden }: LocationLabelsProps) {
     const place = () => {
       const band = list.parentElement
       if (band) {
-        const dpr = window.devicePixelRatio || 1
-        const device = { width: band.clientWidth * dpr, height: band.clientHeight * dpr }
-        // CSS pixels per logical world pixel, matching the renderer's integer scale.
-        const scaled = fitScale(device)
-        const unit = scaled / dpr
-        const offsetY = stageOffsetY(device.height, scaled) / dpr
+        const { unit, offsetY } = stageMetrics(band)
         const streetX = renderer.layerContainers.street.x
         world.locations.forEach((location, i) => {
           const item = itemRefs.current[i]

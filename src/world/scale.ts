@@ -48,8 +48,9 @@ export function stageOffsetY(viewportDeviceHeight: number, scaled: number): numb
 export function stageExtents(
   viewportDeviceHeight: number,
   scaled: number,
+  bottomInset = 0,
 ): { top: number; bottom: number } {
-  const offset = stageOffsetY(viewportDeviceHeight, scaled)
+  const offset = stageOffsetY(viewportDeviceHeight - bottomInset, scaled)
   const below = Math.max(0, Math.round(viewportDeviceHeight) - offset - LOGICAL_HEIGHT * scaled)
   return { top: Math.ceil(offset / scaled), bottom: Math.ceil(below / scaled) }
 }

@@ -37,6 +37,8 @@ export interface TextureProvider {
   skyExtended?(extraRows: number): Texture
   /** Building block for a location, already reflecting the current visuals. */
   building(location: LocationDef, visuals: WorldVisuals): BuildingSprite
+  /** Optional: every frame of a state's cycle, drawn facing right, for the renderer to play. */
+  protagonistFrames?(state: ProtagonistState): readonly Texture[]
   /** Protagonist frame, drawn facing right; the renderer flips it for left. */
   protagonist(state: ProtagonistState): Texture
 }

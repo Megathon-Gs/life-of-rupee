@@ -37,7 +37,7 @@
 .door {
   position: absolute;
   left: 50%;
-  top: 46%;
+  top: var(--door-top, 46%);
   z-index: calc(var(--z-hud) + 1);
   translate: -50% 0;
   width: max-content;
@@ -52,6 +52,9 @@
 .dialogue > section {
   position: relative;
   inset: auto;
+  /* Undo the wide-screen centring (left 50% + translate) so the sheet stays inside the panel. */
+  translate: none;
+  width: auto;
 }
 
 .picker {

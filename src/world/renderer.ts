@@ -9,8 +9,6 @@ import type {
 } from '@/core/contracts'
 import { fitScale, logicalWidth, LOGICAL_HEIGHT, stageExtents, stageOffsetY } from './scale'
 import {
-  BUILDING_HEIGHT,
-  BUILDING_WIDTH,
   GreyboxTextureProvider,
   GROUND_Y,
   LAYERS,
@@ -37,6 +35,9 @@ export function travelDurationMs(hops: number, reducedMotion: boolean): number {
 export function travelState(hops: number): ProtagonistState {
   return Math.abs(hops) > RUN_HOP_THRESHOLD ? 'run' : 'walk'
 }
+
+/** Frames per second of each protagonist cycle; arrive holds its single frame. */
+const ANIMATION_FPS: Record<ProtagonistState, number> = { idle: 4, walk: 10, run: 14, arrive: 1 }
 
 export interface WorldRendererOptions {
   world: WorldDef
@@ -85,6 +86,11 @@ export class PixiWorldRenderer implements WorldRenderer {
   private visuals: WorldVisuals = {}
   private paused = false
   private clock = 0
+  private bottomInset = 0
+  private deviceSize?: { width: number; height: number }
+  private animState: ProtagonistState = 'idle'
+  private animClock = 0
+  private animFrame = -1
   private arriveCbs: Array<(id: LocationId) => void> = []
   private readonly ready: Promise<void>
   private resolveReady: () => void = () => {}
@@ -119,8 +125,6 @@ export class PixiWorldRenderer implements WorldRenderer {
       sprite.anchor.set(0.5, 1)
       sprite.x = location.x
       sprite.y = GROUND_Y
-      sprite.width = BUILDING_WIDTH
-      sprite.height = BUILDING_HEIGHT
       this.buildings.set(location.id, sprite)
       this.layerContainers.street.addChild(sprite)
     }
@@ -157,6 +161,7 @@ export class PixiWorldRenderer implements WorldRenderer {
         if (this.app !== app) return
         this.el!.appendChild(app.canvas)
         app.stage.addChild(this.background, this.worldRoot)
+        if (!this.test) app.ticker.add((ticker) => this.animate(ticker.deltaMS))
         this.setViewport({
           width: this.el!.clientWidth,
           height: this.el!.clientHeight,
@@ -249,6 +254,7 @@ export class PixiWorldRenderer implements WorldRenderer {
   /** Manually advance the render in test mode (deterministic stepping). */
   step(deltaMs: number): void {
     this.clock += deltaMs
+    this.animate(deltaMs)
     gsap.updateRoot(this.clock / 1000)
     this.app?.renderer.render(this.app.stage)
   }
@@ -264,20 +270,39 @@ export class PixiWorldRenderer implements WorldRenderer {
     this.el = undefined
   }
 
+  /**
+   * Device px at the bottom of the viewport covered by a sheet. The stage is laid out in the
+   * visible part above it, so the street stays on screen while a panel is open.
+   */
+  setBottomInset(devicePx: number): void {
+    const inset = Math.max(0, Math.round(devicePx))
+    if (inset === this.bottomInset) return
+    this.bottomInset = inset
+    if (this.deviceSize) this.layout(this.deviceSize.width, this.deviceSize.height)
+  }
+
   private setViewport(viewport: { width: number; height: number; dpr?: number }): void {
     const dpr = viewport.dpr ?? 1
-    const deviceWidth = Math.max(1, Math.round(viewport.width * dpr))
-    const deviceHeight = Math.max(1, Math.round(viewport.height * dpr))
+    this.layout(
+      Math.max(1, Math.round(viewport.width * dpr)),
+      Math.max(1, Math.round(viewport.height * dpr)),
+    )
+  }
+
+  private layout(deviceWidth: number, deviceHeight: number): void {
+    this.deviceSize = { width: deviceWidth, height: deviceHeight }
     this.scale = fitScale({ width: deviceWidth, height: deviceHeight })
     this.logicalViewportWidth = logicalWidth(deviceWidth, this.scale)
 
     this.app?.renderer.resize(deviceWidth, deviceHeight)
     // The art reaches every edge: the stage sits with its ground line near 80% of the viewport,
     // sky extends above it and road below it. All offsets are whole device pixels.
-    const offsetY = stageOffsetY(deviceHeight, this.scale)
+    // Keep at least 40% of the viewport for the stage so a tall sheet cannot squash it away.
+    const inset = Math.min(this.bottomInset, Math.round(deviceHeight * 0.6))
+    const offsetY = stageOffsetY(deviceHeight - inset, this.scale)
     this.worldRoot.scale.set(this.scale)
     this.worldRoot.y = offsetY
-    this.layoutLayers(stageExtents(deviceHeight, this.scale))
+    this.layoutLayers(stageExtents(deviceHeight, this.scale, inset))
     this.updateCamera()
     this.drawBackground(deviceWidth, deviceHeight, offsetY)
   }
@@ -299,7 +324,7 @@ export class PixiWorldRenderer implements WorldRenderer {
         tile.height += Math.min(extent.bottom, Math.max(0, tile.texture.height - LOGICAL_HEIGHT))
       }
     }
-    this.protagonist.texture = this.textures.protagonist('idle')
+    this.applyFrame(true)
     this.protagonist.width = PROTAGONIST_WIDTH
     this.protagonist.height = PROTAGONIST_HEIGHT
     this.protagonist.y = GROUND_Y
@@ -328,7 +353,28 @@ export class PixiWorldRenderer implements WorldRenderer {
   }
 
   private setState(state: ProtagonistState): void {
-    this.protagonist.texture = this.textures.protagonist(state)
+    this.animState = state
+    this.animClock = 0
+    this.applyFrame(true)
+  }
+
+  /** Advance the protagonist's cycle; the texture only changes when the frame does. */
+  private animate(deltaMs: number): void {
+    this.animClock += deltaMs
+    this.applyFrame(false)
+  }
+
+  private applyFrame(force: boolean): void {
+    const frames = this.textures.protagonistFrames?.(this.animState)
+    if (!frames || frames.length === 0) {
+      if (force) this.protagonist.texture = this.textures.protagonist(this.animState)
+      return
+    }
+    const index =
+      Math.floor(this.animClock / (1000 / ANIMATION_FPS[this.animState])) % frames.length
+    if (!force && index === this.animFrame) return
+    this.animFrame = index
+    this.protagonist.texture = frames[index]!
   }
 
   private finishTravel(id: LocationId, state: ProtagonistState): void {

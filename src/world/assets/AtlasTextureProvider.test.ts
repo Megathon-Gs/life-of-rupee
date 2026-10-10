@@ -10,8 +10,8 @@ const manifest: AtlasManifest = {
   districts: {
     urban: {
       atlas: 'urban.test.png',
-      width: 512,
-      height: 256,
+      width: 736,
+      height: 304,
       frames: {
         home: { x: 0, y: 0, w: 160, h: 160 },
         'bank-default': { x: 160, y: 0, w: 160, h: 160 },
@@ -19,14 +19,17 @@ const manifest: AtlasManifest = {
         kirana: { x: 0, y: 160, w: 160, h: 96 },
         'filler-shophouse': { x: 160, y: 160, w: 160, h: 96 },
         'filler-apartment': { x: 320, y: 160, w: 160, h: 96 },
-        'protagonist-walk-east': { x: 480, y: 0, w: 32, h: 48 },
+        'protagonist-walk-east': { x: 480, y: 0, w: 256, h: 48 },
+        'protagonist-idle-east': { x: 0, y: 256, w: 128, h: 48 },
+        'protagonist-run-east': { x: 128, y: 256, w: 160, h: 48 },
+        'protagonist-arrive-east': { x: 288, y: 256, w: 160, h: 48 },
       },
     },
   },
 }
 
 const provider = new AtlasTextureProvider(manifest, {
-  urban: { source: new TextureSource({ width: 512, height: 256 }) },
+  urban: { source: new TextureSource({ width: 736, height: 304 }) },
 })
 const location = (id: string) => world.locations.find((l) => l.id === id) as LocationDef
 
@@ -57,6 +60,15 @@ describe('AtlasTextureProvider', () => {
     expect(texture.frame.width).toBe(32)
     expect(texture.frame.height).toBe(48)
     expect(texture.frame.x).toBe(480 + 32)
+  })
+
+  it('offers every frame of each cycle, and holds one arrive pose', () => {
+    expect(provider.protagonistFrames('walk')).toHaveLength(8)
+    expect(provider.protagonistFrames('idle')).toHaveLength(4)
+    expect(provider.protagonistFrames('run')).toHaveLength(5)
+    expect(provider.protagonistFrames('arrive')).toHaveLength(1)
+    const [first, second] = provider.protagonistFrames('walk')
+    expect(second!.frame.x - first!.frame.x).toBe(32)
   })
 
   it('returns a texture for every layer, and caches them', () => {
