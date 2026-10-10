@@ -19,7 +19,6 @@ import type { AppMode } from './mode'
 import { useDerived, useGame, useGameStore } from './store'
 import { createTextureProvider } from './textures'
 import { enterLocation, exitLocation, onArrive } from './transitions'
-import { toRendererVisuals } from './visuals'
 import styles from './App.module.css'
 
 const ids = world.locations.map((location) => location.id)
@@ -61,7 +60,7 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
 
   // Visuals follow the saved state: refreshed at mount and after each finished attempt is saved.
   const [savedDerived, setSavedDerived] = useState(() => store.derived())
-  const visuals = useMemo(() => toRendererVisuals(deriveWorldVisuals(savedDerived)), [savedDerived])
+  const visuals = useMemo(() => deriveWorldVisuals(savedDerived), [savedDerived])
   const level = levelAt(levels, locationId, derived.unlockedLocations)
   const location = world.locations.find((l) => l.id === locationId) ?? world.locations[0]!
   const placeName = t(location.labelKey, { ns: 'world' })

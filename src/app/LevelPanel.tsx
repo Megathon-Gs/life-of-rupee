@@ -47,10 +47,7 @@ export function LevelPanel({ level, levels, locale, test, onCompleted, onClose }
   const { t } = useTranslation('app')
   const store = useGameStore()
   const runnerRef = useRef<LevelRunnerImpl | null>(null)
-  // The step on screen, which follows the runner only when the interaction reports it is
-  // done. That covers both runner versions: newer runners wait for `complete()`
-  // (`interactionDone`), while older ones move on at the first correct choice even though a
-  // multi-field FormFiller is still being filled in.
+  // The step on screen; it changes only when the runner moves to another step.
   const [shown, setShown] = useState<RunnerView | null>(null)
   const [completion, setCompletion] = useState<LevelCompletion | null>(null)
   const callbacks = useRef({ onCompleted })
@@ -58,6 +55,8 @@ export function LevelPanel({ level, levels, locale, test, onCompleted, onClose }
     callbacks.current = { onCompleted }
   })
 
+  // Seed derived from the attempt count, so start and resume agree. The save's `inLevel` is
+  // built from reducer actions, which carry no seed, so resume passes this as the fallback.
   const seedFor = () => {
     if (test) return TEST_SEED
     const { save } = store.getState()
@@ -81,11 +80,9 @@ export function LevelPanel({ level, levels, locale, test, onCompleted, onClose }
     return true
   }
 
-  /** The interaction finished its step: tell runners that wait for it, then show the next step. */
+  /** The interaction finished its step: the runner moves on only on this signal. */
   const finishInteraction = () => {
-    act((r) =>
-      'complete' in r && typeof r.complete === 'function' ? r.complete() === true : false,
-    )
+    act((r) => r.complete())
     follow()
   }
 

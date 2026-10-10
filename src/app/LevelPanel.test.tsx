@@ -67,6 +67,32 @@ describe('LevelPanel', () => {
     expect(onClose).toHaveBeenCalled()
   })
 
+  it('records a wrong then a right choice before moving on', async () => {
+    const user = userEvent.setup()
+    const initial = save()
+    initial.position = {
+      locationId: initial.position.locationId,
+      inLevel: { levelId: fixtureBankLevel.id, stepIndex: 3, events: [] },
+    }
+    const { store } = setup(initial)
+    expect(stepType()).toBe('decision')
+
+    await user.click(screen.getByRole('button', { name: 'Wrong box' }))
+    expect(stepType()).toBe('decision')
+    expect(store.getState().save.position.inLevel).toMatchObject({
+      stepIndex: 3,
+      events: [
+        { kind: 'choice', stepId: 'decision', correct: false, error: 'bank.wrong_document' },
+      ],
+    })
+
+    await user.click(screen.getByRole('button', { name: 'Right box' }))
+    expect(stepType()).toBe('consequence')
+    const inLevel = store.getState().save.position.inLevel
+    expect(inLevel?.stepIndex).toBe(4)
+    expect(inLevel?.events.map((e) => e.kind === 'choice' && e.correct)).toEqual([false, true])
+  })
+
   it('resumes a saved mid-level snapshot at the same step', () => {
     const initial = save()
     initial.position = {

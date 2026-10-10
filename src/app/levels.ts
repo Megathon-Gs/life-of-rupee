@@ -37,7 +37,7 @@ export function levelNamespace(level: LevelDef): string {
   return colon > 0 ? key.slice(0, colon) : 'common'
 }
 
-/** Stable per-attempt transfer seed, so a reload mid-level resumes the same variant. */
+/** Stable per-attempt transfer seed: a retry draws a new variant, a reload keeps the same one. */
 export function attemptSeed(localId: string, levelId: string, attemptNumber: number): number {
   let hash = 2166136261
   for (const char of `${localId}:${levelId}:${attemptNumber}`) {
