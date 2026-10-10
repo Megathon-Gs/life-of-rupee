@@ -6,10 +6,21 @@ import {
   LocationIdSchema,
   P1_ERROR_CATEGORIES,
   P1_LOCATION_IDS,
+  AttemptRecordSchema,
+  WORLD_FLAGS,
   WorldEffectSchema,
 } from './index'
 
 describe('P1 identifiers', () => {
+  it('exports both world flags and accepts the Level 9 installment signal', () => {
+    expect(WORLD_FLAGS).toEqual(['fraud.seenWarningSigns', 'loan.activeInstallment'])
+    const key = 'loan.activeInstallment'
+    const flags = { [key]: 'true' }
+    expect(WorldEffectSchema.parse({ key, value: 'true' })).toEqual({ key, value: 'true' })
+    expect(AttemptRecordSchema.shape.worldChoices.parse(flags)).toEqual(flags)
+    expect(DerivedSchema.shape.worldFlags.parse(flags)).toEqual(flags)
+  })
+
   it('exports the P1 locations accepted by the existing schema', () => {
     expect(P1_LOCATION_IDS).toEqual(['phone-shop', 'showroom', 'capstone'])
     for (const id of P1_LOCATION_IDS) {

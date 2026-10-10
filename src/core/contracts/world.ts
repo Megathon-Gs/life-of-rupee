@@ -2,6 +2,9 @@ import { z } from 'zod'
 import type { WorldEffect } from './content'
 import type { LocationId } from './ids'
 
+/** Shared flags; Level 9 records an accepted loan for Level 6 via loan.activeInstallment. */
+export const WORLD_FLAGS = ['fraud.seenWarningSigns', 'loan.activeInstallment'] as const
+
 /** Level 5 completion flag used by the Level 9 callback. */
 export const FRAUD_WARNING_WORLD_EFFECT = {
   key: 'fraud.seenWarningSigns',
