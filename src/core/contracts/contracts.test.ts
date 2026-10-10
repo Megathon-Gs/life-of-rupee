@@ -127,6 +127,25 @@ describe('contract fixtures', () => {
       SaveFileSchema.safeParse({ ...save, position: { ...save.position, inLevel } }).success,
     ).toBe(false)
   })
+  it('accepts old and seeded in-level snapshots', () => {
+    const inLevel = {
+      levelId: 'l02-bank-account',
+      stepIndex: 1,
+      events: [{ kind: 'hint', stepId: 'l02-lesson', level: 1 }],
+    }
+    expect(
+      SaveFileSchema.safeParse({ ...save, position: { ...save.position, inLevel } }).success,
+    ).toBe(true)
+    expect(
+      SaveFileSchema.safeParse({
+        ...save,
+        position: {
+          ...save.position,
+          inLevel: { ...inLevel, seed: 42, startedAt: '2026-01-01T00:00:00Z' },
+        },
+      }).success,
+    ).toBe(true)
+  })
   it('rejects non-dotted error codes in interaction configs', () => {
     const formFiller = {
       titleKey: 't',

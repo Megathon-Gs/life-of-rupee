@@ -48,6 +48,8 @@ export const InLevelSnapshotSchema = z
     levelId: LevelIdSchema,
     stepIndex: z.number().int().nonnegative(),
     events: z.array(InteractionEventSchema),
+    seed: z.number().int().optional(),
+    startedAt: z.string().optional(),
   })
   .strict()
 /** Mid-level progress saved so closing the tab resumes at the same step. */
