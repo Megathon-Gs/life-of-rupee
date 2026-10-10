@@ -1,0 +1,28 @@
+{
+  "title": "Show my teacher",
+  "note": "This summary stays on this phone. Nothing is sent or saved.",
+  "levelsCompleted": "{count, plural, =0 {No levels finished yet} one {# level finished} other {# levels finished}}",
+  "starsHeading": "Stars by skill",
+  "stars": "{count, plural, =0 {No stars yet} one {# star} other {# stars}}",
+  "errorsHeading": "Mistakes to practise",
+  "errorsEmpty": "No mistakes to practise yet.",
+  "errorCount": "{count, plural, one {# time} other {# times}}",
+  "back": "Back",
+  "error": {
+    "upi": {
+      "pin_to_receive": "Sharing a PIN to get money",
+      "wrong_payee": "Paying the wrong person"
+    },
+    "fraud": {
+      "shared_otp": "Sharing an OTP with someone",
+      "clicked_link": "Tapping a link in a message",
+      "urgency": "Acting fast because someone pressured you"
+    },
+    "loan": {
+      "ignored_total_cost": "Ignoring the total cost of a loan",
+      "emi_only": "Seeing only the monthly payment",
+      "missed_payment": "Missing a loan payment"
+    },
+    "unknown": "Another mistake"
+  }
+}
