@@ -1,3 +1,3 @@
 A
-B
+BASE-EDIT
 C
