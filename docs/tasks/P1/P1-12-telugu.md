@@ -6,7 +6,7 @@ Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P1-1
 `src/content/locales/te/**`
 
 ## Change
-- Work with the NGO translator to replace every `needsReview` Telugu string in `common`, `l02`, `l04`, `l05`, `l09`, `capstone`, `skilltree` and `teacher` with reviewed text; clear the markers.
+- Work with the NGO translator to replace every `needsReview` Telugu string in every namespace (`common`, `ui`, `interactions`, `world`, `app`, `l02`, `l04`, `l05`, `l09`, `capstone`, `skilltree`, `teacher`) with reviewed text; clear the markers.
 - Run the pseudo-locale and Telugu screenshot sets at 360 px; fix clipping by shortening strings with the translator, not by shrinking type.
 
 ## Constraints

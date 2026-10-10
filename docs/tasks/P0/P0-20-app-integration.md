@@ -1,6 +1,6 @@
 # Task brief: App integration
 
-Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P0-20 · Depends on: P0-05, P0-07, P0-08, P0-09, P0-10, P0-15, P0-16, P0-17
+Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P0-20 · Depends on: P0-07, P0-08, P0-09, P0-10, P0-11, P0-12, P0-14, P0-15, P0-16, P0-17
 
 ## Target
 `src/app/**`, `src/main.tsx`, `tests/e2e/fixtures/**`, `tests/e2e/app.spec.ts`, `src/content/locales/{en,te}/app.json`
@@ -8,7 +8,7 @@ Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P0-2
 ## Change
 Wire the modules into one app:
 - Zustand store wrapping the P0-07 reducer; `derive` memoized.
-- Boot: `SaveStore.load` → profile picker (create / switch / remove) → mount `WorldRenderer` in the world band and `attachTravelInput` on it → React UI layer on top.
+- Boot: i18n init (P0-12) → `createSaveStore({ migrate })` with P0-07's migrator → `load` → profile picker (create / switch / remove) → mount `WorldRenderer` in the world band and `attachTravelInput` on it → React UI layer on top.
 - Travel commands → `renderer.travelTo` → `travelDone` back to the machine → `travelled` action.
 - Arrival at a location with an available level → door cue → Enter opens `PanelShell` → `LevelRunner` drives `DialogueSheet` and the registered interaction → `ResultsScreen` → `attemptCompleted` → save → `deriveWorldVisuals` → `renderer.applyVisuals`.
 - Panel open → world band `inert` + `panelOpened` to the travel machine.

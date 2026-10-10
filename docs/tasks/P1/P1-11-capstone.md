@@ -1,6 +1,6 @@
 # Task brief: Capstone centre concept, behind a flag
 
-Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P1-11 · Depends on: P1-01, P1-05
+Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P1-11 · Depends on: P1-01
 
 ## Target
 `src/ui/screens/Capstone/**`, `src/content/capstone.ts`, `src/content/locales/*/capstone.json`

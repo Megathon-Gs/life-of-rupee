@@ -1,6 +1,6 @@
 # Task brief: Level 2 content — financial identity and bank account ⛩
 
-Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P0-18 · Depends on: P0-04, P0-12 · Gate: NGO educator signs off the content
+Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P0-18 · Depends on: P0-04, P0-06, P0-12 · Gate: NGO educator signs off the content
 
 ## Target
 `src/content/levels/l02/**` (`level.ts`, `sources.ts`), `src/content/levels/index.ts`, `src/content/locales/en/l02.json`, `src/content/locales/te/l02.json`
@@ -10,7 +10,7 @@ Write Level 2 (product plan §6 table row 2; Prompt E) as data:
 - Hook (≤ 3 NPC lines), interactive micro-lesson, Travel to `bank`, Decision using `FormFiller` and `DocumentInspector` configs, Consequence, Transfer pool with ≥ 2 variants (new fictional person and documents).
 - Teach: accepted identity documents, that Aadhaar is not universally compulsory for every financial task, and the distinct rules for minors' accounts — each as a `ClaimRef` backed by a current official source (RBI KYC Master Direction and related RBI pages) in `l02/sources.ts`, fetched and read, not from memory.
 - Error categories (`kyc.*`, `bank.*`) with review text: your choice, the safer choice, the concept, why it matters.
-- `worldEffects`: the flag that makes the teller greet the player.
+- `worldEffects`: `{ key: 'bank.accountOpened', value: 'true' }` (the flag P0-17 maps to the greeting teller). Level ID `l02-bank-account`.
 - One scripted "realistic mistake" path that scores 2 stars, documented for P0-23.
 - Telugu: a machine-assisted draft clearly marked `needsReview` for the NGO translator.
 - Register the level in `src/content/levels/index.ts`.

@@ -7,7 +7,7 @@ Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P0-0
 
 ## Change
 - `db.ts` — Dexie database with stores `profiles`, `saves`, `snapshots`, `quarantine`.
-- `saveStore.ts` — implements `SaveStore`: `save` is debounced to 300 ms; `flush` writes immediately; keeps 3 rolling snapshots per profile; on `load`, a save failing the `SaveFile` schema moves to `quarantine` and the newest valid snapshot loads.
+- `saveStore.ts` — `createSaveStore({ migrate })` implements `SaveStore`. `migrate` is injected (the app passes P0-07's migrator; tests pass identity), so this task does not depend on P0-07. `save` is debounced to 300 ms; `flush` writes immediately; keeps 3 rolling snapshots per profile; on `load`, a save that fails `migrate` or the `SaveFile` schema moves to `quarantine` and the newest valid snapshot loads.
 - `lifecycle.ts` — `installLifecycleFlush(store)` flushes on `visibilitychange` (hidden) and `pagehide`.
 - `profiles.ts` — create, list and remove local profiles. Display identity = avatar ID + a generated two-word fictional name ("Blue Kite") from a fixed word list. No real-name field exists anywhere.
 

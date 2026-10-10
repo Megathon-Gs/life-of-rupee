@@ -7,8 +7,8 @@ Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P0-0
 
 ## Change
 Types **and** Zod schemas (one source of truth: export the schema and `z.infer` the type) for:
-- `ids.ts` — branded `LevelId`, `LocationId`, `SkillNodeId`, `InteractionId`, `SourceId`; `ErrorCategory` as a dotted string.
-- `content.ts` — `LevelDef` and its steps (Hook, Lesson, Travel, Decision, Consequence, Transfer with a variant pool), `WorldEffect`, `ClaimRef { textKey, sourceIds, reviewerRole, reviewedOn }`, `SourceDef`, `LocationDef { id, x, district, doorX, buildingAsset, labelKey }`, `WorldDef`, `SkillTreeDef` (5 branches, nodes, edges).
+- `ids.ts` — branded `LevelId`, `LocationId`, `SkillNodeId`, `InteractionId`, `SourceId` (plain strings, e.g. level `l02-bank-account`, location `bank`); `ErrorCategory` as a dotted string.
+- `content.ts` — `LevelDef` and its steps (Hook, Lesson, Travel, Decision, Consequence, Transfer with a variant pool), `WorldEffect { key, value }` (both strings), `ClaimRef { textKey, sourceIds, reviewerRole, reviewedOn }`, `SourceDef`, `LocationDef { id, x, district, doorX, buildingAsset, labelKey }`, `WorldDef`, `SkillTreeDef` (5 branches, nodes, edges).
 - `events.ts` — `InteractionEvent` exactly as in the technical plan.
 - `scoring.ts` — `Rubric` (penalty weights, critical cap, transfer cap), `ScoreResult { stars, penalty, capsApplied, reviewItems }`, `ReviewItem`, `ErrorCategoryDef { code, severity, skillNode, reviewKey }`, `ScoreFn` signature.
 - `save.ts` — `SaveFile`, `AttemptRecord`, `Settings` (add `updatedAt: string`), `seen: string[]` (transitions already watched), `Derived`. All objects `.strict()`.

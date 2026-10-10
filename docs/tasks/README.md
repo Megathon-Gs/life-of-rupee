@@ -59,13 +59,13 @@ flowchart LR
   T01 --> T04
   T01 --> T13
   T01 --> T14
-  T04 --> T05 & T06 & T07 & T08 & T09 & T10 & T11 & T12 & T17
+  T04 --> T05 & T06 & T07 & T08 & T09 & T10 & T11 & T12 & T15 & T16 & T17 & T18
   T06 --> T15
   T11 --> T16
-  T12 --> T18
+  T06 & T12 --> T18
   T03 --> T19
   T13 --> T19
-  T05 & T07 & T08 & T09 & T10 & T15 & T16 & T17 --> T20
+  T07 & T08 & T09 & T10 & T11 & T12 & T14 & T15 & T16 & T17 --> T20
   T20 --> T21
   T20 --> T22
   T19 --> T22
@@ -88,12 +88,12 @@ flowchart LR
 | [P0-12](P0/P0-12-content-tooling.md) | Content lint, sources, i18n | P0-04 | `tools/content-lint/`, `src/content/sources.ts`, `src/i18n/`, `src/content/locales/*/common.json` | Fast |
 | [P0-13](P0/P0-13-asset-lint.md) | Asset lint and atlas build | P0-01 | `tools/asset-lint/`, `tools/assetpack/`, `art/README.md` | Fast |
 | [P0-14](P0/P0-14-e2e-harness.md) | E2E harness and CI quality gates | P0-01 | `playwright.config.ts`, `tests/e2e/harness/`, `tests/privacy/`, `lighthouserc.json`, `.github/workflows/e2e.yml` | Fast |
-| [P0-15](P0/P0-15-level-runner.md) | Level runner | P0-06 | `src/level-runner/` | Strong reasoning |
-| [P0-16](P0/P0-16-interactions-bank.md) | FormFiller and DocumentInspector | P0-11 | `src/ui/interactions/` | Fast |
+| [P0-15](P0/P0-15-level-runner.md) | Level runner | P0-04, P0-06 | `src/level-runner/` | Strong reasoning |
+| [P0-16](P0/P0-16-interactions-bank.md) | FormFiller and DocumentInspector | P0-04, P0-11 | `src/ui/interactions/` | Fast |
 | [P0-17](P0/P0-17-world-content.md) | World content and world visuals | P0-04 | `src/content/world.ts`, `src/content/skillTree.ts`, `src/core/worldVisuals/` | Fast |
-| [P0-18](P0/P0-18-level-02.md) | Level 2 content ⛩ | P0-12 | `src/content/levels/l02/`, `src/content/levels/index.ts`, `src/content/locales/*/l02.json` | Strong reasoning + NGO educator |
+| [P0-18](P0/P0-18-level-02.md) | Level 2 content ⛩ | P0-04, P0-06, P0-12 | `src/content/levels/l02/`, `src/content/levels/index.ts`, `src/content/locales/*/l02.json` | Strong reasoning + NGO educator |
 | [P0-19](P0/P0-19-asset-kit.md) | Asset kit generation ⛩ | P0-03, P0-13 | `art/raw/`, `art/approved/` | PixelLab MCP + product owner |
-| [P0-20](P0/P0-20-app-integration.md) | App integration | P0-05, 07, 08, 09, 10, 15, 16, 17 | `src/app/`, `src/main.tsx`, `tests/e2e/fixtures/` | Strong reasoning |
+| [P0-20](P0/P0-20-app-integration.md) | App integration | P0-07, 08, 09, 10, 11, 12, 14, 15, 16, 17 | `src/app/`, `src/main.tsx`, `tests/e2e/fixtures/` | Strong reasoning |
 | [P0-21](P0/P0-21-bank-transition.md) | Bank entry transition and arrival cue | P0-20 | `src/transitions/`, `src/app/transitions.ts` | Strong reasoning + real phone |
 | [P0-22](P0/P0-22-real-art.md) | Real art integration | P0-19, P0-20 | `src/world/assets/`, `src/app/textures.ts`, `public/assets/` | Fast |
 | [P0-23](P0/P0-23-demo-journey.md) | Demo journey test, gate G0 ⛩ | P0-14, 18, 21, 22 | `tests/e2e/demo-journey.spec.ts`, `tests/visual/` | Fast + product owner |
@@ -107,7 +107,7 @@ flowchart LR
 | 3 | Wave A: P0-05 to P0-14, P0-17 · Wave B as each parent merges: P0-15, P0-16, P0-18, P0-19 | 11 |
 | 4 | P0-20 → {P0-21, P0-22} → P0-23 | 2 |
 
-The code critical path is P0-01 → P0-04 → P0-06 → P0-15 → P0-20 → P0-21 → P0-23. The art path (P0-03 → product owner pick → P0-19 → P0-22) has two human waits and is the likelier bottleneck, so start P0-03 on day one.
+The code critical path is P0-01 → P0-04 → P0-06 → P0-15 → P0-20 → P0-21 → P0-23 (P0-20 also waits for P0-14's harness and P0-12's i18n). The art path (P0-03 → product owner pick → P0-19 → P0-22) has two human waits and is the likelier bottleneck, so start P0-03 on day one.
 
 ## P1 — Hackathon demo
 
@@ -127,7 +127,6 @@ flowchart LR
   T01 --> T10["P1-10 Skill tree + replay"]
   T01 --> T13["P1-13 Teacher summary (optional)"]
   T01 --> T11["P1-11 Capstone concept"]
-  T05 --> T11
   T06 & T07 & T08 & T10 & T11 --> T12
   T13 -.->|if included| T12["P1-12 Telugu pass ⛩"]
   T02 & T03 & T04 & T05 & T06 & T07 & T08 & T09 & T10 & T11 & T12 --> T14["P1-14 Integration + G1 ⛩"]
@@ -145,7 +144,7 @@ flowchart LR
 | [P1-08](P1/P1-08-level-09.md) | Level 9: loans ⛩ | P1-01 | `src/content/levels/l09/`, `src/content/locales/*/l09.json` | Strong reasoning + NGO educator |
 | [P1-09](P1/P1-09-conditional-steps.md) | Conditional steps and world memory | P1-01 | `src/level-runner/`, `src/core/worldVisuals/` | Strong reasoning |
 | [P1-10](P1/P1-10-skill-tree-replay.md) | Full skill tree and replay-to-improve | P1-01 | `src/ui/screens/SkillTree/`, `src/ui/screens/Results/`, `locales/*/skilltree.json` | Fast |
-| [P1-11](P1/P1-11-capstone.md) | Capstone centre concept, behind flag | P1-01, P1-05 | `src/ui/screens/Capstone/`, `src/content/capstone.ts` | Fast |
+| [P1-11](P1/P1-11-capstone.md) | Capstone centre concept, behind flag | P1-01 | `src/ui/screens/Capstone/`, `src/content/capstone.ts` | Fast |
 | [P1-12](P1/P1-12-telugu.md) | Telugu pass for P1 strings ⛩ | P1-06, 07, 08, 10, 11 (13 if included) | `src/content/locales/te/` | Translator + fast agent |
 | [P1-13](P1/P1-13-teacher-summary.md) | On-device teacher summary (optional) | P1-01 | `src/ui/screens/TeacherSummary/`, `locales/*/teacher.json` | Fast |
 | [P1-14](P1/P1-14-integration-g1.md) | P1 integration and gate G1 ⛩ | P1-02 to P1-12 | `src/content/world.ts`, both registries, `src/app/`, `tests/e2e/p1/` | Strong reasoning + NGO educator |
@@ -155,7 +154,7 @@ flowchart LR
 | Run | Tasks | Max parallel agents |
 | --- | --- | --- |
 | 5 | P1-01, P1-05 | 2 |
-| 6 | P1-02, 03, 04, 06, 07, 08, 09, 10, 13 · then P1-11 (after P1-05), then P1-12 (after the levels, P1-10 and P1-11) | 9 |
+| 6 | P1-02, 03, 04, 06, 07, 08, 09, 10, 11, 13 · then P1-12 (after the levels, P1-10 and P1-11) | 10 |
 | 7 | P1-14 | 1 |
 
 ## P2 and P3 — backlog, not yet briefed

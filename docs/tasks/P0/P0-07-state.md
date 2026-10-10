@@ -7,7 +7,7 @@ Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P0-0
 
 ## Change
 - `actions.ts` + `reducer.ts` — pure reducer over `SaveFile`: `profileCreated`, `travelled`, `levelStarted`, `eventRecorded`, `stepAdvanced`, `attemptCompleted`, `settingsUpdated`, `transitionSeen`. Time and IDs arrive in action payloads; the reducer never reads clocks or randomness.
-- `derive.ts` — `derive(save, content): Derived`: best and first stars per level, completed skills, unlocked locations, world flags and fictional wallet replayed from `worldChoices` in attempt order.
+- `derive.ts` — `derive(save, content): Derived`: best and first stars per level, completed skills, unlocked locations (a location with `unlockedBy: LevelId[]` unlocks when all those levels are completed; none → always unlocked); world flags from the `worldEffects` of each completed level plus `worldChoices`, replayed in attempt order; fictional wallet from `worldChoices`.
 - `merge.ts` — `merge(a, b)`: union of attempts by ID, settings by latest `updatedAt`, position from the save with the latest attempt.
 - `migrations/` — numbered migration runner with a v1 baseline and fixture saves.
 
@@ -23,6 +23,7 @@ Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P0-0
 
 ## Observable acceptance
 - [ ] `pnpm test src/core/state` passes
+- [ ] Completing a fixture level whose `worldEffects` sets `bank.accountOpened` → `worldFlags['bank.accountOpened'] === 'true'`
 - [ ] Attempts on one level with 2 then 3 stars → `bestStars` 3, `firstStars` 2
 - [ ] Property: `merge` is commutative, associative and idempotent on attempts
 - [ ] Property: reducer is pure (same state + action → deep-equal result; input not mutated)

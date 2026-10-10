@@ -6,9 +6,9 @@ Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P0-1
 `src/content/world.ts`, `src/content/skillTree.ts`, `src/core/worldVisuals/**`, `src/content/locales/{en,te}/world.json`
 
 ## Change
-- `world.ts` — the P0 street as a `WorldDef`: locations `home`, `bank`, `kirana`, and two filler facades, running urban → rural-connected, with snap `x` positions on the 16 px grid, `doorX`, district tags and `labelKey`s.
+- `world.ts` — the P0 street as a `WorldDef` with location IDs `home`, `bank`, `kirana`, `filler-1`, `filler-2`, running urban → rural-connected, with snap `x` positions on the 16 px grid, `doorX`, district tags and `labelKey`s.
 - `skillTree.ts` — the 5 branches from product plan §7 (Money Management, Financial Access, Financial Safety, Borrowing & Responsibilities, Understanding Growth & Economy) with nodes mapped to the 12 levels and edges between them.
-- `worldVisuals/derive.ts` — `deriveWorldVisuals(derived): WorldVisuals`. P0 rule: Level 2 completed → bank teller variant `greets`. Pure function.
+- `worldVisuals/derive.ts` — `deriveWorldVisuals(derived): WorldVisuals`. P0 rule: world flag `bank.accountOpened` = `'true'` → bank teller variant `greets`. Pure function.
 
 New strings go in the `world` namespace only (English + a Telugu draft marked `needsReview`); never edit another namespace.
 
@@ -25,7 +25,7 @@ New strings go in the `world` namespace only (English + a Telugu draft marked `n
 ## Observable acceptance
 - [ ] `pnpm test src/core/worldVisuals src/content` passes
 - [ ] `world.ts` and `skillTree.ts` validate against their schemas; snap positions are strictly increasing multiples of 16
-- [ ] Fresh derived state → teller `default`; Level 2 completed (any stars ≥ 1) → teller `greets`
+- [ ] Fresh derived state → teller `default`; `worldFlags['bank.accountOpened'] === 'true'` → teller `greets`
 - [ ] Every level 1–12 maps to at least one skill node
 
 ## Definition of Done
