@@ -18,7 +18,7 @@ import { levelAt } from './levels'
 import type { AppMode } from './mode'
 import { useDerived, useGame, useGameStore } from './store'
 import { createTextureProvider } from './textures'
-import { enterLocation, exitLocation, onArrive } from './transitions'
+import { BANK_ENTRY_ID, onArrive, transitionPanel } from './transitions'
 import styles from './App.module.css'
 
 const ids = world.locations.map((location) => location.id)
@@ -56,6 +56,12 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
   const [ready, setReady] = useState(false)
   const [travelling, setTravelling] = useState(false)
   const [panel, setPanel] = useState<Panel | null>(null)
+  const [skipTransition, setSkipTransition] = useState<(() => void) | null>(null)
+  const [transitioning, setTransitioning] = useState(false)
+  const panelHostRef = useRef<HTMLDivElement>(null)
+  const entryRef = useRef<{ door: DOMRect; seen: boolean } | null>(null)
+  const transitionRef = useRef<AbortController | null>(null)
+  const closingRef = useRef(false)
   const arrivedRef = useRef(false)
 
   // Visuals follow the saved state: refreshed at mount and after each finished attempt is saved.
@@ -109,7 +115,6 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
       test: mode.test,
     })
     rendererRef.current = renderer
-    renderer.onArrive((id) => void onArrive(id))
     renderer.mount(host)
     let cancelled = false
     let initialised = false
@@ -134,6 +139,7 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
       detach()
       window.removeEventListener('resize', onResize)
       rendererRef.current = null
+      transitionRef.current?.abort()
       // Destroying before Pixi has initialised throws, so a fast unmount (StrictMode, a quick
       // profile switch) waits for init; the renderer then removes its own canvas.
       if (initialised) renderer.destroy()
@@ -151,8 +157,8 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
   // The ticker only exists once the renderer is ready; test mode steps it by hand.
   useEffect(() => {
     if (!ready || mode.test) return
-    rendererRef.current?.setPaused(panel !== null)
-  }, [ready, panel, mode.test])
+    rendererRef.current?.setPaused(panel !== null && !transitioning)
+  }, [ready, panel, transitioning, mode.test])
 
   // After a trip ends at a building with a level, the door is the focused control,
   // so Enter goes straight in.
@@ -160,21 +166,107 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
     if (travelling || !arrivedRef.current) return
     arrivedRef.current = false
     doorRef.current?.focus()
-  }, [travelling, locationId])
+    return onArrive(doorRef.current, reducedMotion)
+  }, [travelling, locationId, reducedMotion])
+
+  useLayoutEffect(() => {
+    const entry = entryRef.current
+    const dialog = panelHostRef.current?.querySelector<HTMLElement>('[role="dialog"]')
+    if (panel?.kind !== 'level' || !entry || !dialog) return
+    const controller = new AbortController()
+    transitionRef.current = controller
+    const bank = panel.level.location === 'bank'
+    void Promise.all([
+      bank
+        ? rendererRef.current?.transitionLocation(
+            panel.level.location,
+            reducedMotion,
+            false,
+            controller.signal,
+          )
+        : undefined,
+      bank
+        ? transitionPanel({
+            door: entry.door,
+            panel: dialog,
+            reducedMotion,
+            seen: entry.seen,
+            test: mode.test,
+            signal: controller.signal,
+            onSkipReady: (skip) => {
+              if (
+                !skip &&
+                document.activeElement?.getAttribute('data-testid') === 'skip-transition'
+              ) {
+                dialog.querySelector<HTMLButtonElement>('button')?.focus()
+              }
+              setSkipTransition(() => skip)
+            },
+          })
+        : undefined,
+    ]).then(() => {
+      if (controller.signal.aborted) return
+      entryRef.current = null
+      if (bank) {
+        store.getState().dispatch({ type: 'transitionSeen', id: BANK_ENTRY_ID })
+        void saveStore.flush().catch((error: unknown) => console.error('Save failed', error))
+      }
+      setTransitioning(false)
+    })
+    return () => controller.abort()
+  }, [panel, reducedMotion, mode.test, store, saveStore])
 
   const openPanel = (next: Panel) => {
     setPanel(next)
     machine.send({ kind: 'panelOpened' })
   }
-  const closePanel = () => {
+  const closePanel = async () => {
+    if (closingRef.current) return
+    closingRef.current = true
     const closing = panel
+    entryRef.current = null
+    transitionRef.current?.abort()
+    setSkipTransition(null)
+    if (closing?.kind === 'level') {
+      const dialog = panelHostRef.current?.querySelector<HTMLElement>('[role="dialog"]')
+      const door = doorRef.current?.getBoundingClientRect()
+      const controller = new AbortController()
+      transitionRef.current = controller
+      setTransitioning(true)
+      if (closing.level.location === 'bank' && dialog && door) {
+        await Promise.all([
+          rendererRef.current?.transitionLocation(
+            closing.level.location,
+            reducedMotion,
+            true,
+            controller.signal,
+          ),
+          transitionPanel({
+            door,
+            panel: dialog,
+            reducedMotion,
+            seen: true,
+            reverse: true,
+            test: mode.test,
+            signal: controller.signal,
+            onSkipReady: () => {},
+          }),
+        ])
+      }
+      if (controller.signal.aborted) return
+    }
+    setTransitioning(false)
     setPanel(null)
     machine.send({ kind: 'panelClosed' })
-    if (closing?.kind === 'level') void exitLocation(closing.level.location)
+    closingRef.current = false
   }
   const enter = () => {
-    if (!level || travelling) return
-    void enterLocation(level.location)
+    if (!level || travelling || panel || transitioning) return
+    setSkipTransition(null)
+    const door = doorRef.current?.getBoundingClientRect()
+    if (!door) return
+    entryRef.current = { door, seen: store.getState().save.seen.includes(BANK_ENTRY_ID) }
+    setTransitioning(true)
     openPanel({ kind: 'level', level })
   }
   const step = (dir: 1 | -1) => {
@@ -199,6 +291,7 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
         data-ready={String(ready)}
         data-location={locationId}
         data-travelling={String(travelling)}
+        data-transitioning={String(transitioning)}
         data-visuals={JSON.stringify(visuals)}
         data-stars={JSON.stringify(derived.bestStars)}
         inert={panel !== null}
@@ -222,42 +315,50 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
           </div>
         )}
       </div>
-      <PanelShell
-        open={panel !== null}
-        onOpenChange={(open) => {
-          if (!open) closePanel()
-        }}
-        title={panelTitle}
-        footer={
-          panel?.kind === 'settings' ? (
-            <>
-              <Button data-testid="profile-switch" onClick={onSwitchProfile}>
-                {t('settings.switchProfile')}
+      <div ref={panelHostRef}>
+        <PanelShell
+          open={panel !== null}
+          onOpenChange={(open) => {
+            if (!open) closePanel()
+          }}
+          title={panelTitle}
+          footer={
+            panel?.kind === 'settings' ? (
+              <>
+                <Button data-testid="profile-switch" onClick={onSwitchProfile}>
+                  {t('settings.switchProfile')}
+                </Button>
+                <Button variant="primary" onClick={closePanel}>
+                  {t('settings.done', { ns: 'ui' })}
+                </Button>
+              </>
+            ) : skipTransition ? (
+              <Button variant="primary" data-testid="skip-transition" onClick={skipTransition}>
+                {t('transition.skip')}
               </Button>
-              <Button variant="primary" onClick={closePanel}>
-                {t('settings.done', { ns: 'ui' })}
-              </Button>
-            </>
-          ) : undefined
-        }
-      >
-        {panel?.kind === 'settings' && (
-          <SettingsPanel settings={settings} onChange={changeSettings} />
-        )}
-        {panel?.kind === 'level' && (
-          <LevelPanel
-            level={panel.level}
-            levels={levels}
-            locale={settings.locale}
-            test={mode.test}
-            onCompleted={async () => {
-              await saveStore.flush().catch((error: unknown) => console.error('Save failed', error))
-              setSavedDerived(store.derived())
-            }}
-            onClose={closePanel}
-          />
-        )}
-      </PanelShell>
+            ) : undefined
+          }
+        >
+          {panel?.kind === 'settings' && (
+            <SettingsPanel settings={settings} onChange={changeSettings} />
+          )}
+          {panel?.kind === 'level' && (
+            <LevelPanel
+              level={panel.level}
+              levels={levels}
+              locale={settings.locale}
+              test={mode.test}
+              onCompleted={async () => {
+                await saveStore
+                  .flush()
+                  .catch((error: unknown) => console.error('Save failed', error))
+                setSavedDerived(store.derived())
+              }}
+              onClose={closePanel}
+            />
+          )}
+        </PanelShell>
+      </div>
     </>
   )
 }

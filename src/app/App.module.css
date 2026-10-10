@@ -52,6 +52,8 @@
 .dialogue > section {
   position: relative;
   inset: auto;
+  translate: none;
+  width: auto;
 }
 
 .picker {

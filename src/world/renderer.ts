@@ -73,6 +73,7 @@ export class PixiWorldRenderer implements WorldRenderer {
   private readonly tiles = new Map<LayerName, TilingSprite>()
   private readonly buildings = new Map<string, Sprite>()
   private readonly protagonist = new Sprite()
+  private readonly doorLight = new Graphics()
 
   private app?: Application
   private el?: HTMLElement
@@ -111,6 +112,8 @@ export class PixiWorldRenderer implements WorldRenderer {
     }
 
     this.protagonist.anchor.set(0.5, 1)
+    this.doorLight.alpha = 0
+    this.worldRoot.addChild(this.doorLight)
     this.worldRoot.addChild(this.protagonist)
 
     for (const location of this.world.locations) {
@@ -239,6 +242,63 @@ export class PixiWorldRenderer implements WorldRenderer {
     this.arriveCbs.push(cb)
   }
 
+  /** Ease the camera toward the entrance before showing the lesson; reverse on exit. */
+  async transitionLocation(
+    id: LocationId,
+    reducedMotion: boolean,
+    reverse = false,
+    signal?: AbortSignal,
+  ): Promise<void> {
+    if (signal?.aborted) return
+    if (reducedMotion) {
+      if (reverse) {
+        this.doorLight.alpha = 0
+        this.updateCamera()
+        if (this.test) this.step(0)
+      }
+      return
+    }
+    const location = this.world.locations.find((item) => item.id === id)
+    if (!location) return
+    const center = this.clampCamera(this.protagonistX - this.logicalViewportWidth / 2)
+    const entrance = this.clampCamera(location.doorX - this.logicalViewportWidth * 0.38)
+    this.setState('idle')
+    this.doorLight.clear().ellipse(0, 0, 18, 45).fill({ color: 0xffdc82 })
+    this.doorLight.y = GROUND_Y - BUILDING_HEIGHT * 0.25
+    if (this.test) {
+      this.cameraX = reverse ? center : entrance
+      this.doorLight.alpha = reverse ? 0 : 0.55
+      this.updateCameraLayers()
+      this.step(0)
+      return
+    }
+    await Promise.all([
+      this.tween(
+        { value: this.cameraX },
+        {
+          value: reverse ? center : entrance,
+          duration: 0.3,
+          onUpdate: (value) => {
+            this.cameraX = value
+            this.updateCameraLayers()
+          },
+        },
+        signal,
+      ),
+      this.tween(
+        { value: this.doorLight.alpha },
+        {
+          value: reverse ? 0 : 0.55,
+          duration: 0.3,
+          onUpdate: (value) => {
+            this.doorLight.alpha = value
+          },
+        },
+        signal,
+      ),
+    ])
+  }
+
   setPaused(paused: boolean): void {
     this.paused = paused
     if (!this.app) return
@@ -301,15 +361,20 @@ export class PixiWorldRenderer implements WorldRenderer {
   }
 
   private updateCamera(): void {
-    const maxCamera = Math.max(0, this.worldWidth - this.logicalViewportWidth)
-    this.cameraX = Math.min(
-      maxCamera,
-      Math.max(0, this.protagonistX - this.logicalViewportWidth / 2),
-    )
+    this.cameraX = this.clampCamera(this.protagonistX - this.logicalViewportWidth / 2)
+    this.updateCameraLayers()
+  }
+
+  private clampCamera(value: number): number {
+    return Math.min(Math.max(0, this.worldWidth - this.logicalViewportWidth), Math.max(0, value))
+  }
+
+  private updateCameraLayers(): void {
     for (const layer of LAYERS) {
       this.layerContainers[layer.name].x = -Math.round(this.cameraX * layer.factor)
     }
     this.protagonist.x = Math.round(this.protagonistX - this.cameraX)
+    this.doorLight.x = Math.round(this.protagonistX - this.cameraX)
   }
 
   private setState(state: ProtagonistState): void {
@@ -317,6 +382,7 @@ export class PixiWorldRenderer implements WorldRenderer {
   }
 
   private finishTravel(id: LocationId, state: ProtagonistState): void {
+    this.doorLight.alpha = 0
     this.setState(state)
     this.protagonist.alpha = 1
     for (const cb of this.arriveCbs) cb(id)
@@ -337,19 +403,26 @@ export class PixiWorldRenderer implements WorldRenderer {
   private tween(
     from: { value: number },
     opts: { value: number; duration: number; onUpdate: (value: number) => void },
+    signal?: AbortSignal,
   ): Promise<void> {
     return new Promise((resolve) => {
       const proxy = { ...from }
-      gsap.to(proxy, {
+      const cancel = () => {
+        animation.kill()
+        resolve()
+      }
+      const animation = gsap.to(proxy, {
         value: opts.value,
         duration: opts.duration,
         ease: 'power1.inOut',
         onUpdate: () => opts.onUpdate(proxy.value),
         onComplete: () => {
+          signal?.removeEventListener('abort', cancel)
           opts.onUpdate(opts.value)
           resolve()
         },
       })
+      signal?.addEventListener('abort', cancel, { once: true })
     })
   }
 
