@@ -1,0 +1,21 @@
+# Orca local state
+.orca/
+.orca-owner
+# secrets / env
+.env
+*.env
+!.env.example
+# JS/TS
+node_modules/
+dist/
+build/
+.next/
+out/
+coverage/
+*.log
+# python
+__pycache__/
+*.pyc
+.venv/
+# os
+.DS_Store
