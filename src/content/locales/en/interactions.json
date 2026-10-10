@@ -12,5 +12,12 @@
   },
   "document": {
     "inspect": "Choose {label}"
+  },
+  "triage": {
+    "warningSigns": "Warning signs",
+    "missedSigns": "Check these warning signs and try again:",
+    "tryAgain": "Try this message again",
+    "safe": "Mark safe",
+    "fraud": "Mark fraud"
   }
 }
