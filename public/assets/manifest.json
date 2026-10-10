@@ -21,7 +21,7 @@
       }
     },
     "urban": {
-      "atlas": "urban.4c56e46f.png",
+      "atlas": "urban.20e84b26.png",
       "width": 1984,
       "height": 496,
       "frames": {
@@ -61,7 +61,7 @@
             }
           ]
         },
-        "capstone-centre-lit": {
+        "capstone-centre-branded-lit": {
           "x": 512,
           "y": 0,
           "w": 192,
@@ -73,7 +73,7 @@
             }
           ]
         },
-        "capstone-centre-unlit": {
+        "capstone-centre-branded-unlit": {
           "x": 704,
           "y": 0,
           "w": 192,
@@ -85,8 +85,20 @@
             }
           ]
         },
-        "filler-apartment": {
+        "capstone-centre-lit": {
           "x": 896,
+          "y": 0,
+          "w": 192,
+          "h": 160
+        },
+        "capstone-centre-unlit": {
+          "x": 1088,
+          "y": 0,
+          "w": 192,
+          "h": 160
+        },
+        "filler-apartment": {
+          "x": 1280,
           "y": 0,
           "w": 160,
           "h": 160,
@@ -98,7 +110,7 @@
           ]
         },
         "filler-shophouse": {
-          "x": 1056,
+          "x": 1440,
           "y": 0,
           "w": 160,
           "h": 160,
@@ -110,7 +122,7 @@
           ]
         },
         "home": {
-          "x": 1216,
+          "x": 1600,
           "y": 0,
           "w": 160,
           "h": 160,
@@ -122,7 +134,7 @@
           ]
         },
         "kirana": {
-          "x": 1376,
+          "x": 1760,
           "y": 0,
           "w": 160,
           "h": 144,
