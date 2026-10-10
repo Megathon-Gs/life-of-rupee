@@ -1,0 +1,52 @@
+{
+  "_meta": { "translationStatus": "English text reviewed and approved by NGO educator (user approval), 2026-10-10." },
+  "hook": {
+    "1": "Mina: I want to save my festival money, but I'm still a minor.",
+    "2": "Teller: Account rules can differ for minors. A guardian may need to help.",
+    "3": "Mina: Let's check the documents and choose the right account route."
+  },
+  "lesson": {
+    "title": "Inspect a fictional identity document",
+    "prompt": "Tap the document type that can be used as an officially valid document in applicable KYC checks.",
+    "documentLabel": "Document type",
+    "documentValue": "Passport — SAMPLE ONLY",
+    "schoolCardLabel": "Another document type",
+    "schoolCardValue": "School library card — SAMPLE ONLY (XXXX-DEMO)"
+  },
+  "decision": {
+    "title": "Choose an account route",
+    "routeLabel": "Who is opening this fictional account?",
+    "adult": "Adult account, no guardian details",
+    "minor": "Minor account; follow bank and guardian requirements",
+    "identityLabel": "Choose a document option",
+    "passport": "Passport — fictional sample",
+    "aadhaarOnly": "Assume Aadhaar is the only option"
+  },
+  "consequence": {
+    "opened": "Fictional account opened",
+    "explanation": "You matched the account route to the young account holder and checked an identity document option. Real banks set the exact requirements; never enter real personal or financial details in this game."
+  },
+  "transfer": {
+    "schoolCard": "School library card — SAMPLE ONLY (XXXX-DEMO)",
+    "tara": {
+      "title": "Tara is 16 and has a guardian present. Choose her account route and an OVD from these fictional documents.",
+      "passport": "Tara's passport — SAMPLE ONLY (TARA-DEMO)"
+    },
+    "arun": {
+      "title": "Arun is 21 and is opening his first account. He has no Aadhaar. Choose his account route and an OVD from these fictional documents.",
+      "voterId": "Arun's voter ID — SAMPLE ONLY (ARUN-DEMO)"
+    }
+  },
+  "claim": {
+    "documents": "RBI's KYC Direction lists multiple officially valid document (OVD) options for identity and address checks, including passport, driving licence, voter ID, an MGNREGA job card, an NPR letter, and Aadhaar-related proof, subject to the applicable rules.",
+    "aadhaar": "Aadhaar is not the only OVD listed in RBI's KYC Direction. Whether a document is accepted depends on the financial service and applicable requirements; Aadhaar is not universally compulsory for every financial task.",
+    "minors": "RBI's KYC Direction has a separate requirement for a customer whose account was opened while they were a minor and who has now become an adult: the bank must obtain a fresh photograph and confirm current KYC documents, and may redo KYC where required."
+  },
+  "bank": {
+    "wrong_document": { "review": "Your choice: you selected an account route that does not match the person's age. Safer choice: choose the minor route for a minor and the adult route for an adult; check the bank's minor-account and guardian process. Concept: minors' accounts have distinct operating conditions. Why it matters: age and safeguards affect who can operate the account." }
+  },
+  "kyc": {
+    "wrong_document": { "review": "Your choice: you selected an unsupported identity-document route. Safer choice: check the accepted OVDs for the task; a passport or voter ID can be an option, while a school library card is not an OVD. Do not assume Aadhaar is the only option. Concept: KYC has more than one document route. Why it matters: the wrong document can delay access, and assuming Aadhaar is always required can wrongly block it." }
+  },
+  "translationStatus": "English text reviewed and approved by NGO educator (user approval), 2026-10-10."
+}
