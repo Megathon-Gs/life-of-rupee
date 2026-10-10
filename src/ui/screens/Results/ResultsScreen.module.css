@@ -76,7 +76,7 @@
 
 .best {
   font-weight: var(--fw-semibold);
-  color: var(--color-path);
+  color: var(--color-text);
 }
 
 .review {
@@ -163,7 +163,7 @@
   padding: 0;
   border: 0;
   background: none;
-  color: var(--color-path);
+  color: var(--color-text);
   font: inherit;
   text-decoration: underline;
   cursor: pointer;
