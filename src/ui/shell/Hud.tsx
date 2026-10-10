@@ -15,6 +15,8 @@ export interface HudProps {
   onPrevious: () => void
   onNext: () => void
   onOpenSettings: () => void
+  /** Opens the skill tree; the button only shows when this is set. */
+  onOpenSkillTree?: () => void
 }
 
 /**
@@ -31,6 +33,7 @@ export function Hud({
   onPrevious,
   onNext,
   onOpenSettings,
+  onOpenSkillTree,
 }: HudProps) {
   const { t } = useTranslation('ui')
   return (
@@ -40,9 +43,21 @@ export function Hud({
           <p className={styles.chapter}>{chapter}</p>
           <h2 className={styles.location}>{location}</h2>
         </div>
-        <Button iconOnly aria-label={t('hud.settings')} onClick={onOpenSettings} className={styles.settings}>
-          <PixelIcon name="settings" scale={3} />
-        </Button>
+        <div className={styles.actions}>
+          {onOpenSkillTree && (
+            <Button onClick={onOpenSkillTree} data-testid="skill-tree-open">
+              {t('hud.skillTree')}
+            </Button>
+          )}
+          <Button
+            iconOnly
+            aria-label={t('hud.settings')}
+            onClick={onOpenSettings}
+            className={styles.settings}
+          >
+            <PixelIcon name="settings" scale={3} />
+          </Button>
+        </div>
       </header>
       <nav className={styles.nav} aria-label={t('hud.navLabel')}>
         <Button onClick={onPrevious} disabled={!canGoPrevious} className={styles.step}>

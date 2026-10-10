@@ -2,7 +2,7 @@
 // under public/assets/ and writes a manifest with content-hashed file names.
 import { createHash } from 'node:crypto'
 import { existsSync } from 'node:fs'
-import { mkdir, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { basename, dirname, join, relative, resolve, sep } from 'node:path'
 import sharp from 'sharp'
 import { findPngs } from '../asset-lint/lint'
@@ -19,6 +19,7 @@ interface Frame {
   y: number
   w: number
   h: number
+  baseline: Array<{ opaque: number; facade: number }>
 }
 
 interface Sprite {
@@ -26,6 +27,9 @@ interface Sprite {
   file: string
   w: number
   h: number
+  frameWidth: number
+  frameHeight: number
+  pixels: Buffer
 }
 
 interface District {
@@ -73,7 +77,27 @@ async function packDistrict(
     .toBuffer()
 
   const frames: Record<string, Frame> = {}
-  for (const p of placed) frames[p.name] = { x: p.x, y: p.y, w: p.w, h: p.h }
+  for (const p of placed) {
+    const baseline = []
+    for (let x = 0; x < p.w; x += p.frameWidth) {
+      let opaque = -1
+      let facade = -1
+      for (let y = p.h - 1; y >= 0; y -= 1) {
+        let filled = 0
+        for (let col = x; col < Math.min(x + p.frameWidth, p.w); col += 1) {
+          if (p.pixels[(y * p.w + col) * 4 + 3] > 0) filled += 1
+        }
+        if (opaque < 0 && filled > 0) opaque = y + 1
+        if (facade < 0 && filled >= Math.ceil(p.frameWidth * 0.25)) facade = y + 1
+        if (opaque >= 0 && facade >= 0) break
+      }
+      baseline.push({
+        opaque: opaque < 0 ? p.frameHeight : opaque,
+        facade: facade < 0 ? p.frameHeight : facade,
+      })
+    }
+    frames[p.name] = { x: p.x, y: p.y, w: p.w, h: p.h, baseline }
+  }
   return { png, district: { width, height, frames } }
 }
 
@@ -89,8 +113,33 @@ export async function buildAtlases(
     const rel = relative(root, file)
     const district = dirname(rel) === '.' ? 'default' : rel.split(sep)[0]
     const meta = await sharp(file).metadata()
+    const sidecar = JSON.parse(
+      await readFile(file.replace(/\.png$/i, '.json'), 'utf8').catch(() => '{}'),
+    ) as {
+      frameSize?: number[]
+    }
+    if (
+      sidecar.frameSize &&
+      (sidecar.frameSize.length !== 2 ||
+        !sidecar.frameSize.every((size) => Number.isInteger(size) && size > 0) ||
+        (meta.width ?? 0) % sidecar.frameSize[0]! !== 0 ||
+        (meta.height ?? 0) % sidecar.frameSize[1]! !== 0)
+    ) {
+      throw new Error(`Invalid frameSize in ${file.replace(/\.png$/i, '.json')}`)
+    }
+    const frameWidth = sidecar.frameSize?.[0] ?? meta.width ?? 0
+    const frameHeight = sidecar.frameSize?.[1] ?? meta.height ?? 0
+    const pixels = await sharp(file).ensureAlpha().raw().toBuffer()
     const list = byDistrict.get(district) ?? []
-    list.push({ name: basename(file, '.png'), file, w: meta.width ?? 0, h: meta.height ?? 0 })
+    list.push({
+      name: basename(file, '.png'),
+      file,
+      w: meta.width ?? 0,
+      h: meta.height ?? 0,
+      frameWidth,
+      frameHeight,
+      pixels,
+    })
     byDistrict.set(district, list)
   }
 

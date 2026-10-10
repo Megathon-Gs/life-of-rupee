@@ -44,6 +44,21 @@ describe('Hud', () => {
     expect(onOpenSettings).toHaveBeenCalledOnce()
   })
 
+  it('shows a skill tree button only when a handler is given, before settings', async () => {
+    const user = userEvent.setup()
+    const onOpenSkillTree = vi.fn()
+    const { unmount } = renderUi(<Hud {...props} onPrevious={vi.fn()} onNext={vi.fn()} onOpenSettings={vi.fn()} />)
+    expect(screen.queryByRole('button', { name: 'Skill tree' })).toBeNull()
+    unmount()
+    renderUi(
+      <Hud {...props} onPrevious={vi.fn()} onNext={vi.fn()} onOpenSettings={vi.fn()} onOpenSkillTree={onOpenSkillTree} />,
+    )
+    await user.tab()
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Skill tree' }))
+    await user.keyboard('{Enter}')
+    expect(onOpenSkillTree).toHaveBeenCalledOnce()
+  })
+
   it('renders Telugu labels', () => {
     renderUi(<Hud {...props} onPrevious={vi.fn()} onNext={vi.fn()} onOpenSettings={vi.fn()} />, { locale: 'te' })
     expect(screen.getByRole('button', { name: 'తర్వాతి స్థలం' })).toBeTruthy()

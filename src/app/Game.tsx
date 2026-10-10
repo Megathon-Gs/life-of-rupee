@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { LevelDef, LocationId, SaveStore, SkillNodeId, TravelCommand } from '@/core/contracts'
 import { deriveWorldVisuals } from '@/core/worldVisuals'
+import { skillTree } from '@/content/skillTree'
 import { world } from '@/content/world'
 import { attachTravelInput, createTravelMachine } from '@/input'
 import {
@@ -12,6 +13,7 @@ import {
   useReducedMotion,
   type UiSettings,
 } from '@/ui/shell'
+import { SkillTreeScreen } from '@/ui/screens/SkillTree/SkillTreeScreen'
 import { GROUND_Y, PixiWorldRenderer } from '@/world'
 import { LevelPanel } from './LevelPanel'
 import { levelAt } from './levels'
@@ -19,8 +21,6 @@ import type { AppMode } from './mode'
 import { useDerived, useGame, useGameStore } from './store'
 import { loadTextureProvider } from './textures'
 import { LocationLabels } from './LocationLabels'
-import { SkillTreeScreen } from '@/ui/screens/SkillTree'
-import { skillTree } from '@/content/skillTree'
 import { stageMetrics } from './stage'
 import { enterLocation, exitLocation, onArrive } from './transitions'
 import styles from './App.module.css'
@@ -243,7 +243,6 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
       : panel?.kind === 'skillTree'
         ? t('skillTree.title', { ns: 'ui' })
         : placeName
-
   const replayNode = async (node: SkillNodeId) => {
     const target = levels.find((candidate) => candidate.skillNodes.includes(node))
     if (!target) return
@@ -279,6 +278,7 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
           onPrevious={() => step(-1)}
           onNext={() => step(1)}
           onOpenSettings={() => openPanel({ kind: 'settings' })}
+          onOpenSkillTree={() => openPanel({ kind: 'skillTree' })}
         />
         <LocationLabels renderer={ready ? rendererRef.current : null} hidden={panel !== null} />
         {ready && level && !travelling && (

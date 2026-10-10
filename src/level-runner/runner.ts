@@ -48,6 +48,8 @@ export interface ResumeOptions {
   seed?: number
   /** Clock for the resumed attempt; defaults to the factory clock. */
   now?: Clock
+  /** Derived flags used only when a legacy snapshot has no saved condition decisions. */
+  worldFlags?: Readonly<Record<string, string>>
 }
 
 /** Factory dependencies, injected so the runner stays pure and testable. */
@@ -62,6 +64,13 @@ export interface LevelRunnerDeps {
 
 /** `LevelRunner` plus explicit step completion and mid-level snapshots. */
 export interface LevelRunnerImpl extends LevelRunner {
+  /** Captures derived flags for every conditional step at level start. */
+  start(
+    level: LevelDef,
+    seed: number,
+    now: Clock,
+    worldFlags?: Readonly<Record<string, string>>,
+  ): void
   current(): RunnerView
   /** Records an interaction event or applies a runner signal; returns whether it was accepted. */
   dispatch(event: RunnerInput): boolean
@@ -83,6 +92,7 @@ interface Session {
   startedAt: string
   stepIndex: number
   events: InteractionEvent[]
+  conditionResults?: Record<string, boolean>
   done: boolean
 }
 
@@ -103,9 +113,29 @@ export function createLevelRunner(deps: LevelRunnerDeps): LevelRunnerImpl {
     now: Clock,
     stepIndex: number,
     events: InteractionEvent[],
+    worldFlags: Readonly<Record<string, string>>,
     startedAt = now(),
+    savedConditions?: Record<string, boolean>,
   ) => {
-    session = { level, seed, now, startedAt, stepIndex, events, done: false }
+    const conditionResults = Object.fromEntries(
+      level.steps
+        .filter((step) => step.when)
+        .map((step) => [
+          step.id,
+          savedConditions?.[step.id] ?? worldFlags[step.when!.flag] === String(step.when!.equals),
+        ]),
+    )
+    session = {
+      level,
+      seed,
+      now,
+      startedAt,
+      stepIndex,
+      events,
+      conditionResults: Object.keys(conditionResults).length ? conditionResults : undefined,
+      done: false,
+    }
+    skipHidden(session)
   }
 
   const transferVariant = (s: Session) => {
@@ -179,7 +209,20 @@ export function createLevelRunner(deps: LevelRunnerDeps): LevelRunnerImpl {
 
   const next = (s: Session) => {
     if (s.stepIndex === s.level.steps.length - 1) complete(s)
-    else s.stepIndex += 1
+    else {
+      s.stepIndex += 1
+      skipHidden(s)
+    }
+  }
+
+  const skipHidden = (s: Session) => {
+    while (s.conditionResults?.[s.level.steps[s.stepIndex].id] === false) {
+      if (s.stepIndex === s.level.steps.length - 1) {
+        complete(s)
+        return
+      }
+      s.stepIndex += 1
+    }
   }
 
   const dispatch = (input: RunnerInput): boolean => {
@@ -211,8 +254,8 @@ export function createLevelRunner(deps: LevelRunnerDeps): LevelRunnerImpl {
   }
 
   return {
-    start(level, seed, now) {
-      begin(level, seed, now, 0, [])
+    start(level, seed, now, worldFlags = {}) {
+      begin(level, seed, now, 0, [], worldFlags)
     },
 
     resume(snapshot, opts = {}) {
@@ -229,7 +272,9 @@ export function createLevelRunner(deps: LevelRunnerDeps): LevelRunnerImpl {
         now,
         snapshot.stepIndex,
         [...snapshot.events],
+        opts.worldFlags ?? {},
         snapshot.startedAt,
+        snapshot.conditionResults,
       )
     },
 
@@ -266,6 +311,7 @@ export function createLevelRunner(deps: LevelRunnerDeps): LevelRunnerImpl {
         events: [...s.events],
         seed: s.seed,
         startedAt: s.startedAt,
+        ...(s.conditionResults && { conditionResults: { ...s.conditionResults } }),
       }
     },
 

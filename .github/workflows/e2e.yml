@@ -18,12 +18,11 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      # Self-hosted runner is shared with agent dev servers. A stale `vite preview`
-      # (or any process) holding the E2E port makes Playwright's webServer fail with
-      # "http://127.0.0.1:4173 is already used". Free the port before we start.
-      - name: Free E2E port (self-hosted runner hygiene)
+      # Self-hosted runner is shared with agent dev servers. Free the Playwright
+      # preview and gallery ports before their web servers start.
+      - name: Free Playwright ports (self-hosted runner hygiene)
         run: |
-          for p in 4173 4174; do
+          for p in 4173 4174 5197; do
             if command -v fuser >/dev/null 2>&1; then
               fuser -k -n tcp "$p" 2>/dev/null || true
             else
@@ -32,12 +31,15 @@ jobs:
             fi
           done
           sleep 1
-          ss -ltn 2>/dev/null | grep -E ':(4173|4174)\b' && { echo "port still busy"; exit 1; } || echo "E2E ports free"
+          ss -ltn 2>/dev/null | grep -E ':(4173|4174|5197)\b' && { echo "port still busy"; exit 1; } || echo "Playwright ports free"
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
       - name: Set Chrome path for Lighthouse CI
         run: echo "CHROME_PATH=$(find "$HOME/.cache/ms-playwright" -path '*/chrome-linux64/chrome' -type f -print -quit)" >> "$GITHUB_ENV"
       - run: pnpm e2e
+        env:
+          CI: true
+      - run: pnpm exec playwright test -c tests/visual/playwright.config.ts
         env:
           CI: true
       - run: pnpm build

@@ -1,0 +1,26 @@
+{
+  "tool": "PixelLab MCP create_image_pixflux",
+  "toolVersion": "not exposed by MCP (queried 2026-10-10)",
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-10",
+  "prompt": "DERIVED, no new generation: capstone-centre-unlit.png with a brand-red fascia band reading VANGUARD (hand-drawn 5x7 pixel lettering) on the parapet and a blank brand-red door plaque. neutral community financial learning centre, three-storey civic building in an Indian city, side view flat facade, cream plaster with a tall teal glass atrium entrance, wide steps, flat parapet roof with solar panels, vertical sunshade fins, a blank rectangular plaque by the door, young trees in planters, welcoming and modern, warm late-afternoon light from upper left. No text, no letters, no numerals, no logos, no watermark, no signage lettering; signboards are blank.",
+  "referenceIds": [
+    "art/approved/urban/capstone-centre-unlit.png"
+  ],
+  "notes": "BRANDED VARIANT, NOT DEFAULT: ships only when VITE_CAPSTONE_BRANDING=approved, after Vanguard approves name and branding (SPEC open question). DOCUMENTED EXCEPTION to art bible section 6 (no baked text): plain-text name only, no logo or emblem copied. Brand red approximated with palette colours b9523c, 823a3a, 54283a; text fff1d0. Same footprint and pixels as the neutral unlit frame outside the band (rows 31-42) and plaque (rows 119-133).",
+  "reviewFlags": "architecture and dress are GUESS: needs photo-reference pass and Hyderabad/Telangana reviewer",
+  "kind": "tile",
+  "tags": [
+    "facade",
+    "capstone",
+    "concept",
+    "p1",
+    "unlit",
+    "branded",
+    "branding-gated"
+  ],
+  "frameSize": [
+    192,
+    160
+  ]
+}

@@ -10,12 +10,18 @@
           "x": 0,
           "y": 0,
           "w": 400,
-          "h": 128
+          "h": 128,
+          "baseline": [
+            {
+              "opaque": 128,
+              "facade": 128
+            }
+          ]
         }
       }
     },
     "urban": {
-      "atlas": "urban.4c56e46f.png",
+      "atlas": "urban.20e84b26.png",
       "width": 1984,
       "height": 496,
       "frames": {
@@ -23,289 +29,917 @@
           "x": 0,
           "y": 0,
           "w": 192,
-          "h": 272
+          "h": 272,
+          "baseline": [
+            {
+              "opaque": 272,
+              "facade": 272
+            }
+          ]
         },
         "bank-default": {
           "x": 192,
           "y": 0,
           "w": 160,
-          "h": 160
+          "h": 160,
+          "baseline": [
+            {
+              "opaque": 144,
+              "facade": 144
+            }
+          ]
         },
         "bank-greets": {
           "x": 352,
           "y": 0,
           "w": 160,
-          "h": 160
+          "h": 160,
+          "baseline": [
+            {
+              "opaque": 144,
+              "facade": 144
+            }
+          ]
+        },
+        "capstone-centre-branded-lit": {
+          "x": 512,
+          "y": 0,
+          "w": 192,
+          "h": 160,
+          "baseline": [
+            {
+              "opaque": 160,
+              "facade": 160
+            }
+          ]
+        },
+        "capstone-centre-branded-unlit": {
+          "x": 704,
+          "y": 0,
+          "w": 192,
+          "h": 160,
+          "baseline": [
+            {
+              "opaque": 160,
+              "facade": 160
+            }
+          ]
         },
         "capstone-centre-lit": {
-          "x": 512,
+          "x": 896,
           "y": 0,
           "w": 192,
           "h": 160
         },
         "capstone-centre-unlit": {
-          "x": 704,
+          "x": 1088,
           "y": 0,
           "w": 192,
           "h": 160
         },
         "filler-apartment": {
-          "x": 896,
+          "x": 1280,
           "y": 0,
           "w": 160,
-          "h": 160
+          "h": 160,
+          "baseline": [
+            {
+              "opaque": 149,
+              "facade": 149
+            }
+          ]
         },
         "filler-shophouse": {
-          "x": 1056,
+          "x": 1440,
           "y": 0,
           "w": 160,
-          "h": 160
+          "h": 160,
+          "baseline": [
+            {
+              "opaque": 149,
+              "facade": 149
+            }
+          ]
         },
         "home": {
-          "x": 1216,
+          "x": 1600,
           "y": 0,
           "w": 160,
-          "h": 160
+          "h": 160,
+          "baseline": [
+            {
+              "opaque": 148,
+              "facade": 148
+            }
+          ]
         },
         "kirana": {
-          "x": 1376,
+          "x": 1760,
           "y": 0,
           "w": 160,
-          "h": 144
+          "h": 144,
+          "baseline": [
+            {
+              "opaque": 136,
+              "facade": 134
+            }
+          ]
         },
         "far-skyline": {
           "x": 0,
           "y": 272,
           "w": 768,
-          "h": 96
+          "h": 96,
+          "baseline": [
+            {
+              "opaque": 96,
+              "facade": 96
+            }
+          ]
         },
         "phone-shop-lit": {
           "x": 768,
           "y": 272,
           "w": 112,
-          "h": 96
+          "h": 96,
+          "baseline": [
+            {
+              "opaque": 96,
+              "facade": 96
+            }
+          ]
         },
         "phone-shop-unlit": {
           "x": 880,
           "y": 272,
           "w": 112,
-          "h": 96
+          "h": 96,
+          "baseline": [
+            {
+              "opaque": 96,
+              "facade": 96
+            }
+          ]
         },
         "showroom-lit": {
           "x": 992,
           "y": 272,
           "w": 144,
-          "h": 96
+          "h": 96,
+          "baseline": [
+            {
+              "opaque": 96,
+              "facade": 87
+            }
+          ]
         },
         "showroom-unlit": {
           "x": 1136,
           "y": 272,
           "w": 144,
-          "h": 96
+          "h": 96,
+          "baseline": [
+            {
+              "opaque": 96,
+              "facade": 87
+            }
+          ]
         },
         "street-props": {
           "x": 1280,
           "y": 272,
           "w": 320,
-          "h": 96
+          "h": 96,
+          "baseline": [
+            {
+              "opaque": 85,
+              "facade": 85
+            }
+          ]
         },
         "mid-trees-wires": {
           "x": 1600,
           "y": 272,
           "w": 384,
-          "h": 80
+          "h": 80,
+          "baseline": [
+            {
+              "opaque": 69,
+              "facade": 69
+            }
+          ]
         },
         "phone-shop-counter": {
           "x": 0,
           "y": 368,
           "w": 96,
-          "h": 80
+          "h": 80,
+          "baseline": [
+            {
+              "opaque": 80,
+              "facade": 80
+            }
+          ]
         },
         "bank-teller-greet-east": {
           "x": 96,
           "y": 368,
           "w": 160,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "bank-teller-greet-west": {
           "x": 256,
           "y": 368,
           "w": 160,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "bank-teller-idle-east": {
           "x": 416,
           "y": 368,
           "w": 128,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "bank-teller-idle-west": {
           "x": 544,
           "y": 368,
           "w": 128,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "lender-officer-idle-east": {
           "x": 672,
           "y": 368,
           "w": 128,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 32
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "lender-officer-idle-west": {
           "x": 800,
           "y": 368,
           "w": 128,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 32
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "lender-officer-talk-east": {
           "x": 928,
           "y": 368,
           "w": 128,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            }
+          ]
         },
         "lender-officer-talk-west": {
           "x": 1056,
           "y": 368,
           "w": 128,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            }
+          ]
         },
         "phone-shopkeeper-idle-east": {
           "x": 1184,
           "y": 368,
           "w": 128,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "phone-shopkeeper-idle-west": {
           "x": 1312,
           "y": 368,
           "w": 128,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "phone-shopkeeper-talk-east": {
           "x": 1440,
           "y": 368,
           "w": 160,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "phone-shopkeeper-talk-west": {
           "x": 1600,
           "y": 368,
           "w": 160,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "protagonist-arrive-east": {
           "x": 1760,
           "y": 368,
           "w": 160,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "protagonist-arrive-west": {
           "x": 0,
           "y": 448,
           "w": 160,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "protagonist-idle-east": {
           "x": 160,
           "y": 448,
           "w": 128,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "protagonist-idle-west": {
           "x": 288,
           "y": 448,
           "w": 128,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "protagonist-interact-east": {
           "x": 416,
           "y": 448,
           "w": 128,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "protagonist-interact-west": {
           "x": 544,
           "y": 448,
           "w": 128,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "protagonist-run-east": {
           "x": 672,
           "y": 448,
           "w": 160,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 38
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 42
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "protagonist-run-west": {
           "x": 832,
           "y": 448,
           "w": 160,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 38
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 42
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "protagonist-walk-east": {
           "x": 992,
           "y": 448,
           "w": 256,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "protagonist-walk-west": {
           "x": 1248,
           "y": 448,
           "w": 256,
-          "h": 48
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
         },
         "kerb-road": {
           "x": 1504,
           "y": 448,
           "w": 32,
-          "h": 32
+          "h": 32,
+          "baseline": [
+            {
+              "opaque": 32,
+              "facade": 32
+            }
+          ]
         },
         "awning-coral": {
           "x": 1536,
           "y": 448,
           "w": 48,
-          "h": 16
+          "h": 16,
+          "baseline": [
+            {
+              "opaque": 15,
+              "facade": 15
+            }
+          ]
         },
         "awning-marigold": {
           "x": 1584,
           "y": 448,
           "w": 48,
-          "h": 16
+          "h": 16,
+          "baseline": [
+            {
+              "opaque": 15,
+              "facade": 15
+            }
+          ]
         },
         "awning-teal": {
           "x": 1632,
           "y": 448,
           "w": 48,
-          "h": 16
+          "h": 16,
+          "baseline": [
+            {
+              "opaque": 15,
+              "facade": 15
+            }
+          ]
         },
         "pavement": {
           "x": 1680,
           "y": 448,
           "w": 32,
-          "h": 16
+          "h": 16,
+          "baseline": [
+            {
+              "opaque": 16,
+              "facade": 16
+            }
+          ]
         },
         "signboard-jade": {
           "x": 1712,
           "y": 448,
           "w": 48,
-          "h": 16
+          "h": 16,
+          "baseline": [
+            {
+              "opaque": 15,
+              "facade": 15
+            }
+          ]
         },
         "signboard-marigold": {
           "x": 1760,
           "y": 448,
           "w": 48,
-          "h": 16
+          "h": 16,
+          "baseline": [
+            {
+              "opaque": 15,
+              "facade": 15
+            }
+          ]
         },
         "signboard-teal": {
           "x": 1808,
           "y": 448,
           "w": 48,
-          "h": 16
+          "h": 16,
+          "baseline": [
+            {
+              "opaque": 15,
+              "facade": 15
+            }
+          ]
         },
         "signboard-terracotta": {
           "x": 1856,
           "y": 448,
           "w": 48,
-          "h": 16
+          "h": 16,
+          "baseline": [
+            {
+              "opaque": 15,
+              "facade": 15
+            }
+          ]
         }
       }
     }

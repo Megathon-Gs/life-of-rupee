@@ -1,0 +1,37 @@
+{
+  "eyebrow": "A learning space",
+  "title": "Financial Futures Centre",
+  "intro": "Explore ideas for thinking about money over the long term. These activities teach concepts, not what you should do with your money.",
+  "compound": {
+    "title": "See compounding over time",
+    "description": "Imagine ₹1,000 stays invested and earns the same rate each year. Move the slider to see how growth can build on earlier growth.",
+    "years": "Years: {years}",
+    "result": "Illustration after {years} years: {amount}",
+    "assumption": "Assumption: a fixed {rate}% annual rate, compounded yearly. This is a learning example, not a promise; actual outcomes vary."
+  },
+  "diversification": {
+    "title": "Think about diversification",
+    "question": "A fictional person's savings are exposed to one uncertain outcome. What could spread that exposure?",
+    "one": "Keep it in one place",
+    "spread": "Spread it across different places",
+    "feedback": {
+      "one": "With everything in one place, one setback can affect all of it.",
+      "spread": "Spreading exposure can reduce the effect of one setback, but it cannot remove risk."
+    }
+  },
+  "horizon": {
+    "title": "Risk and time horizon",
+    "question": "A fictional goal is coming up. How much time is there before the money is needed?",
+    "short": "Soon",
+    "long": "Many years from now",
+    "feedback": {
+      "short": "When a goal is soon, there is less time to recover from a setback. Time horizon is one factor in understanding risk.",
+      "long": "A longer horizon gives more time for ups and downs, but does not make an outcome certain or remove risk."
+    }
+  },
+  "links": {
+    "title": "Approved learning material",
+    "opensOutside": "(opens outside the game)"
+  },
+  "footer": "Educate, do not recommend. No financial product or investment is being suggested."
+}

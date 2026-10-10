@@ -64,5 +64,8 @@
   },
   "dialogue": {
     "speaker": "Street guide"
+  },
+  "labels": {
+    "nav": "Locations"
   }
 }

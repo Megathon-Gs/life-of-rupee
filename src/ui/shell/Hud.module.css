@@ -49,6 +49,12 @@
   overflow-wrap: anywhere;
 }
 
+.actions {
+  flex: none;
+  display: flex;
+  gap: var(--sp-2);
+}
+
 .settings {
   flex: none;
 }

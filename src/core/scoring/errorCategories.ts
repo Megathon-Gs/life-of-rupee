@@ -17,8 +17,8 @@ export const errorCategories: Readonly<Record<string, ErrorCategoryDef>> = Objec
       severity: 'major',
       skillNode: 'inflation.purchasing_power',
     },
-    { code: 'kyc.wrong_document', severity: 'major', skillNode: 'bank.account' },
-    { code: 'bank.wrong_document', severity: 'minor', skillNode: 'bank.account' },
+    { code: 'kyc.wrong_document', severity: 'major', skillNode: 'access.identity' },
+    { code: 'bank.wrong_document', severity: 'minor', skillNode: 'access.identity' },
   ].map((definition) => [
     definition.code,
     ErrorCategoryDefSchema.parse({ ...definition, reviewKey: `${definition.code}.review` }),

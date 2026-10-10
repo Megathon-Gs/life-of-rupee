@@ -294,7 +294,7 @@ Generated art enters the game only through an automated lint gate, whichever gen
    - feet baseline or body height drifting more than 1 px between animation frames;
    - a missing licence field in the sidecar.
 4. **Approve:** passing assets are copied to `art/approved/` with their lint report. A contact-sheet tool renders the plan's aesthetic acceptance scene (bank, kirana, market, player, NPC, one panel) at phone size for the single human sign-off.
-5. **Build:** AssetPack packs approved assets into per-district atlases with a content-hashed manifest.
+5. **Build:** AssetPack packs approved assets into per-district atlases with a content-hashed manifest, including per-frame opaque and facade ground baselines. The renderer consumes these values rather than scanning atlas pixels at runtime.
 
 Sign text, Telugu labels and numbers are never baked into art; they are DOM or bitmap-font overlays positioned from `world.ts`.
 

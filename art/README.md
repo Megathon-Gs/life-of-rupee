@@ -46,6 +46,8 @@ Each PNG `foo.png` has a JSON sidecar `foo.json` beside it:
   multiple of it.
 - `tags` — `repeat-x` marks a horizontally repeating tile whose left and right edge
   columns must match.
+- The atlas manifest records each frame's last opaque row and facade ground row, so the
+  renderer can bottom-anchor sprites without reading image pixels at runtime.
 
 ## Commands
 

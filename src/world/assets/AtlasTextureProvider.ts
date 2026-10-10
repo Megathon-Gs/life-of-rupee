@@ -7,7 +7,7 @@ import {
   type ProtagonistState,
   type TextureProvider,
 } from '../textures'
-import { findFrame, type AtlasFrame, type AtlasManifest } from './manifest'
+import { findFrame, type AtlasManifest } from './manifest'
 
 /** Palette A sky and pavement colours (art/bible/palette.json). */
 /** The flat top band of the sky art, so the scale remainder above the stage is seamless. */
@@ -22,8 +22,6 @@ const STREET_TILE_WIDTH = 256
 const STREET_EXTRA_ROWS = 320
 /** Sky art rows 0-39 are the dark top band and its checker; 88-127 are the cloud rows. */
 const SKY_TOP_ROWS = 40
-/** A facade's base row must be at least this fraction opaque (kirana has 2 stray rows of ~10%). */
-const FACADE_MIN_FILL = 0.25
 const SKY_BLOCK_START = 88
 const SKY_BLOCK_END = 128
 const SKY_BLOCK_SHIFT = 61
@@ -69,7 +67,6 @@ export class AtlasTextureProvider implements TextureProvider {
   readonly pavement = PAVEMENT_COLOUR
 
   private readonly cache = new Map<string, Texture>()
-  private readonly alpha = new Map<string, ImageData>()
 
   constructor(
     private readonly manifest: AtlasManifest,
@@ -77,36 +74,6 @@ export class AtlasTextureProvider implements TextureProvider {
   ) {}
 
   /** Texture for a named frame at its native size, or `Texture.EMPTY` when absent. */
-  /** Rows from `top` of a frame up to its last non-transparent pixel row, or the full height. */
-  private opaqueHeight(district: string, frame: AtlasFrame, minFill = 0): number {
-    const image = this.atlases[district]?.image
-    if (!HAS_2D || !image) return frame.h
-    let alpha = this.alpha.get(district)
-    if (!alpha) {
-      const canvas = document.createElement('canvas')
-      const { width, height } = this.manifest.districts[district]!
-      canvas.width = width
-      canvas.height = height
-      const ctx = canvas.getContext('2d')
-      if (!ctx) return frame.h
-      ctx.drawImage(image, 0, 0)
-      alpha = ctx.getImageData(0, 0, width, height)
-      this.alpha.set(district, alpha)
-    }
-    // A row counts as ground when at least `minFill` of the frame width is opaque, so stray
-    // shadow or grass pixels under a facade do not hold its base above the ground line.
-    const need = Math.max(1, Math.ceil(frame.w * minFill))
-    for (let row = frame.h - 1; row >= 0; row -= 1) {
-      let filled = 0
-      for (let col = 0; col < frame.w; col += 1) {
-        const at = ((frame.y + row) * alpha.width + frame.x + col) * 4 + 3
-        if (alpha.data[at]! > 0) filled += 1
-      }
-      if (filled >= need) return row + 1
-    }
-    return frame.h
-  }
-
   frame(name: string, part?: { index: number; w: number }, trim = false): Texture {
     const key = `${part ? `${name}#${part.index}` : name}${trim ? ':trim' : ''}`
     const cached = this.cache.get(key)
@@ -116,7 +83,8 @@ export class AtlasTextureProvider implements TextureProvider {
     if (!found || !atlas) return Texture.EMPTY
     const { x, y, w } = found.frame
     // Trimming drops transparent rows at the bottom so a sprite anchored there stands on the ground.
-    const h = trim ? this.opaqueHeight(found.district, found.frame, FACADE_MIN_FILL) : found.frame.h
+    const baseline = found.frame.baseline?.[part?.index ?? 0]
+    const h = trim ? (baseline?.facade ?? found.frame.h) : found.frame.h
     const width = part ? part.w : w
     const left = x + (part ? part.index * part.w : 0)
     const texture = new Texture({ source: atlas.source, frame: new Rectangle(left, y, width, h) })
@@ -270,10 +238,7 @@ export class AtlasTextureProvider implements TextureProvider {
     const found = findFrame(this.manifest, frameName)?.frame
     if (!found) return undefined
     // The sky fills the band from the top; the skyline and trees stand on the ground line.
-    const rows =
-      name === 'sky'
-        ? found.h
-        : this.opaqueHeight(findFrame(this.manifest, frameName)!.district, found)
+    const rows = name === 'sky' ? found.h : (found.baseline?.[0]?.opaque ?? found.h)
     const dy = name === 'sky' ? 0 : GROUND_Y - rows
     return draw(found.w, BAND_HEIGHT, (ctx, image) => {
       blit(ctx, image, frameName, 0, dy)

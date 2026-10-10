@@ -1,0 +1,32 @@
+{
+  "_needsReview": true,
+  "_meta": {
+    "translationStatus": "Draft Telugu for the on-device teacher summary (P1-13). Needs review by an NGO educator before release."
+  },
+  "title": "నా ఉపాధ్యాయుడికి చూపించండి",
+  "note": "ఈ సారాంశం ఈ ఫోన్‌లోనే ఉంటుంది. ఎక్కడికీ పంపబడదు, భద్రపరచబడదు.",
+  "levelsCompleted": "{count, plural, =0 {ఇంకా స్థాయులు పూర్తి కాలేదు} one {# స్థాయి పూర్తయింది} other {# స్థాయులు పూర్తయ్యాయి}}",
+  "starsHeading": "నైపుణ్యం వారీగా నక్షత్రాలు",
+  "stars": "{count, plural, =0 {ఇంకా నక్షత్రాలు లేవు} one {# నక్షత్రం} other {# నక్షత్రాలు}}",
+  "errorsHeading": "సాధన చేయాల్సిన పొరపాట్లు",
+  "errorsEmpty": "సాధన చేయడానికి పొరపాట్లు ఇంకా లేవు.",
+  "errorCount": "{count, plural, one {# సారి} other {# సార్లు}}",
+  "back": "వెనుకకు",
+  "error": {
+    "upi": {
+      "pin_to_receive": "డబ్బు పొందడానికి పిన్ పంచుకోవడం",
+      "wrong_payee": "తప్పు వ్యక్తికి డబ్బు పంపడం"
+    },
+    "fraud": {
+      "shared_otp": "ఎవరితోనైనా OTP పంచుకోవడం",
+      "clicked_link": "సందేశంలోని లింక్‌ను నొక్కడం",
+      "urgency": "ఒత్తిడి వల్ల తొందరపడి నిర్ణయించుకోవడం"
+    },
+    "loan": {
+      "ignored_total_cost": "అప్పు మొత్తం ఖర్చును విస్మరించడం",
+      "emi_only": "నెలవారీ వాయిదా మాత్రమే చూడటం",
+      "missed_payment": "అప్పు వాయిదా తప్పడం"
+    },
+    "unknown": "మరో పొరపాటు"
+  }
+}
