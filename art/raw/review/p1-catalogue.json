@@ -1,0 +1,22 @@
+{
+  "tool": "scripted (Pillow) + tools/asset-lint/contact-sheet.ts",
+  "toolVersion": "compose script, 2026-10-10",
+  "prompt": "not applicable: composed from art/approved",
+  "referenceIds": [
+    "art/approved/**"
+  ],
+  "licence": "Original work composed in code by us from approved assets under art/approved; no third-party material; commercial use allowed",
+  "date": "2026-10-10",
+  "kind": "tile",
+  "tags": [
+    "review",
+    "contact-sheet",
+    "p1"
+  ],
+  "frameSize": [
+    816,
+    496
+  ],
+  "notes": "catalogue of the 15 new P1 assets from tools/asset-lint/contact-sheet.ts at scale 1 (background recoloured from 202020 to palette ink 191a33): phone shop lit/unlit, showroom lit/unlit, capstone centre lit/unlit, phone shop counter, shopkeeper and lender idle/talk sheets (east and west). REVIEW IMAGE: not a game asset, do not copy to art/approved.",
+  "reviewFlags": "product owner approval of the contact sheet is the gate"
+}

@@ -1,0 +1,26 @@
+{
+  "tool": "PixelLab MCP create_image_pixflux",
+  "toolVersion": "not exposed by MCP (queried 2026-10-10)",
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-10",
+  "prompt": "neutral community financial learning centre, three-storey civic building in an Indian city, side view flat facade, cream plaster with a tall teal glass atrium entrance, wide steps, flat parapet roof with solar panels, vertical sunshade fins, a blank rectangular plaque by the door, young trees in planters, welcoming and modern, warm late-afternoon light from upper left. No text, no letters, no numerals, no logos, no watermark, no signage lettering; signboards are blank.",
+  "referenceIds": [
+    "upload:4222cd0a-c0e9-4b1a-b36c-7c77fd3b914f (palette A strip, 32x1)",
+    "pixellab job 521347c2-57ca-41c1-a66a-307f2dc8a23c"
+  ],
+  "notes": "192x176 seed 7, transparent bg honoured; cropped to y3-162 (192x160); REPAIR: a saffron flag on the roof (art bible bans saffron as decoration) and its pole erased, the panel under the pole refilled from the neighbouring column; the small card on the door was blank but glyph-like at 1x (critic pass), so it was erased and the glass repainted; isolated stray pixels in the windows removed locally; NEUTRAL CONCEPT: no logo, no partner or company name, no emblem; building base row = 154, rows 155-159 are a pavement apron strip; LIT variant: window and door glass recoloured to a warm interior glow locally within the window rectangles (palette colours only, no new generation)",
+  "reviewFlags": "architecture and dress are GUESS: needs photo-reference pass and Hyderabad/Telangana reviewer",
+  "kind": "tile",
+  "tags": [
+    "facade",
+    "capstone",
+    "concept",
+    "neutral",
+    "p1",
+    "lit"
+  ],
+  "frameSize": [
+    192,
+    160
+  ]
+}

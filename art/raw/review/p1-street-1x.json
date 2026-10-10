@@ -1,0 +1,22 @@
+{
+  "tool": "scripted (Pillow) + tools/asset-lint/contact-sheet.ts",
+  "toolVersion": "compose script, 2026-10-10",
+  "prompt": "not applicable: composed from art/approved",
+  "referenceIds": [
+    "art/approved/**"
+  ],
+  "licence": "Original work composed in code by us from approved assets under art/approved; no third-party material; commercial use allowed",
+  "date": "2026-10-10",
+  "kind": "tile",
+  "tags": [
+    "review",
+    "contact-sheet",
+    "p1"
+  ],
+  "frameSize": [
+    816,
+    544
+  ],
+  "notes": "1:1 composition on one street. Top row = locked state (all P1 buildings unlit); bottom row = unlocked state (lit) with the phone shopkeeper (talk frame 3, west), the lender officer (talk frame 2, west) and the protagonist walking. Left to right: P0 bank (default), P0 kirana, phone shop, vehicle showroom, capstone centre concept. Sky, far skyline, mid trees/wires, pavement and kerb are the approved P0 tiles. Buildings aligned on their base row (phone shop 95, showroom 86, capstone 154). Padded to the 16 px grid with palette ink. REVIEW IMAGE: not a game asset, do not copy to art/approved.",
+  "reviewFlags": "product owner approval of the contact sheet is the gate"
+}
