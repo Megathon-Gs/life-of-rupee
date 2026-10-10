@@ -1,6 +1,7 @@
 .screen {
   min-height: 100%;
   background: var(--color-surface);
+  container-type: inline-size;
 }
 
 /* The sheet is the paper; on desktop it floats over a sky backdrop like the panels do. */
@@ -222,15 +223,7 @@
   }
 }
 
-@media (min-width: 768px) {
-  .screen {
-    display: grid;
-    align-content: center;
-    justify-items: center;
-    padding: var(--sp-6);
-    background: var(--color-sky);
-  }
-
+@container (min-width: 768px) {
   .sheet {
     width: min(62rem, 100%);
     min-height: 0;
