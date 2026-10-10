@@ -22,6 +22,8 @@ const STREET_TILE_WIDTH = 256
 const STREET_EXTRA_ROWS = 320
 /** Sky art rows 0-39 are the dark top band and its checker; 88-127 are the cloud rows. */
 const SKY_TOP_ROWS = 40
+/** A facade's base row must be at least this fraction opaque (kirana has 2 stray rows of ~10%). */
+const FACADE_MIN_FILL = 0.25
 const SKY_BLOCK_START = 88
 const SKY_BLOCK_END = 128
 const SKY_BLOCK_SHIFT = 61
@@ -76,7 +78,7 @@ export class AtlasTextureProvider implements TextureProvider {
 
   /** Texture for a named frame at its native size, or `Texture.EMPTY` when absent. */
   /** Rows from `top` of a frame up to its last non-transparent pixel row, or the full height. */
-  private opaqueHeight(district: string, frame: AtlasFrame): number {
+  private opaqueHeight(district: string, frame: AtlasFrame, minFill = 0): number {
     const image = this.atlases[district]?.image
     if (!HAS_2D || !image) return frame.h
     let alpha = this.alpha.get(district)
@@ -91,11 +93,16 @@ export class AtlasTextureProvider implements TextureProvider {
       alpha = ctx.getImageData(0, 0, width, height)
       this.alpha.set(district, alpha)
     }
+    // A row counts as ground when at least `minFill` of the frame width is opaque, so stray
+    // shadow or grass pixels under a facade do not hold its base above the ground line.
+    const need = Math.max(1, Math.ceil(frame.w * minFill))
     for (let row = frame.h - 1; row >= 0; row -= 1) {
+      let filled = 0
       for (let col = 0; col < frame.w; col += 1) {
         const at = ((frame.y + row) * alpha.width + frame.x + col) * 4 + 3
-        if (alpha.data[at]! > 0) return row + 1
+        if (alpha.data[at]! > 0) filled += 1
       }
+      if (filled >= need) return row + 1
     }
     return frame.h
   }
@@ -109,7 +116,7 @@ export class AtlasTextureProvider implements TextureProvider {
     if (!found || !atlas) return Texture.EMPTY
     const { x, y, w } = found.frame
     // Trimming drops transparent rows at the bottom so a sprite anchored there stands on the ground.
-    const h = trim ? this.opaqueHeight(found.district, found.frame) : found.frame.h
+    const h = trim ? this.opaqueHeight(found.district, found.frame, FACADE_MIN_FILL) : found.frame.h
     const width = part ? part.w : w
     const left = x + (part ? part.index * part.w : 0)
     const texture = new Texture({ source: atlas.source, frame: new Rectangle(left, y, width, h) })
