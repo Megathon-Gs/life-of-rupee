@@ -12,7 +12,7 @@ No new dependency without an ADR. If ambiguous or conflicting with the spec, STO
 ## Commits & branches
 
 `feat|fix|chore|docs(scope): message`. Branch `feat/<slug>`. Never force-push shared branches.
-Never commit secrets.
+Never commit secrets. Use `<Owner>-gh`. `<Owner>` is stored in `.orca-owner`
 
 ## Definition of Done (before labeling `merge-ready`)
 
