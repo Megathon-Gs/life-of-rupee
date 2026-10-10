@@ -159,29 +159,41 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
     if (mode.test) rendererRef.current?.step(16)
   }, [ready, visuals, mode.test])
 
-  // While a bottom sheet is open the street is laid out in the part of the screen above it.
+  // Keep the current location centred in the part of the street not covered by the panel.
   useEffect(() => {
     const renderer = rendererRef.current
     if (!ready || !renderer) return
-    const apply = (inset: number) => {
-      renderer.setBottomInset(inset * (window.devicePixelRatio || 1))
+    const apply = (bottom: number, side: number, center: number) => {
+      const dpr = window.devicePixelRatio || 1
+      renderer.setBottomInset(bottom * dpr)
+      renderer.setSideInset(side * dpr)
+      bandRef.current?.style.setProperty('--door-center', `${center}%`)
       if (mode.test) renderer.step(16)
     }
     if (panel === null) {
-      apply(0)
+      apply(0, 0, 50)
       return
     }
     const dialog = document.querySelector('[role="dialog"]')
     if (!dialog) return
     const measure = () => {
       const rect = dialog.getBoundingClientRect()
-      // A side panel (wide screens) leaves the street alone; only a full-width sheet counts.
-      apply(rect.width >= window.innerWidth * 0.9 ? Math.max(0, window.innerHeight - rect.top) : 0)
+      if (rect.width >= window.innerWidth * 0.9) {
+        apply(Math.max(0, window.innerHeight - rect.top), 0, 50)
+      } else {
+        apply(0, Math.max(0, window.innerWidth - rect.left), (rect.left / window.innerWidth) * 50)
+      }
     }
     measure()
     const observer = new ResizeObserver(measure)
     observer.observe(dialog)
-    return () => observer.disconnect()
+    window.addEventListener('resize', measure)
+    dialog.addEventListener('animationend', measure)
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('resize', measure)
+      dialog.removeEventListener('animationend', measure)
+    }
   }, [ready, panel, mode.test])
 
   // The door cue sits above the protagonist, wherever the stage lands for this screen.

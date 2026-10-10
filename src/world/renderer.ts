@@ -87,6 +87,7 @@ export class PixiWorldRenderer implements WorldRenderer {
   private paused = false
   private clock = 0
   private bottomInset = 0
+  private sideInset = 0
   private deviceSize?: { width: number; height: number }
   private animState: ProtagonistState = 'idle'
   private animClock = 0
@@ -281,6 +282,14 @@ export class PixiWorldRenderer implements WorldRenderer {
     if (this.deviceSize) this.layout(this.deviceSize.width, this.deviceSize.height)
   }
 
+  /** Device px covered on the right by a docked panel. */
+  setSideInset(devicePx: number): void {
+    const inset = Math.max(0, Math.round(devicePx))
+    if (inset === this.sideInset) return
+    this.sideInset = inset
+    this.updateCamera()
+  }
+
   private setViewport(viewport: { width: number; height: number; dpr?: number }): void {
     const dpr = viewport.dpr ?? 1
     this.layout(
@@ -341,10 +350,11 @@ export class PixiWorldRenderer implements WorldRenderer {
   }
 
   private updateCamera(): void {
-    const maxCamera = Math.max(0, this.worldWidth - this.logicalViewportWidth)
+    const visibleWidth = Math.max(1, this.logicalViewportWidth - this.sideInset / this.scale)
+    const maxCamera = Math.max(0, this.worldWidth - visibleWidth)
     this.cameraX = Math.min(
       maxCamera,
-      Math.max(0, this.protagonistX - this.logicalViewportWidth / 2),
+      Math.max(0, this.protagonistX - visibleWidth / 2),
     )
     for (const layer of LAYERS) {
       this.layerContainers[layer.name].x = -Math.round(this.cameraX * layer.factor)

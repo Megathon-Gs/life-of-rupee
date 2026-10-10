@@ -226,6 +226,20 @@ test('scrolling inside the level panel does not move the world', async ({ page }
   await expect(band(page)).toHaveAttribute('inert', /.*/)
 })
 
+test('wide side panel keeps the door cue in the visible street area', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop')
+  await startNewProfile(page)
+  await travelTo(page, 'bank')
+  await page.getByTestId('door-cue').click()
+
+  const dialog = page.getByRole('dialog')
+  await expect(dialog).toBeVisible()
+  const cue = await page.getByTestId('door-cue').boundingBox()
+  const panel = await dialog.boundingBox()
+  if (!cue || !panel) throw new Error('door cue or panel has no layout box')
+  expect(cue.x + cue.width / 2).toBeLessThan(panel.x)
+})
+
 test('first-level load transfers at most 1.5 MB', async ({ page }) => {
   let bytes = 0
   page.on('response', async (response) => {

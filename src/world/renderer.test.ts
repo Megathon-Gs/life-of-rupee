@@ -66,6 +66,14 @@ describe('PixiWorldRenderer travelTo', () => {
     expect(sprite.y).toBe(210)
   })
 
+  it('centres the current location in the unobscured area beside a side panel', async () => {
+    await renderer.travelTo('bank' as LocationId, { reducedMotion: false })
+    renderer.setSideInset(585)
+    expect(renderer.protagonistSprite.x).toBe(73)
+    renderer.setSideInset(0)
+    expect(renderer.protagonistSprite.x).toBe(146)
+  })
+
   it('faces right when travelling forward and left when travelling back', async () => {
     await renderer.travelTo('bank' as LocationId, { reducedMotion: false })
     expect(renderer.protagonistSprite.scale.x).toBe(1)

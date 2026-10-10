@@ -36,7 +36,7 @@
 /* Door cue over the building the protagonist stands at. */
 .door {
   position: absolute;
-  left: 50%;
+  left: var(--door-center, 50%);
   top: var(--door-top, 46%);
   z-index: calc(var(--z-hud) + 1);
   translate: -50% 0;
