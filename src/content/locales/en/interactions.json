@@ -1,0 +1,16 @@
+{
+  "banner": "Simulated — never enter real details",
+  "feedback": "That choice does not fit this fictional task. You can try again.",
+  "explanation": {
+    "control": "Why is this incorrect?",
+    "text": "Use only the fictional details shown in this activity and choose the option that fits the task."
+  },
+  "hint": {
+    "control": "Show a hint",
+    "level1": "Hint 1: Read the question and compare the choices carefully.",
+    "level2": "Hint 2: Use the fictional details shown in this activity."
+  },
+  "document": {
+    "inspect": "Choose {label}"
+  }
+}
