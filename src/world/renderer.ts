@@ -7,7 +7,7 @@ import type {
   WorldRenderer,
   WorldVisuals,
 } from '@/core/contracts'
-import { bandHeight, logicalWidth, LOGICAL_HEIGHT, scaleFor, stageOffsetY } from './scale'
+import { fitScale, logicalWidth, LOGICAL_HEIGHT, stageExtents, stageOffsetY } from './scale'
 import {
   BUILDING_HEIGHT,
   BUILDING_WIDTH,
@@ -268,28 +268,36 @@ export class PixiWorldRenderer implements WorldRenderer {
     const dpr = viewport.dpr ?? 1
     const deviceWidth = Math.max(1, Math.round(viewport.width * dpr))
     const deviceHeight = Math.max(1, Math.round(viewport.height * dpr))
-    this.scale = scaleFor(bandHeight({ width: deviceWidth, height: deviceHeight }))
+    this.scale = fitScale({ width: deviceWidth, height: deviceHeight })
     this.logicalViewportWidth = logicalWidth(deviceWidth, this.scale)
 
     this.app?.renderer.resize(deviceWidth, deviceHeight)
-    // The stage fills the band, bottom-anchored; the scale remainder above it is sky, and the
-    // canvas below the band stays transparent so the app surface shows through.
-    const band = bandHeight({ width: deviceWidth, height: deviceHeight })
-    const offsetY = stageOffsetY(band, this.scale)
+    // The art reaches every edge: the stage sits with its ground line near 80% of the viewport,
+    // sky extends above it and road below it. All offsets are whole device pixels.
+    const offsetY = stageOffsetY(deviceHeight, this.scale)
     this.worldRoot.scale.set(this.scale)
     this.worldRoot.y = offsetY
-    this.layoutLayers()
+    this.layoutLayers(stageExtents(deviceHeight, this.scale))
     this.updateCamera()
-    this.drawBackground(deviceWidth, band, offsetY)
+    this.drawBackground(deviceWidth, deviceHeight, offsetY)
   }
 
-  private layoutLayers(): void {
+  private layoutLayers(extent: { top: number; bottom: number }): void {
     const maxCamera = Math.max(0, this.worldWidth - this.logicalViewportWidth)
     for (const layer of LAYERS) {
       const tile = this.tiles.get(layer.name)!
       tile.width = maxCamera * layer.factor + this.logicalViewportWidth + 64
       tile.height = LOGICAL_HEIGHT
+      tile.y = 0
       tile.texture = this.textures.layer(layer.name)
+      if (layer.name === 'sky' && this.textures.skyExtended) {
+        tile.texture = this.textures.skyExtended(extent.top)
+        tile.y = -extent.top
+        tile.height = LOGICAL_HEIGHT + extent.top
+      } else if (layer.name === 'street') {
+        // Road continues below the stage, as far as the texture has rows for.
+        tile.height += Math.min(extent.bottom, Math.max(0, tile.texture.height - LOGICAL_HEIGHT))
+      }
     }
     this.protagonist.texture = this.textures.protagonist('idle')
     this.protagonist.width = PROTAGONIST_WIDTH
@@ -297,13 +305,13 @@ export class PixiWorldRenderer implements WorldRenderer {
     this.protagonist.y = GROUND_Y
   }
 
-  private drawBackground(deviceWidth: number, band: number, offsetY: number): void {
+  private drawBackground(deviceWidth: number, deviceHeight: number, offsetY: number): void {
     const groundY = offsetY + Math.round(GROUND_Y * this.scale)
     this.background
       .clear()
-      .rect(0, 0, deviceWidth, band)
+      .rect(0, 0, deviceWidth, deviceHeight)
       .fill(this.textures.sky)
-      .rect(0, groundY, deviceWidth, Math.max(0, band - groundY))
+      .rect(0, groundY, deviceWidth, Math.max(0, deviceHeight - groundY))
       .fill(this.textures.pavement)
   }
 

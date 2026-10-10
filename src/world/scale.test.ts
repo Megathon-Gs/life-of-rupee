@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { bandHeight, logicalWidth, scaleFor, stageOffsetY } from './scale'
+import { bandHeight, fitScale, logicalWidth, scaleFor, stageExtents, stageOffsetY } from './scale'
 
 describe('scaleFor', () => {
   it('floors the band height to whole multiples of 270', () => {
@@ -32,13 +32,38 @@ describe('bandHeight', () => {
 })
 
 describe('stageOffsetY', () => {
-  it('leaves the integer-scale remainder as sky above a bottom-anchored stage', () => {
-    expect(stageOffsetY(1332, 4)).toBe(252)
+  it('puts the ground line near 80% of a tall viewport, above the bottom controls', () => {
+    // 1350 px stage in 2220: bottom-pinned would be 870; the ground-line rule gives 726.
+    expect(stageOffsetY(2220, 5)).toBe(726)
+    expect(stageOffsetY(2402, 5)).toBe(872)
+  })
+
+  it('stays bottom-pinned when that is already higher (landscape)', () => {
     expect(stageOffsetY(900, 3)).toBe(90)
     expect(stageOffsetY(270, 1)).toBe(0)
   })
 
-  it('never goes negative for a band shorter than the stage', () => {
+  it('never goes negative for a viewport shorter than the stage', () => {
     expect(stageOffsetY(100, 1)).toBe(0)
+  })
+})
+
+describe('stageExtents', () => {
+  it('reports the whole rows of sky above and road below', () => {
+    expect(stageExtents(2220, 5)).toEqual({ top: 146, bottom: 29 })
+    expect(stageExtents(900, 3)).toEqual({ top: 30, bottom: 0 })
+  })
+})
+
+describe('fitScale', () => {
+  it('fits the full height in landscape', () => {
+    expect(fitScale({ width: 1440, height: 900 })).toBe(3)
+  })
+
+  it('fills more of a portrait phone but keeps about two buildings across', () => {
+    expect(fitScale({ width: 1080, height: 2220 })).toBe(5)
+    expect(fitScale({ width: 1082, height: 2402 })).toBe(5)
+    expect(fitScale({ width: 720, height: 1480 })).toBe(3)
+    expect(fitScale({ width: 360, height: 740 })).toBe(1)
   })
 })
