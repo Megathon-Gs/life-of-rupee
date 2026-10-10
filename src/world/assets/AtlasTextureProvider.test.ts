@@ -55,6 +55,15 @@ describe('AtlasTextureProvider', () => {
     expect(texture.frame.x).toBe(320)
   })
 
+  it('uses the packed facade baseline instead of scanning atlas pixels', () => {
+    const withBaseline = structuredClone(manifest)
+    withBaseline.districts.urban.frames.home!.baseline = [{ opaque: 144, facade: 144 }]
+    const packed = new AtlasTextureProvider(withBaseline, {
+      urban: { source: new TextureSource({ width: 736, height: 304 }) },
+    })
+    expect(packed.building(location('home'), {}).texture.frame.height).toBe(144)
+  })
+
   it('cuts one east-facing 32x48 protagonist frame from the sheet', () => {
     const texture = provider.protagonist('walk')
     expect(texture.frame.width).toBe(32)

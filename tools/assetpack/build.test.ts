@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs'
-import { mkdir, mkdtemp, readFile, rm } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import sharp from 'sharp'
@@ -42,8 +42,50 @@ describe('assetpack build', () => {
     expect(existsSync(join(out, urban.atlas))).toBe(true)
     expect(Object.keys(urban.frames).sort()).toEqual(['bank', 'home'])
     // Taller sprite packs first; both fit on one 64px shelf.
-    expect(urban.frames.bank).toEqual({ x: 0, y: 0, w: 16, h: 32 })
-    expect(urban.frames.home).toEqual({ x: 16, y: 0, w: 16, h: 16 })
+    expect(urban.frames.bank).toMatchObject({
+      x: 0,
+      y: 0,
+      w: 16,
+      h: 32,
+      baseline: [{ opaque: 32, facade: 32 }],
+    })
+    expect(urban.frames.home).toMatchObject({
+      x: 16,
+      y: 0,
+      w: 16,
+      h: 16,
+      baseline: [{ opaque: 16, facade: 16 }],
+    })
+  })
+
+  it('records opaque and facade baselines for each sheet frame', async () => {
+    const sprite = join(approved, 'urban', 'padded.png')
+    const pixels = Buffer.alloc(32 * 16 * 4)
+    for (let y = 0; y < 15; y++) {
+      for (let x = 0; x < 32; x++) pixels[(y * 32 + x) * 4 + 3] = 255
+    }
+    pixels[(15 * 32 + 16) * 4 + 3] = 255
+    await sharp(pixels, { raw: { width: 32, height: 16, channels: 4 } })
+      .png()
+      .toFile(sprite)
+    await writeFile(sprite.replace(/\.png$/, '.json'), JSON.stringify({ frameSize: [16, 16] }))
+    const out = join(root, 'baseline')
+    await buildAtlases({ path: approved, out, maxWidth: 64 })
+    const manifest = JSON.parse(await readFile(join(out, 'manifest.json'), 'utf8'))
+    expect(manifest.districts.urban.frames.padded.baseline).toEqual([
+      { opaque: 15, facade: 15 },
+      { opaque: 16, facade: 15 },
+    ])
+  })
+
+  it('rejects invalid frame dimensions instead of looping while packing', async () => {
+    const invalidApproved = join(root, 'invalid-approved')
+    const sprite = join(invalidApproved, 'urban', 'invalid.png')
+    await solid(sprite, 16, 16)
+    await writeFile(sprite.replace(/\.png$/, '.json'), JSON.stringify({ frameSize: [0, 16] }))
+    await expect(
+      buildAtlases({ path: invalidApproved, out: join(root, 'invalid') }),
+    ).rejects.toThrow('Invalid frameSize')
   })
 
   it('is deterministic for the same input', async () => {

@@ -4,6 +4,8 @@ export interface AtlasFrame {
   y: number
   w: number
   h: number
+  /** Bottom row extents for each source frame, measured by assetpack. */
+  baseline?: Array<{ opaque: number; facade: number }>
 }
 
 /** One packed district atlas. */
