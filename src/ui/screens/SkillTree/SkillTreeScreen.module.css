@@ -135,9 +135,26 @@
 }
 
 .nodeState,
-.nodeNeeds {
+.nodeNeeds,
+.nodeStars {
   font-size: var(--fs-xs);
   color: var(--color-text-muted);
+}
+
+.nodeStars {
+  color: var(--color-lit);
+}
+
+.nodeAction {
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-path);
+  font: inherit;
+  font-size: var(--fs-xs);
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .node[data-just-lit] .nodeState {
@@ -158,6 +175,16 @@
     box-shadow:
       var(--bezel),
       0 0 0 var(--sp-3) var(--c-marigold-100);
+  }
+}
+
+.screen[data-reduced-motion='true'] .node[data-just-lit] .marker {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .node[data-just-lit] .marker {
+    animation: none;
   }
 }
 

@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { LevelDef, LocationId, SaveStore, TravelCommand } from '@/core/contracts'
+import type { LevelDef, LocationId, SaveStore, SkillNodeId, TravelCommand } from '@/core/contracts'
 import { deriveWorldVisuals } from '@/core/worldVisuals'
 import { world } from '@/content/world'
 import { attachTravelInput, createTravelMachine } from '@/input'
@@ -19,6 +19,8 @@ import type { AppMode } from './mode'
 import { useDerived, useGame, useGameStore } from './store'
 import { loadTextureProvider } from './textures'
 import { LocationLabels } from './LocationLabels'
+import { SkillTreeScreen } from '@/ui/screens/SkillTree'
+import { skillTree } from '@/content/skillTree'
 import { stageMetrics } from './stage'
 import { enterLocation, exitLocation, onArrive } from './transitions'
 import styles from './App.module.css'
@@ -32,7 +34,10 @@ export function travelTarget(current: LocationId, cmd: TravelCommand): LocationI
   return ids[Math.min(ids.length - 1, Math.max(0, index + cmd.dir))] ?? current
 }
 
-type Panel = { kind: 'level'; level: LevelDef } | { kind: 'settings' }
+type Panel =
+  | { kind: 'level'; level: LevelDef }
+  | { kind: 'settings' }
+  | { kind: 'skillTree'; focusNode?: SkillNodeId }
 
 export interface GameProps {
   mode: AppMode
@@ -232,7 +237,24 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
   }
 
   const index = ids.indexOf(locationId)
-  const panelTitle = panel?.kind === 'settings' ? t('settings.title', { ns: 'ui' }) : placeName
+  const panelTitle =
+    panel?.kind === 'settings'
+      ? t('settings.title', { ns: 'ui' })
+      : panel?.kind === 'skillTree'
+        ? t('skillTree.title', { ns: 'ui' })
+        : placeName
+
+  const replayNode = async (node: SkillNodeId) => {
+    const target = levels.find((candidate) => candidate.skillNodes.includes(node))
+    if (!target) return
+    closePanel()
+    if (store.getState().save.position.locationId !== target.location) {
+      await runCommand({ kind: 'goto', id: target.location })
+      if (store.getState().save.position.locationId !== target.location) return
+    }
+    void enterLocation(target.location)
+    openPanel({ kind: 'level', level: target })
+  }
 
   return (
     <>
@@ -276,6 +298,9 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
         footer={
           panel?.kind === 'settings' ? (
             <>
+              <Button onClick={() => setPanel({ kind: 'skillTree' })}>
+                {t('openTree', { ns: 'skilltree' })}
+              </Button>
               <Button data-testid="profile-switch" onClick={onSwitchProfile}>
                 {t('settings.switchProfile')}
               </Button>
@@ -289,6 +314,22 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
         {panel?.kind === 'settings' && (
           <SettingsPanel settings={settings} onChange={changeSettings} />
         )}
+        {panel?.kind === 'skillTree' && (
+          <SkillTreeScreen
+            tree={skillTree}
+            completed={derived.skills}
+            focusNode={panel.focusNode}
+            justLit={panel.focusNode}
+            bestStars={Object.fromEntries(
+              levels.flatMap((candidate) => {
+                const stars = derived.bestStars[candidate.id]
+                return stars === undefined ? [] : candidate.skillNodes.map((node) => [node, stars])
+              }),
+            )}
+            onReplay={replayNode}
+            onBack={closePanel}
+          />
+        )}
         {panel?.kind === 'level' && (
           <LevelPanel
             level={panel.level}
@@ -300,6 +341,10 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
               setSavedDerived(store.derived())
             }}
             onClose={closePanel}
+            onOpenSkill={(node) => {
+              void exitLocation(panel.level.location)
+              setPanel({ kind: 'skillTree', focusNode: node })
+            }}
           />
         )}
       </PanelShell>

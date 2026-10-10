@@ -1,6 +1,6 @@
 import { useEffect, useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { ReviewItem, SkillTreeDef, Stars } from '@/core/contracts'
+import type { ReviewItem, SkillNodeId, SkillTreeDef, Stars } from '@/core/contracts'
 import { STAR_REVEAL_MS } from '../../tokens'
 import { Button } from '../../shell/Button'
 import { PixelStar } from '../../shell/PixelStar'
@@ -36,6 +36,9 @@ export interface ResultsScreenProps {
   reviewNamespace: string
   /** Used to name the skill each review item points to. */
   skillTree: SkillTreeDef
+  firstStars?: Stars
+  bestStars?: Stars
+  onOpenSkill?: (node: SkillNodeId) => void
   onRetry: () => void
   onContinue: () => void
 }
@@ -50,6 +53,9 @@ export function ResultsScreen({
   reviewItems,
   reviewNamespace,
   skillTree,
+  firstStars,
+  bestStars,
+  onOpenSkill,
   onRetry,
   onContinue,
 }: ResultsScreenProps) {
@@ -77,7 +83,7 @@ export function ResultsScreen({
   const lost = MAX_STARS - stars
   const perfect = stars === MAX_STARS
   const skillLabel = (id: string) => {
-    const node = skillTree.nodes.find(n => n.id === id)
+    const node = skillTree.nodes.find((n) => n.id === id)
     return node ? t(node.labelKey, { ns: 'world' }) : id
   }
 
@@ -93,7 +99,11 @@ export function ResultsScreen({
   )
 
   return (
-    <section className={styles.screen} aria-labelledby={titleId} data-reduced-motion={reducedMotion}>
+    <section
+      className={styles.screen}
+      aria-labelledby={titleId}
+      data-reduced-motion={reducedMotion}
+    >
       <div className={styles.sheet}>
         <div className={styles.score}>
           <h2 id={titleId} className={styles.title}>
@@ -116,7 +126,19 @@ export function ResultsScreen({
             })}
           </ol>
           <p className={styles.summary}>{t('results.starsSummary', { stars })}</p>
-          <p className={styles.loss}>{lost > 0 ? t('results.starsLost', { lost }) : t('results.allStars')}</p>
+          {firstStars !== undefined && bestStars !== undefined && bestStars > firstStars && (
+            <p className={styles.best}>
+              {t('results.bestAfterReplay', {
+                ns: 'skilltree',
+                best: '★'.repeat(bestStars),
+                first: '★'.repeat(firstStars),
+                count: bestStars - firstStars,
+              })}
+            </p>
+          )}
+          <p className={styles.loss}>
+            {lost > 0 ? t('results.starsLost', { lost }) : t('results.allStars')}
+          </p>
         </div>
 
         <div className={styles.review}>
@@ -127,18 +149,29 @@ export function ResultsScreen({
             <p className={styles.empty}>{t('results.reviewEmpty')}</p>
           ) : (
             <ul className={styles.items}>
-              {reviewItems.map(item => (
+              {reviewItems.map((item) => (
                 <li key={item.error} className={styles.item} data-severity={item.severity}>
                   <p className={styles.severity}>{t(`results.severity.${item.severity}`)}</p>
                   <dl className={styles.parts}>
-                    {parseReview(t(item.reviewKey, { ns: reviewNamespace })).map(part => (
+                    {parseReview(t(item.reviewKey, { ns: reviewNamespace })).map((part) => (
                       <div key={part.label + part.text} className={styles.part}>
                         {part.label && <dt className={styles.partLabel}>{part.label}</dt>}
                         <dd className={styles.partText}>{part.text}</dd>
                       </div>
                     ))}
                   </dl>
-                  <p className={styles.skill}>{t('results.skillPointer', { skill: skillLabel(item.skillNode) })}</p>
+                  {onOpenSkill ? (
+                    <button
+                      className={styles.skillLink}
+                      onClick={() => onOpenSkill(item.skillNode)}
+                    >
+                      {t('results.skillPointer', { skill: skillLabel(item.skillNode) })}
+                    </button>
+                  ) : (
+                    <p className={styles.skill}>
+                      {t('results.skillPointer', { skill: skillLabel(item.skillNode) })}
+                    </p>
+                  )}
                 </li>
               ))}
             </ul>
