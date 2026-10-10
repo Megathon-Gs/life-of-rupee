@@ -14,7 +14,19 @@ export const fixtureLevel: LevelDef = LevelDefSchema.parse({
       id: 'decision',
       type: 'decision',
       interaction: 'formFiller',
-      config: { form: 'account' },
+      config: {
+        titleKey: 'fixture.form',
+        fields: ['route', 'identity'].map((id) => ({
+          id,
+          labelKey: `fixture.${id}`,
+          options: [
+            { id: 'right', labelKey: 'fixture.right' },
+            { id: 'wrong', labelKey: 'fixture.wrong' },
+          ],
+          correctOptionId: 'right',
+          error: 'bank.wrong_document',
+        })),
+      },
       rubric: defaultRubric,
     },
     {

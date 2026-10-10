@@ -16,7 +16,8 @@ import { contentVersion } from './contentVersion'
 import { pickIndex } from './prng'
 
 /** Runner-only inputs that are not scored and never enter the event log. */
-export type RunnerSignal = { kind: 'arrivedAt'; locationId: LocationId } | { kind: 'continue' }
+export type RunnerSignal =
+  { kind: 'arrivedAt'; locationId: LocationId } | { kind: 'continue' } | { kind: 'interactionDone' }
 
 /** Everything `dispatch` accepts: scored interaction events plus runner signals. */
 export type RunnerInput = InteractionEvent | RunnerSignal
@@ -41,9 +42,9 @@ export interface RunnerView extends RunnerState {
   view: StepView | null
 }
 
-/** Optional extras for `resume`; the snapshot contract carries no seed or clock. */
+/** Fallback dependencies for snapshots without metadata. */
 export interface ResumeOptions {
-  /** Transfer seed; defaults to 0, so a reload during Transfer may show a different variant. */
+  /** Transfer seed for legacy snapshots; defaults to 0. */
   seed?: number
   /** Clock for the resumed attempt; defaults to the factory clock. */
   now?: Clock
@@ -59,7 +60,7 @@ export interface LevelRunnerDeps {
   now?: Clock
 }
 
-/** `LevelRunner` plus the explicit travel/continue methods and mid-level snapshots. */
+/** `LevelRunner` plus explicit step completion and mid-level snapshots. */
 export interface LevelRunnerImpl extends LevelRunner {
   current(): RunnerView
   /** Records an interaction event or applies a runner signal; returns whether it was accepted. */
@@ -69,6 +70,8 @@ export interface LevelRunnerImpl extends LevelRunner {
   arrive(locationId: LocationId): boolean
   /** Same as dispatching `continue`; completes the Hook and Consequence steps. */
   advance(): boolean
+  /** Same as dispatching `interactionDone`; completes Lesson, Decision or Transfer. */
+  complete(): boolean
   /** Mid-level state for `SaveFile.position.inLevel`. */
   snapshot(): InLevelSnapshot
 }
@@ -100,8 +103,9 @@ export function createLevelRunner(deps: LevelRunnerDeps): LevelRunnerImpl {
     now: Clock,
     stepIndex: number,
     events: InteractionEvent[],
+    startedAt = now(),
   ) => {
-    session = { level, seed, now, startedAt: now(), stepIndex, events, done: false }
+    session = { level, seed, now, startedAt, stepIndex, events, done: false }
   }
 
   const transferVariant = (s: Session) => {
@@ -197,12 +201,12 @@ export function createLevelRunner(deps: LevelRunnerDeps): LevelRunnerImpl {
     // Scored events only count on an interactive step and only for that step's id, so a
     // late event from a closed panel cannot leak into the next step.
     if (step.type !== 'lesson' && step.type !== 'decision' && step.type !== 'transfer') return false
+    if (input.kind === 'interactionDone') {
+      next(s)
+      return true
+    }
     if (input.stepId !== step.id) return false
     s.events.push(input)
-    if (input.kind !== 'choice') return true
-    // Every interactive step waits for a correct answer; score() caps stars from the
-    // first transfer answer, so a corrected wrong answer is still capped.
-    if (input.correct) next(s)
     return true
   }
 
@@ -219,7 +223,14 @@ export function createLevelRunner(deps: LevelRunnerDeps): LevelRunnerImpl {
       }
       const now = opts.now ?? deps.now
       if (!now) throw new Error('resume needs a clock: pass opts.now or deps.now')
-      begin(level, opts.seed ?? 0, now, snapshot.stepIndex, [...snapshot.events])
+      begin(
+        level,
+        snapshot.seed ?? opts.seed ?? 0,
+        now,
+        snapshot.stepIndex,
+        [...snapshot.events],
+        snapshot.startedAt,
+      )
     },
 
     current() {
@@ -243,9 +254,19 @@ export function createLevelRunner(deps: LevelRunnerDeps): LevelRunnerImpl {
       return dispatch({ kind: 'continue' })
     },
 
+    complete() {
+      return dispatch({ kind: 'interactionDone' })
+    },
+
     snapshot() {
       const s = active()
-      return { levelId: s.level.id, stepIndex: s.stepIndex, events: [...s.events] }
+      return {
+        levelId: s.level.id,
+        stepIndex: s.stepIndex,
+        events: [...s.events],
+        seed: s.seed,
+        startedAt: s.startedAt,
+      }
     },
 
     onComplete(cb) {

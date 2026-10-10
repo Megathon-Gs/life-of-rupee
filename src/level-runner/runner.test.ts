@@ -30,6 +30,7 @@ const setup = (seed = 7) => {
 const toDecision = (runner: LevelRunnerImpl) => {
   runner.advance()
   runner.dispatch({ kind: 'choice', stepId: 'lesson', correct: true })
+  runner.complete()
   runner.arrive(loc('bank'))
 }
 
@@ -43,11 +44,45 @@ const minorMistakeRun = (runner: LevelRunnerImpl) => {
     severity: 'minor',
   })
   runner.dispatch({ kind: 'choice', stepId: 'decision', correct: true })
+  runner.complete()
   runner.advance()
   runner.dispatch({ kind: 'choice', stepId: 'transfer', correct: true })
+  runner.complete()
 }
 
 describe('LevelRunner', () => {
+  it('records both fields of a form, including a corrected mistake, before completion', () => {
+    const { runner, completions } = setup()
+    toDecision(runner)
+    expect(runner.current().view).toMatchObject({
+      interaction: 'formFiller',
+      config: { fields: [{ id: 'route' }, { id: 'identity' }] },
+    })
+    const choices: InteractionEvent[] = [
+      { kind: 'choice', stepId: 'decision', correct: true },
+      {
+        kind: 'choice',
+        stepId: 'decision',
+        correct: false,
+        error: 'bank.wrong_document',
+        severity: 'minor',
+      },
+      { kind: 'choice', stepId: 'decision', correct: true },
+    ]
+    for (const choice of choices) {
+      expect(runner.dispatch(choice)).toBe(true)
+      expect(runner.current().view?.type).toBe('decision')
+    }
+    expect(runner.current().events.filter((event) => event.stepId === 'decision')).toEqual(choices)
+    expect(runner.dispatch({ kind: 'interactionDone' })).toBe(true)
+    expect(runner.current().view?.type).toBe('consequence')
+    runner.advance()
+    runner.dispatch({ kind: 'choice', stepId: 'transfer', correct: true })
+    runner.complete()
+    expect(completions[0]!.score.stars).toBe(2)
+    expect(completions[0]!.attempt.errors).toEqual(['bank.wrong_document'])
+  })
+
   it('walks the six steps in order and exposes what to render', () => {
     const { runner } = setup()
     expect(runner.current().view).toEqual({
@@ -62,10 +97,14 @@ describe('LevelRunner', () => {
       config: { fields: 2 },
     })
     runner.dispatch({ kind: 'choice', stepId: 'lesson', correct: true })
+    expect(runner.current().view?.type).toBe('lesson')
+    runner.complete()
     expect(runner.current().view).toEqual({ type: 'travel', stepId: 'travel', location: 'bank' })
     runner.arrive(loc('bank'))
     expect(runner.current().view).toMatchObject({ type: 'decision', interaction: 'formFiller' })
     runner.dispatch({ kind: 'choice', stepId: 'decision', correct: true })
+    expect(runner.current().view?.type).toBe('decision')
+    runner.dispatch({ kind: 'interactionDone' })
     expect(runner.current().view).toMatchObject({
       type: 'consequence',
       explanationKey: 'fixture.explain',
@@ -73,6 +112,8 @@ describe('LevelRunner', () => {
     runner.advance()
     expect(runner.current().view).toMatchObject({ type: 'transfer', stepId: 'transfer' })
     runner.dispatch({ kind: 'choice', stepId: 'transfer', correct: true })
+    expect(runner.current().done).toBe(false)
+    runner.complete()
     expect(runner.current()).toMatchObject({ done: true, view: null })
   })
 
@@ -115,8 +156,10 @@ describe('LevelRunner', () => {
     })
 
     resumed.dispatch({ kind: 'choice', stepId: 'decision', correct: true })
+    resumed.complete()
     resumed.advance()
     resumed.dispatch({ kind: 'choice', stepId: 'transfer', correct: true })
+    resumed.complete()
     expect(completions[0]!.attempt).toMatchObject({ stars: 2, hints: 1 })
   })
 
@@ -124,10 +167,40 @@ describe('LevelRunner', () => {
     const runner = createLevelRunner({ levels: [fixtureLevel], newId: () => 'x', now: clock() })
     runner.resume({ levelId: fixtureLevel.id, stepIndex: 5, events: [] })
     expect(runner.current().view).toMatchObject({ type: 'transfer' })
+    expect(runner.snapshot()).toMatchObject({ seed: 0, startedAt: '2026-01-01T00:00:00.000Z' })
+    runner.resume({ levelId: fixtureLevel.id, stepIndex: 5, events: [] }, { seed: 42 })
+    expect(runner.snapshot().seed).toBe(42)
     const bare = createLevelRunner({ levels: [], newId: () => 'x' })
     expect(() => bare.resume({ levelId: fixtureLevel.id, stepIndex: 0, events: [] })).toThrow(
       /Unknown level/,
     )
+  })
+
+  it('round-trips transfer seed and original start time, preferring snapshot metadata', () => {
+    const { runner } = setup(42)
+    toDecision(runner)
+    runner.dispatch({ kind: 'choice', stepId: 'decision', correct: true })
+    runner.complete()
+    runner.advance()
+    const snapshot = InLevelSnapshotSchema.parse(JSON.parse(JSON.stringify(runner.snapshot())))
+    expect(snapshot).toMatchObject({ seed: 42, startedAt: '2026-01-01T00:00:00.000Z' })
+
+    const resumed = createLevelRunner({
+      levels: [fixtureLevel],
+      newId: () => 'resumed',
+      now: () => '2026-01-02T00:00:00.000Z',
+    })
+    const completions: LevelCompletion[] = []
+    resumed.onComplete((completion) => completions.push(completion))
+    resumed.resume(snapshot, { seed: 99 })
+    expect(resumed.current()).toEqual(runner.current())
+    expect(resumed.snapshot()).toEqual(snapshot)
+    resumed.dispatch({ kind: 'choice', stepId: 'transfer', correct: true })
+    resumed.complete()
+    expect(completions[0]!.attempt).toMatchObject({
+      startedAt: snapshot.startedAt,
+      endedAt: '2026-01-02T00:00:00.000Z',
+    })
   })
 
   it('same seed → same transfer variant; 100 seeds cover every variant', () => {
@@ -135,6 +208,7 @@ describe('LevelRunner', () => {
       const { runner } = setup(seed)
       toDecision(runner)
       runner.dispatch({ kind: 'choice', stepId: 'decision', correct: true })
+      runner.complete()
       runner.advance()
       const view = runner.current().view
       return view?.type === 'transfer' ? view.variantId : undefined
@@ -148,6 +222,7 @@ describe('LevelRunner', () => {
     const { runner } = setup()
     runner.advance()
     runner.dispatch({ kind: 'choice', stepId: 'lesson', correct: true })
+    runner.complete()
     expect(runner.arrive(loc('market'))).toBe(false)
     expect(runner.dispatch({ kind: 'arrivedAt', locationId: loc('school') })).toBe(false)
     expect(runner.current().view).toMatchObject({ type: 'travel' })
@@ -160,16 +235,18 @@ describe('LevelRunner', () => {
     const stray: InteractionEvent = { kind: 'choice', stepId: 'decision', correct: true }
     expect(runner.dispatch(stray)).toBe(false)
     expect(runner.arrive(loc('bank'))).toBe(false)
+    expect(runner.complete()).toBe(false)
     expect(runner.current()).toMatchObject({ stepIndex: 0, events: [] })
     runner.advance()
     expect(runner.advance()).toBe(false)
     expect(runner.current().stepIndex).toBe(1)
   })
 
-  it('a wrong transfer answer keeps the level open; a correct one completes it with the transfer cap', () => {
+  it('transfer answers keep the level open until completion, preserving the transfer cap', () => {
     const { runner, completions } = setup()
     toDecision(runner)
     runner.dispatch({ kind: 'choice', stepId: 'decision', correct: true })
+    runner.complete()
     runner.advance()
     runner.dispatch({
       kind: 'choice',
@@ -181,16 +258,20 @@ describe('LevelRunner', () => {
     expect(runner.current().done).toBe(false)
     expect(runner.current().view?.type).toBe('transfer')
     runner.dispatch({ kind: 'choice', stepId: 'transfer', correct: true })
+    expect(runner.current().done).toBe(false)
+    runner.complete()
     expect(runner.current().done).toBe(true)
     expect(completions[0]!.score.capsApplied).toContain('transfer')
     expect(completions[0]!.score.stars).toBe(2)
     expect(runner.dispatch({ kind: 'choice', stepId: 'transfer', correct: true })).toBe(false)
+    expect(runner.complete()).toBe(false)
   })
 
   it('a critical wrong transfer answer followed by a correct one completes with 1 star', () => {
     const { runner, completions } = setup()
     toDecision(runner)
     runner.dispatch({ kind: 'choice', stepId: 'decision', correct: true })
+    runner.complete()
     runner.advance()
     runner.dispatch({
       kind: 'choice',
@@ -200,6 +281,7 @@ describe('LevelRunner', () => {
       severity: 'critical',
     })
     runner.dispatch({ kind: 'choice', stepId: 'transfer', correct: true })
+    runner.complete()
     expect(runner.current().done).toBe(true)
     expect(completions[0]!.score.stars).toBe(1)
     expect(completions[0]!.score.capsApplied).not.toContain('incomplete')
