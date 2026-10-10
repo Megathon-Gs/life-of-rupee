@@ -4,7 +4,7 @@ import { LevelDefSchema } from '@/core/contracts'
 // then answer the transfer correctly. The one account-route error earns 2 stars; a clean run earns 3.
 export const level = LevelDefSchema.parse({
   id: 'l02-bank-account',
-  skillNodes: ['bank.account'],
+  skillNodes: ['access.identity'],
   location: 'bank',
   steps: [
     { id: 'hook', type: 'hook', lineKeys: ['l02:hook.1', 'l02:hook.2', 'l02:hook.3'] },

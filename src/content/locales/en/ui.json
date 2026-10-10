@@ -5,6 +5,7 @@
     "previous": "Previous place",
     "next": "Next place",
     "settings": "Settings",
+    "skillTree": "Skill tree",
     "progress": "Place {current} of {total}"
   },
   "dialogue": {

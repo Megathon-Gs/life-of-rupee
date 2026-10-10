@@ -20,16 +20,16 @@ export interface LocationLabelsProps {
  * art. Positions follow the street layer's whole-pixel offset, so they track the camera.
  */
 export function LocationLabels({ renderer, hidden }: LocationLabelsProps) {
-  const { t } = useTranslation('world')
-  const listRef = useRef<HTMLUListElement>(null)
+  const { t } = useTranslation(['world', 'app'])
+  const navRef = useRef<HTMLElement>(null)
   const itemRefs = useRef<Array<HTMLLIElement | null>>([])
 
   useEffect(() => {
-    const list = listRef.current
-    if (!renderer || !list || hidden) return
+    const nav = navRef.current
+    if (!renderer || !nav || hidden) return
     let frame = 0
     const place = () => {
-      const band = list.parentElement
+      const band = nav.parentElement
       if (band) {
         const { unit, offsetY } = stageMetrics(band)
         const streetX = renderer.layerContainers.street.x
@@ -48,19 +48,21 @@ export function LocationLabels({ renderer, hidden }: LocationLabelsProps) {
   }, [renderer, hidden])
 
   return (
-    <ul ref={listRef} className={styles.labels} hidden={hidden || !renderer}>
-      {world.locations.map((location, i) => (
-        <li
-          key={location.id}
-          ref={(el) => {
-            itemRefs.current[i] = el
-          }}
-          className={styles.label}
-          data-testid={`label-${location.id}`}
-        >
-          {t(location.labelKey)}
-        </li>
-      ))}
-    </ul>
+    <nav ref={navRef} aria-label={t('labels.nav', { ns: 'app' })} hidden={hidden || !renderer}>
+      <ul className={styles.labels}>
+        {world.locations.map((location, i) => (
+          <li
+            key={location.id}
+            ref={(el) => {
+              itemRefs.current[i] = el
+            }}
+            className={styles.label}
+            data-testid={`label-${location.id}`}
+          >
+            {t(location.labelKey)}
+          </li>
+        ))}
+      </ul>
+    </nav>
   )
 }

@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { LevelDef, LocationId, SaveStore, TravelCommand } from '@/core/contracts'
 import { deriveWorldVisuals } from '@/core/worldVisuals'
+import { skillTree } from '@/content/skillTree'
 import { world } from '@/content/world'
 import { attachTravelInput, createTravelMachine } from '@/input'
 import {
@@ -12,6 +13,7 @@ import {
   useReducedMotion,
   type UiSettings,
 } from '@/ui/shell'
+import { SkillTreeScreen } from '@/ui/screens/SkillTree/SkillTreeScreen'
 import { GROUND_Y, PixiWorldRenderer } from '@/world'
 import { LevelPanel } from './LevelPanel'
 import { levelAt } from './levels'
@@ -32,7 +34,7 @@ export function travelTarget(current: LocationId, cmd: TravelCommand): LocationI
   return ids[Math.min(ids.length - 1, Math.max(0, index + cmd.dir))] ?? current
 }
 
-type Panel = { kind: 'level'; level: LevelDef } | { kind: 'settings' }
+type Panel = { kind: 'level'; level: LevelDef } | { kind: 'settings' } | { kind: 'skillTree' }
 
 export interface GameProps {
   mode: AppMode
@@ -232,7 +234,12 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
   }
 
   const index = ids.indexOf(locationId)
-  const panelTitle = panel?.kind === 'settings' ? t('settings.title', { ns: 'ui' }) : placeName
+  const panelTitle =
+    panel?.kind === 'settings'
+      ? t('settings.title', { ns: 'ui' })
+      : panel?.kind === 'skillTree'
+        ? t('skillTree.title', { ns: 'ui' })
+        : placeName
 
   return (
     <>
@@ -257,6 +264,7 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
           onPrevious={() => step(-1)}
           onNext={() => step(1)}
           onOpenSettings={() => openPanel({ kind: 'settings' })}
+          onOpenSkillTree={() => openPanel({ kind: 'skillTree' })}
         />
         <LocationLabels renderer={ready ? rendererRef.current : null} hidden={panel !== null} />
         {ready && level && !travelling && (
@@ -288,6 +296,9 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
       >
         {panel?.kind === 'settings' && (
           <SettingsPanel settings={settings} onChange={changeSettings} />
+        )}
+        {panel?.kind === 'skillTree' && (
+          <SkillTreeScreen tree={skillTree} completed={derived.skills} onBack={closePanel} />
         )}
         {panel?.kind === 'level' && (
           <LevelPanel
