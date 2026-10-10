@@ -1,0 +1,17 @@
+{
+  "tool": "compose.py (PIL) from cand-a-*.png pieces plus scripted sky/skyline/pavement/road in palette A",
+  "toolVersion": "pillow, scripted; no generation",
+  "prompt": "n/a: composed by compose.py at 1:1 logical pixels, 1280x270, ground line y=226, sprite feet y=232; sky bands with a 2-step checker seam, flat far skyline",
+  "referenceIds": [
+    "cand-a-bank.png",
+    "cand-a-street.png",
+    "cand-a-kirana.png",
+    "cand-a-home.png",
+    "cand-a-rural.png",
+    "cand-a-npc-kirana.png",
+    "cand-a-npc-elder.png",
+    "cand-a-protagonist.png"
+  ],
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-10"
+}

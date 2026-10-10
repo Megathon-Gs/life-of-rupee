@@ -1,0 +1,13 @@
+{
+  "tool": "PixelLab MCP create_image_pixflux",
+  "toolVersion": "not exposed by MCP (queried 2026-10-10)",
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-10",
+  "prompt": "modest family house, side view, 2 storey, plastered cream walls, flat roof with parapet and black water tank on legs, balcony with clothes line, wooden door, window grille, small compound wall with gate, potted plants, warm late-afternoon light from upper left. No text, no letters, no numerals, no logos, no watermark, no signage lettering; signboards are blank.",
+  "referenceIds": [
+    "upload:5f39d0a9-28cf-44a4-a6a4-579a4e73109d (palette A strip, 32x1)",
+    "pixellab job a243238b-cedc-4659-9c7d-c3c1e1709f65"
+  ],
+  "notes": "160x160 seed 7 side/single color outline/basic shading/medium detail, transparent bg",
+  "reviewFlags": "architecture and dress are GUESS: needs photo-reference pass and Hyderabad/Telangana reviewer"
+}

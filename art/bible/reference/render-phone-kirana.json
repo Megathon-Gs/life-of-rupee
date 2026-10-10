@@ -1,0 +1,17 @@
+{
+  "tool": "Playwright chromium render of composed scene (no generation)",
+  "toolVersion": "playwright python, chromium-1248",
+  "prompt": "n/a: composed from cand-a-*.png pieces by ~/.cache/p0-03/compose.py; deviceScaleFactor 1, viewport 1170x1519, integer scale 5x, logical x offset 473",
+  "referenceIds": [
+    "cand-a-bank.png",
+    "cand-a-street.png",
+    "cand-a-kirana.png",
+    "cand-a-home.png",
+    "cand-a-rural.png",
+    "cand-a-npc-kirana.png",
+    "cand-a-npc-elder.png",
+    "cand-a-protagonist.png"
+  ],
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-10"
+}

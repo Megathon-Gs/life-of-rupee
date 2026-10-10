@@ -1,0 +1,13 @@
+{
+  "tool": "PixelLab MCP create_image_pixflux",
+  "toolVersion": "not exposed by MCP (queried 2026-10-10)",
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-10",
+  "prompt": "middle-aged kirana shop owner, stocky rounded build, glasses, short grey-streaked hair, plain cream shirt with marigold apron, dark trousers, sandals, warm smile, deep brown skin, standing upright, side view facing left, full body, clean clustered shading, dark ink outline. No text, no letters, no numerals, no logos, no watermark, no signage lettering; signboards are blank.",
+  "referenceIds": [
+    "upload:5f39d0a9-28cf-44a4-a6a4-579a4e73109d (palette A strip, 32x1)",
+    "pixellab job 26baecf2-443e-4ea8-8a7d-a921fe3bca04"
+  ],
+  "notes": "32x48 seed 23 direction west, low detail, transparent bg; renamed from cand-a-npc",
+  "reviewFlags": "architecture and dress are GUESS: needs photo-reference pass and Hyderabad/Telangana reviewer"
+}

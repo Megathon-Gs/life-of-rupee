@@ -1,0 +1,13 @@
+{
+  "tool": "PixelLab MCP create_image_pixflux",
+  "toolVersion": "not exposed by MCP (queried 2026-10-10)",
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-10",
+  "prompt": "small modern bank branch, side view, flat orthographic facade, 2 storey, glass-fronted ground floor with glass door, entrance canopy, ATM alcove with glowing panel, flat roof with parapet, empty rectangular fascia plate above entrance, deep teal and cream, warm late-afternoon light from upper left. No text, no letters, no numerals, no logos, no watermark, no signage lettering; signboards are blank.",
+  "referenceIds": [
+    "upload:5f39d0a9-28cf-44a4-a6a4-579a4e73109d (palette A strip, 32x1)",
+    "pixellab job 29ad9aa7-65c5-4ce1-862a-90e480c09aa8"
+  ],
+  "notes": "REJECTED by independent critique: weak bank cue, confetti glass noise; 160x160 seed 7 side/single color outline/basic shading/medium detail, transparent bg",
+  "reviewFlags": "architecture and dress are GUESS: needs photo-reference pass and Hyderabad/Telangana reviewer"
+}
