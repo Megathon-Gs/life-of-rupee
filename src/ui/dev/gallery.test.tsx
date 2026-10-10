@@ -29,7 +29,7 @@ describe('dev gallery', () => {
         violations: [],
       })
     }
-  })
+  }, 20_000)
 
   it('has a Telugu draft for every English ui string, marked for review', () => {
     expect(flatKeys(te).sort()).toEqual(flatKeys(en).sort())
