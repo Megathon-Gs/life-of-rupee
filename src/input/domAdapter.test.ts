@@ -70,6 +70,52 @@ describe('attachTravelInput', () => {
     expect(send).not.toHaveBeenCalled()
   })
 
+  it('captures a drag and releases it on up, cancel and detach', () => {
+    const { el, send } = setup()
+    const setPointerCapture = vi.fn()
+    const releasePointerCapture = vi.fn()
+    Object.assign(el, {
+      setPointerCapture,
+      hasPointerCapture: () => true,
+      releasePointerCapture,
+    })
+    el.dispatchEvent(pointer('pointerdown', 100, 300))
+    expect(setPointerCapture).toHaveBeenCalledWith(1)
+    // Captured events still target the band when the pointer is outside its bounds.
+    el.dispatchEvent(pointer('pointerup', 100, -100))
+    expect(releasePointerCapture).toHaveBeenCalledWith(1)
+    expect(send).toHaveBeenCalledWith(expect.objectContaining({ kind: 'swipe', dy: -400 }))
+
+    el.dispatchEvent(pointer('pointerdown', 100, 300))
+    el.dispatchEvent(pointer('pointercancel', 100, 300))
+    expect(releasePointerCapture).toHaveBeenCalledTimes(2)
+    el.dispatchEvent(pointer('pointerup', 100, -100))
+    expect(send).toHaveBeenCalledTimes(1)
+
+    el.dispatchEvent(pointer('pointerdown', 100, 300))
+    detach!()
+    detach = undefined
+    expect(releasePointerCapture).toHaveBeenCalledTimes(3)
+  })
+
+  it('captures on the original hotspot so a tap retains its click target', () => {
+    const { el, send } = setup()
+    const hotspot = document.createElement('button')
+    el.append(hotspot)
+    const setPointerCapture = vi.fn()
+    const releasePointerCapture = vi.fn()
+    Object.assign(hotspot, {
+      setPointerCapture,
+      hasPointerCapture: () => true,
+      releasePointerCapture,
+    })
+    hotspot.dispatchEvent(pointer('pointerdown', 100, 300))
+    hotspot.dispatchEvent(pointer('pointerup', 100, 300))
+    expect(setPointerCapture).toHaveBeenCalledWith(1)
+    expect(releasePointerCapture).toHaveBeenCalledWith(1)
+    expect(send).not.toHaveBeenCalled()
+  })
+
   it('arrow keys step; Enter and keys typed into inputs are left alone', () => {
     const { send, commands } = setup()
     const right = new KeyboardEvent('keydown', { key: 'ArrowRight', cancelable: true })

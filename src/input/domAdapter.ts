@@ -40,23 +40,32 @@ export function attachTravelInput(
     emit(machine.send({ kind: 'wheel', deltaY: delta * scale, t: e.timeStamp }))
   }
 
-  let start: { id: number; x: number; y: number; t: number } | null = null
+  let start: { id: number; x: number; y: number; t: number; target: Element } | null = null
   const onPointerDown = (e: PointerEvent) => {
     if (!e.isPrimary || e.button !== 0) return
-    start = { id: e.pointerId, x: e.clientX, y: e.clientY, t: e.timeStamp }
+    // Keep hotspot clicks targeted at the original element, not the world band.
+    const target = e.target instanceof Element ? e.target : el
+    start = { id: e.pointerId, x: e.clientX, y: e.clientY, t: e.timeStamp, target }
+    target.setPointerCapture?.(e.pointerId)
+  }
+  const releasePointer = () => {
+    if (start && start.target.hasPointerCapture?.(start.id)) {
+      start.target.releasePointerCapture(start.id)
+    }
+    start = null
   }
   const onPointerUp = (e: PointerEvent) => {
     if (!start || e.pointerId !== start.id) return
     const dx = e.clientX - start.x
     const dy = e.clientY - start.y
     const durationMs = Math.max(0, e.timeStamp - start.t)
-    start = null
+    releasePointer()
     // Within the slop it is a tap; the hotspot's own click handler deals with it.
     if (Math.hypot(dx, dy) < config.tapSlopPx) return
     emit(machine.send({ kind: 'swipe', dx, dy, durationMs }))
   }
   const onPointerCancel = (e: PointerEvent) => {
-    if (start && e.pointerId === start.id) start = null
+    if (start && e.pointerId === start.id) releasePointer()
   }
 
   const onKeyDown = (e: KeyboardEvent) => {
@@ -73,6 +82,7 @@ export function attachTravelInput(
   doc.addEventListener('keydown', onKeyDown)
 
   return () => {
+    releasePointer()
     el.removeEventListener('wheel', onWheel)
     el.removeEventListener('pointerdown', onPointerDown)
     el.removeEventListener('pointerup', onPointerUp)
