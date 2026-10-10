@@ -13,17 +13,17 @@ const fresh: Derived = {
 
 describe('deriveWorldVisuals', () => {
   it('shows the default bank teller on fresh state', () => {
-    expect(deriveWorldVisuals(fresh)).toEqual({ bankTeller: 'default' })
+    expect(deriveWorldVisuals(fresh)).toEqual({})
   })
 
   it('greets the player once the account is opened', () => {
     const opened: Derived = { ...fresh, worldFlags: { 'bank.accountOpened': 'true' } }
-    expect(deriveWorldVisuals(opened)).toEqual({ bankTeller: 'greets' })
+    expect(deriveWorldVisuals(opened)).toEqual({ bank: 'greets' })
   })
 
   it('treats any other flag value as not opened', () => {
     const other: Derived = { ...fresh, worldFlags: { 'bank.accountOpened': 'false' } }
-    expect(deriveWorldVisuals(other)).toEqual({ bankTeller: 'default' })
+    expect(deriveWorldVisuals(other)).toEqual({})
   })
 
   it('is pure — does not mutate its input', () => {

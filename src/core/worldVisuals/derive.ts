@@ -6,7 +6,5 @@ import type { Derived, WorldVisuals } from '../contracts'
  * `derived` always yields the same town.
  */
 export function deriveWorldVisuals(derived: Derived): WorldVisuals {
-  return {
-    bankTeller: derived.worldFlags['bank.accountOpened'] === 'true' ? 'greets' : 'default',
-  }
+  return derived.worldFlags['bank.accountOpened'] === 'true' ? { bank: 'greets' } : {}
 }

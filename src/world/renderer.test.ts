@@ -1,8 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { LocationId } from '@/core/contracts'
+import { deriveWorldVisuals } from '@/core/worldVisuals'
 import { GREYBOX_WORLD } from './fixture'
 import { PixiWorldRenderer, REDUCED_MOTION_MS, travelDurationMs, travelState } from './renderer'
-import { LAYERS } from './textures'
+import { GreyboxTextureProvider, LAYERS, variantTint } from './textures'
 
 const VIEWPORT = { width: 1170, height: 1519, dpr: 1 }
 
@@ -80,6 +81,38 @@ describe('PixiWorldRenderer travelTo', () => {
 })
 
 describe('PixiWorldRenderer applyVisuals', () => {
+  it('renders derived bank greetings and restores the district colour when removed', () => {
+    const textures = new GreyboxTextureProvider()
+    const building = vi.spyOn(textures, 'building')
+    const renderer = new PixiWorldRenderer({
+      world: GREYBOX_WORLD,
+      textures,
+      test: true,
+      headless: true,
+    })
+    const bank = renderer.layerContainers.street.children.find((c) => c.label === 'bank')!
+    const before = bank.tint
+    building.mockClear()
+    const visuals = deriveWorldVisuals({
+      bestStars: {},
+      firstStars: {},
+      skills: [],
+      unlockedLocations: [],
+      worldFlags: { 'bank.accountOpened': 'true' },
+      wallet: 0,
+    })
+    renderer.applyVisuals(visuals)
+    expect(bank.tint).toBe(variantTint('greets'))
+    expect(bank.tint).not.toBe(before)
+    expect(building).toHaveBeenCalledTimes(1)
+    renderer.applyVisuals(visuals)
+    expect(building).toHaveBeenCalledTimes(1)
+    renderer.applyVisuals({})
+    expect(bank.tint).toBe(before)
+    expect(building).toHaveBeenCalledTimes(2)
+    renderer.destroy()
+  })
+
   it('recolours a building only when its variant changes', () => {
     const renderer = makeRenderer()
     const home = renderer.layerContainers.street.children.find((c) => c.label === 'home')!
