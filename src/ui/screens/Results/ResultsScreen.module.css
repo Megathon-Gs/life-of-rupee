@@ -74,6 +74,11 @@
   color: var(--color-text-muted);
 }
 
+.best {
+  font-weight: var(--fw-semibold);
+  color: var(--color-text);
+}
+
 .review {
   grid-area: review;
   display: grid;
@@ -151,6 +156,17 @@
   font-size: var(--fs-sm);
   color: var(--color-text-muted);
   font-weight: var(--fw-semibold);
+}
+
+.skillLink {
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .empty {

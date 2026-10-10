@@ -8,6 +8,7 @@ import {
   type LevelCompletion,
   type LevelDef,
   type Locale,
+  type SkillNodeId,
 } from '@/core/contracts'
 import { skillTree } from '@/content/skillTree'
 import { createLevelRunner, type LevelRunnerImpl, type RunnerView } from '@/level-runner'
@@ -36,6 +37,7 @@ export interface LevelPanelProps {
   /** Saves the finished attempt; results show once it resolves, so visuals follow the save. */
   onCompleted: () => Promise<void> | void
   onClose: () => void
+  onOpenSkill?: (node: SkillNodeId) => void
 }
 
 /**
@@ -43,7 +45,15 @@ export interface LevelPanelProps {
  * interaction for Lesson, Decision and Transfer, then the results screen. Every runner
  * step is mirrored into the save so a reload resumes at the same step.
  */
-export function LevelPanel({ level, levels, locale, test, onCompleted, onClose }: LevelPanelProps) {
+export function LevelPanel({
+  level,
+  levels,
+  locale,
+  test,
+  onCompleted,
+  onClose,
+  onOpenSkill,
+}: LevelPanelProps) {
   const { t } = useTranslation('app')
   const store = useGameStore()
   const runnerRef = useRef<LevelRunnerImpl | null>(null)
@@ -142,9 +152,12 @@ export function LevelPanel({ level, levels, locale, test, onCompleted, onClose }
       <div data-testid="results">
         <ResultsScreen
           stars={completion.score.stars}
+          firstStars={store.derived().firstStars[level.id]}
+          bestStars={store.derived().bestStars[level.id]}
           reviewItems={completion.score.reviewItems}
           reviewNamespace={levelNamespace(level)}
           skillTree={skillTree}
+          onOpenSkill={onOpenSkill}
           onRetry={start}
           onContinue={onClose}
         />

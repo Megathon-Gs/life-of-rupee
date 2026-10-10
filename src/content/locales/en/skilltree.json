@@ -1,0 +1,13 @@
+{
+  "results": {
+    "bestAfterReplay": "Best: {best} (first try {first}); improved by {count, plural, one {# star} other {# stars}}."
+  },
+  "skillTree": {
+    "bestStars": "Best: {stars, plural, one {# star} other {# stars}}",
+    "replay": "Replay",
+    "replayFor": "Replay {skill}",
+    "unlockInfo": "What unlocks this?",
+    "unlockInfoFor": "What unlocks {skill}?",
+    "openTree": "Skill tree"
+  }
+}

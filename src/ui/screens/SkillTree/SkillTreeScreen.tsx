@@ -1,8 +1,9 @@
-import { useId } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { SkillNodeId, SkillTreeDef } from '@/core/contracts'
 import { Button } from '../../shell/Button'
 import { PixelIcon } from '../../shell/PixelIcon'
+import { useReducedMotion } from '../../shell/UiRoot'
 import styles from './SkillTreeScreen.module.css'
 
 export type SkillNodeState = 'lit' | 'available' | 'locked'
@@ -12,10 +13,14 @@ export function skillNodeStates(tree: SkillTreeDef, completed: readonly SkillNod
   const done = new Set<string>(completed)
   const states = new Map<string, SkillNodeState>()
   for (const node of tree.nodes) {
-    const prerequisites = tree.edges.filter(edge => edge.to === node.id).map(edge => edge.from)
+    const prerequisites = tree.edges.filter((edge) => edge.to === node.id).map((edge) => edge.from)
     states.set(
       node.id,
-      done.has(node.id) ? 'lit' : prerequisites.every(id => done.has(id)) ? 'available' : 'locked',
+      done.has(node.id)
+        ? 'lit'
+        : prerequisites.every((id) => done.has(id))
+          ? 'available'
+          : 'locked',
     )
   }
   return states
@@ -26,6 +31,9 @@ export interface SkillTreeScreenProps {
   completed: readonly SkillNodeId[]
   /** A node lit by the level just finished; it gets a "Just learned" marker. */
   justLit?: SkillNodeId
+  bestStars?: Readonly<Record<string, number>>
+  onReplay?: (node: SkillNodeId) => void
+  focusNode?: SkillNodeId
   onBack?: () => void
 }
 
@@ -34,26 +42,44 @@ export interface SkillTreeScreenProps {
  * jade path; locked nodes say what they need. Read-only: unlock rules belong to
  * core, this screen only shows them.
  */
-export function SkillTreeScreen({ tree, completed, justLit, onBack }: SkillTreeScreenProps) {
+export function SkillTreeScreen({
+  tree,
+  completed,
+  justLit,
+  bestStars = {},
+  onReplay,
+  focusNode,
+  onBack,
+}: SkillTreeScreenProps) {
   const { t } = useTranslation('ui')
+  const reducedMotion = useReducedMotion()
   const titleId = useId()
   const states = skillNodeStates(tree, completed)
   const label = (id: string) => {
-    const node = tree.nodes.find(n => n.id === id)
+    const node = tree.nodes.find((n) => n.id === id)
     return node ? t(node.labelKey, { ns: 'world' }) : id
   }
-  const litCount = tree.nodes.filter(n => states.get(n.id) === 'lit').length
+  const litCount = tree.nodes.filter((n) => states.get(n.id) === 'lit').length
+  const [explaining, setExplaining] = useState<string | null>(null)
+
+  useEffect(() => {
+    document.getElementById(focusNode ? `skill-${focusNode}` : titleId)?.focus()
+  }, [focusNode, titleId])
 
   return (
-    <section className={styles.screen} aria-labelledby={titleId}>
+    <section
+      className={styles.screen}
+      aria-labelledby={titleId}
+      data-reduced-motion={reducedMotion}
+    >
       <header className={styles.header}>
-        <h2 id={titleId} className={styles.title}>
+        <h2 id={titleId} className={styles.title} tabIndex={-1}>
           {t('skillTree.title')}
         </h2>
         <p className={styles.progress}>
           <span>{t('skillTree.progress', { done: litCount, total: tree.nodes.length })}</span>
           <span className={styles.meter} aria-hidden="true">
-            {tree.nodes.map(node => (
+            {tree.nodes.map((node) => (
               <span key={node.id} className={styles.cell} data-state={states.get(node.id)} />
             ))}
           </span>
@@ -61,20 +87,26 @@ export function SkillTreeScreen({ tree, completed, justLit, onBack }: SkillTreeS
       </header>
 
       <div className={styles.branches}>
-        {tree.branches.map(branch => {
-          const nodes = tree.nodes.filter(node => node.branch === branch.id)
+        {tree.branches.map((branch) => {
+          const nodes = tree.nodes.filter((node) => node.branch === branch.id)
           return (
-            <section key={branch.id} className={styles.branch} aria-label={t(branch.labelKey, { ns: 'world' })}>
+            <section
+              key={branch.id}
+              className={styles.branch}
+              aria-label={t(branch.labelKey, { ns: 'world' })}
+            >
               <h3 className={styles.branchTitle}>{t(branch.labelKey, { ns: 'world' })}</h3>
               <ol className={styles.nodes}>
-                {nodes.map(node => {
+                {nodes.map((node) => {
                   const state = states.get(node.id) ?? 'locked'
                   const needs = tree.edges
-                    .filter(edge => edge.to === node.id && !completed.includes(edge.from))
-                    .map(edge => label(edge.from))
+                    .filter((edge) => edge.to === node.id && !completed.includes(edge.from))
+                    .map((edge) => label(edge.from))
                   return (
                     <li
                       key={node.id}
+                      id={`skill-${node.id}`}
+                      tabIndex={-1}
                       className={styles.node}
                       data-state={state}
                       data-just-lit={node.id === justLit || undefined}
@@ -86,12 +118,51 @@ export function SkillTreeScreen({ tree, completed, justLit, onBack }: SkillTreeS
                       <span className={styles.nodeText}>
                         <span className={styles.nodeLabel}>{label(node.id)}</span>
                         <span className={styles.nodeState}>
-                          {node.id === justLit ? t('skillTree.newlyLit') : t(`skillTree.state.${state}`)}
+                          {node.id === justLit
+                            ? t('skillTree.newlyLit')
+                            : t(`skillTree.state.${state}`)}
                         </span>
-                        {state === 'locked' && needs.length > 0 && (
+                        {bestStars[node.id] !== undefined && (
+                          <span
+                            className={styles.nodeStars}
+                            role="img"
+                            aria-label={t('skillTree.bestStars', {
+                              ns: 'skilltree',
+                              stars: bestStars[node.id],
+                            })}
+                          >
+                            {'★'.repeat(bestStars[node.id]!)}
+                          </span>
+                        )}
+                        {state === 'locked' && needs.length > 0 && explaining === node.id && (
                           <span className={styles.nodeNeeds}>
                             {t('skillTree.needs', { skills: needs.join(', ') })}
                           </span>
+                        )}
+                        {state === 'lit' && onReplay && (
+                          <button
+                            className={styles.nodeAction}
+                            aria-label={t('skillTree.replayFor', {
+                              ns: 'skilltree',
+                              skill: label(node.id),
+                            })}
+                            onClick={() => onReplay(node.id)}
+                          >
+                            {t('skillTree.replay', { ns: 'skilltree' })}
+                          </button>
+                        )}
+                        {state === 'locked' && needs.length > 0 && (
+                          <button
+                            className={styles.nodeAction}
+                            aria-label={t('skillTree.unlockInfoFor', {
+                              ns: 'skilltree',
+                              skill: label(node.id),
+                            })}
+                            aria-expanded={explaining === node.id}
+                            onClick={() => setExplaining(explaining === node.id ? null : node.id)}
+                          >
+                            {t('skillTree.unlockInfo', { ns: 'skilltree' })}
+                          </button>
                         )}
                       </span>
                     </li>

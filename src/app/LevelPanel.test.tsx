@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
-import type { SaveFile } from '@/core/contracts'
+import type { AttemptRecord, SaveFile } from '@/core/contracts'
 import { migrate } from '@/core/state'
 import { v1Fixture } from '@/core/state/migrations/fixtures'
 import { world } from '@/content/world'
@@ -65,6 +65,29 @@ describe('LevelPanel', () => {
 
     await user.click(screen.getByRole('button', { name: 'Back to the street' }))
     expect(onClose).toHaveBeenCalled()
+  })
+
+  it('shows the saved first attempt and improved best after replay', async () => {
+    const initial = save()
+    initial.attempts = [
+      {
+        ...(v1Fixture.attempts[0] as unknown as AttemptRecord),
+        id: 'first',
+        levelId: fixtureBankLevel.id,
+        stars: 2,
+      },
+    ]
+    const user = userEvent.setup()
+    const { store } = setup(initial)
+    await user.click(screen.getByRole('button', { name: 'Continue' }))
+    await user.click(screen.getByRole('button', { name: /Stamp/ }))
+    await user.click(screen.getByRole('button', { name: 'Right box' }))
+    await user.click(screen.getByRole('button', { name: 'Continue' }))
+    await user.click(screen.getByRole('button', { name: /Stamp/ }))
+
+    expect(await screen.findByText('Best: ★★★ (first try ★★); improved by 1 star.')).toBeTruthy()
+    expect(store.derived().firstStars[fixtureBankLevel.id]).toBe(2)
+    expect(store.derived().bestStars[fixtureBankLevel.id]).toBe(3)
   })
 
   it('records a wrong then a right choice before moving on', async () => {
