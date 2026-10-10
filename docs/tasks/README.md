@@ -1,13 +1,13 @@
 # Task breakdown — Paisa Street
 
-Source: [`docs/technical-implementation-plan.md`](../technical-implementation-plan.md). Each task is one Orca card = one worktree = one agent = one PR (see `docs/orca-kit/15-work-division-and-delegation.md`). Every brief in `P0/` and `P1/` follows `templates/TASK-BRIEF.md` and can be pasted as the `--prompt` of `orca-ide worktree create`.
+Source: [`docs/technical-implementation-plan.md`](../technical-implementation-plan.md). Each task is one Orca card = one worktree = one agent = one PR (see `docs/orca-kit/15-work-division-and-delegation.md`). Every brief in `P0/`, `P1/` and `P2/` follows `templates/TASK-BRIEF.md` and can be pasted as the `--prompt` of `orca-ide worktree create`.
 
 ## Rules that make the parallel split safe
 
 1. **Interfaces first.** `P0-04` lands all shared types and Zod schemas in `src/core/contracts/`. After it merges, the contracts are frozen for the wave; a change needs its own small PR approved by the coordinator.
 2. **Dependencies frozen.** `P0-01` installs every P0 dependency and writes the ADRs. No other P0 task edits `package.json` or the lockfile.
 3. **Disjoint ownership.** No two tasks that can run at the same time own the same path. The "Owns" column is the full list of paths a task may edit.
-4. **Registries have one writer.** `src/ui/interactions/index.ts` and `src/content/levels/index.ts` are created empty by `P0-04` and filled by exactly one task per phase (`P0-16`/`P0-18` in P0, `P1-14` in P1).
+4. **Registries have one writer.** `src/ui/interactions/index.ts` and `src/content/levels/index.ts` are created empty by `P0-04` and filled by exactly one task per phase (`P0-16`/`P0-18` in P0, `P1-14` in P1, `P2-25` in P2).
 5. **Per-task files.** Each level owns `src/content/levels/<id>/` (level, sources). Every task that adds player-facing text owns its own string namespace, `src/content/locales/{en,te}/<namespace>.json` (`common` belongs to P0-12; `ui` to P0-11; `interactions` to P0-16; `world` to P0-17; `app` to P0-20; one per level), so no two tasks edit the same strings file.
 6. **Human gates** are marked ⛩ and block downstream tasks until the named person signs off in the PR.
 7. **Orca runs stay shallow.** Each run below has a dependency depth of 3 or less.
@@ -157,9 +157,85 @@ flowchart LR
 | 6 | P1-02, 03, 04, 06, 07, 08, 09, 10, 11, 13 · then P1-12 (after the levels, P1-10 and P1-11) | 10 |
 | 7 | P1-14 | 1 |
 
-## P2 and P3 — backlog, not yet briefed
+## P2 — Full journey and pilot
 
-Brief these after G1, using the same pattern (contracts extension first, then one task per component, level and district).
+Starts after gate G1. Ends at gate G2: the privacy gate (no real student financial data needed; learner A cannot read learner B's rows, tested in CI) plus an NGO pilot.
 
-- P2: remaining 8 levels and their interaction components (BudgetAllocator, ReceiptInspector, TimeSlider, ScenarioChain); high-street and remaining district art; sync API with learner codes and RLS; educator view; offline hardening; accessibility audit; NGO consent flow; pilot.
+```mermaid
+flowchart LR
+  G1(["G1 passed"]) --> T01["P2-01 Contracts extension"]
+  G1 --> T02["P2-02 Sync deps + ADR"]
+  G1 --> T08["P2-08 Art: high street ⛩"]
+  G1 --> T09["P2-09 Art: rural-connected ⛩"]
+  T01 --> T03["P2-03 BudgetAllocator"]
+  T01 --> T05["P2-05 TimeSlider"]
+  T01 --> T06["P2-06 ScenarioChain"]
+  T01 --> T07["P2-07 Finance maths"]
+  T07 --> T04["P2-04 ReceiptInspector"]
+  T01 --> T18["P2-18 World consequences"]
+  T01 --> T22["P2-22 Consent flow ⛩"]
+  T01 --> T23["P2-23 Offline hardening"]
+  T03 --> L01["P2-10 Level 1 ⛩"]
+  T05 --> L03["P2-11 Level 3 ⛩"]
+  T07 --> L03
+  T03 & T04 & T07 --> L06["P2-12 Level 6 ⛩"]
+  T05 --> L07["P2-13 Level 7 ⛩"]
+  T07 --> L08["P2-14 Level 8 ⛩"]
+  T07 --> L10["P2-15 Level 10 ⛩"]
+  T05 --> L11["P2-16 Level 11 ⛩"]
+  T03 & T06 --> L12["P2-17 Level 12 ⛩"]
+  T01 & T02 --> T19["P2-19 Sync backend + RLS"]
+  T19 --> T20["P2-20 Client sync"]
+  T19 --> T21["P2-21 Educator view"]
+  L01 & L03 & L06 & L07 & L08 & L10 & L11 & L12 & T21 & T22 --> T24["P2-24 Telugu pass ⛩"]
+  T08 & T09 & T18 & T20 & T23 & T24 --> T25["P2-25 Integration"]
+  T25 --> T26["P2-26 Accessibility audit"]
+  T25 & T26 --> T27["P2-27 Pilot + G2 ⛩"]
+```
+
+P2-25 depends on every task from P2-03 to P2-24; the graph shows only the edges that are not already implied.
+
+| ID | Task | Depends on | Owns (may edit) | Agent fit |
+| --- | --- | --- | --- | --- |
+| [P2-01](P2/P2-01-contracts-extension.md) | Contracts extension for P2 | G1 | `src/core/contracts/` | Strong reasoning |
+| [P2-02](P2/P2-02-sync-deps-adr.md) | Sync dependencies and ADR 0008 | G1 | `package.json`, lockfile, `docs/adr/0008-*`, CI `rls` job | Fast |
+| [P2-03](P2/P2-03-budget-allocator.md) | BudgetAllocator component | P2-01 | `src/ui/interactions/BudgetAllocator/`, `locales/*/budgetAllocator.json` | Fast |
+| [P2-04](P2/P2-04-receipt-inspector.md) | ReceiptInspector component | P2-01, P2-07 | `src/ui/interactions/ReceiptInspector/`, `locales/*/receiptInspector.json` | Fast |
+| [P2-05](P2/P2-05-time-slider.md) | TimeSlider component | P2-01 | `src/ui/interactions/TimeSlider/`, `locales/*/timeSlider.json` | Fast |
+| [P2-06](P2/P2-06-scenario-chain.md) | ScenarioChain component | P2-01 | `src/ui/interactions/ScenarioChain/`, `locales/*/scenarioChain.json` | Strong reasoning |
+| [P2-07](P2/P2-07-finance-extension.md) | Finance maths for P2 | P2-01 | `src/core/finance/` | Strong reasoning |
+| [P2-08](P2/P2-08-art-high-street.md) | Art: high-street district ⛩ | G1 | `art/raw/`, `art/approved/` (new files) | PixelLab MCP + product owner |
+| [P2-09](P2/P2-09-art-rural-connected.md) | Art: rural-connected district and learning centre ⛩ | G1 | `art/raw/`, `art/approved/` (new files) | PixelLab MCP + product owner |
+| [P2-10](P2/P2-10-level-01.md) | Level 1: budgeting ⛩ | P2-01, P2-03 | `src/content/levels/l01/`, `locales/*/l01.json` | Strong reasoning + NGO educator |
+| [P2-11](P2/P2-11-level-03.md) | Level 3: saving and interest ⛩ | P2-01, P2-05, P2-07 | `src/content/levels/l03/`, `locales/*/l03.json` | Strong reasoning + NGO educator |
+| [P2-12](P2/P2-12-level-06.md) | Level 6: receipts and taxes ⛩ | P2-01, P2-03, P2-04, P2-07 | `src/content/levels/l06/`, `locales/*/l06.json` | Strong reasoning + NGO educator |
+| [P2-13](P2/P2-13-level-07.md) | Level 7: inflation ⛩ | P2-01, P2-05 | `src/content/levels/l07/`, `locales/*/l07.json` | Strong reasoning + NGO educator |
+| [P2-14](P2/P2-14-level-08.md) | Level 8: earnings and tax ⛩ | P2-01, P2-07 | `src/content/levels/l08/`, `locales/*/l08.json` | Strong reasoning + NGO educator |
+| [P2-15](P2/P2-15-level-10.md) | Level 10: insurance ⛩ | P2-01, P2-07 | `src/content/levels/l10/`, `locales/*/l10.json` | Strong reasoning + NGO educator |
+| [P2-16](P2/P2-16-level-11.md) | Level 11: investing ⛩ | P2-01, P2-05 | `src/content/levels/l11/`, `locales/*/l11.json` | Strong reasoning + NGO educator |
+| [P2-17](P2/P2-17-level-12.md) | Level 12: capstone ⛩ | P2-01, P2-03, P2-06 | `src/content/levels/l12/`, `locales/*/l12.json` | Strong reasoning + NGO educator |
+| [P2-18](P2/P2-18-world-consequences.md) | World consequences | P2-01 | `src/core/worldVisuals/` | Fast |
+| [P2-19](P2/P2-19-sync-backend.md) | Sync backend: schema, RLS, learner codes | P2-01, P2-02 | `supabase/`, `tests/rls/` | Strong reasoning |
+| [P2-20](P2/P2-20-client-sync.md) | Opt-in client sync | P2-01, P2-02, P2-19 | `src/persistence/sync/`, `src/core/state/migrations/` | Strong reasoning |
+| [P2-21](P2/P2-21-educator-view.md) | Educator view | P2-01, P2-19 | `src/educator/`, `locales/*/educator.json` | Fast |
+| [P2-22](P2/P2-22-consent-flow.md) | Consent flow and data policies ⛩ | P2-01 | `src/ui/screens/Consent/`, `locales/*/consent.json`, `docs/privacy/` | Fast + NGO |
+| [P2-23](P2/P2-23-offline-hardening.md) | Offline hardening | P2-01 | `src/platform/pwa/`, `vite.config.ts` (PWA block), `tests/e2e/offline/` | Strong reasoning |
+| [P2-24](P2/P2-24-telugu.md) | Telugu pass for P2 strings ⛩ | P2-03 to 06, P2-10 to 17, P2-21, P2-22 | `src/content/locales/te/` | Translator + fast agent |
+| [P2-25](P2/P2-25-integration.md) | P2 integration: full journey | P2-03 to P2-24 | `src/content/world.ts`, both registries, `src/app/`, `src/world/`, `tests/e2e/p2/` | Strong reasoning |
+| [P2-26](P2/P2-26-accessibility-audit.md) | Accessibility audit and fixes | P2-25 | `tests/a11y/`, `docs/accessibility-audit.md` | Fast + real devices |
+| [P2-27](P2/P2-27-pilot-g2.md) | NGO pilot and gate G2 ⛩ | P2-25, P2-26 | `docs/pilot/`, `tests/e2e/g2/` | Product owner + NGO educator |
+
+### P2 Orca runs
+
+| Run | Tasks | Max parallel agents |
+| --- | --- | --- |
+| 8 | P2-01, P2-02, P2-08, P2-09 | 4 |
+| 9 | P2-03, 05, 06, 07, 18, 19, 22, 23 · then P2-04, P2-20, P2-21 | 8 |
+| 10 | P2-10 to P2-17 (eight levels, each as its components merge) · then P2-24 | 8 |
+| 11 | P2-25 → P2-26 → P2-27 | 1 |
+
+## P3 — backlog, not yet briefed
+
+Brief these after G2, using the same pattern (contracts extension first, then one task per component, level and district).
+
 - P3: curated rule-picked postgame scenarios; AI NPC proxy behind its flag after the privacy review.
