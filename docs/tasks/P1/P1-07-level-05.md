@@ -10,7 +10,7 @@ Write Level 5 (product plan §6 table row 5) as data, same shape as Level 2:
 - Hook (≤ 3 NPC lines), interactive micro-lesson, Travel to `phone-shop`, Decision using `MessageTriage` config, Consequence, Transfer pool with ≥ 2 variants.
 - Teach: urgency, impersonation, links, OTP/PIN requests, too-good-to-be-true prizes; never share an OTP or PIN; where to report (official channels from the sources).
 - Critical errors: sharing an OTP or PIN, paying a fraud request.
-- Set a world flag `fraud.seenWarningSigns` that Level 9 can reference.
+- `worldEffects`: `{ key: 'fraud.seenWarningSigns', value: 'true' }`, which Level 9 reads (world flag values are strings).
 - Every factual statement is a `ClaimRef` backed by a current official source in `l05/sources.ts`, fetched and read (NPCI, RBI, SEBI or NCFE as relevant).
 - Error categories with review text; one scripted mistake path scoring 2 stars.
 - Telugu draft marked `needsReview`.

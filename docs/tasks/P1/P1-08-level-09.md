@@ -10,7 +10,7 @@ Write Level 9 (product plan §6 table row 9) as data, same shape as Level 2:
 - Hook (≤ 3 NPC lines), interactive micro-lesson, Travel to `showroom`, Decision using `OfferComparator` config, Consequence, Transfer pool with ≥ 2 variants.
 - Teach (product plan §6 "teach the downsides of loans"): principal vs interest vs fees; total repaid; longer tenure lowers EMI but raises total interest; repayments compete with rent, essentials and savings; consequences of missed payments under the stated assumptions; when borrowing can help vs when postponing is safer. Do not teach that all loans are bad.
 - Include **one clear negative borrowing outcome**: the student sees the fictional budget squeezed by a low-EMI, long-tenure offer.
-- A step with `when: { flag: 'fraud.seenWarningSigns', equals: true }` adds an "easy loan" ad with a warning sign from Level 5 (the return-visit memory).
+- A step with `when: { flag: 'fraud.seenWarningSigns', equals: 'true' }` adds an "easy loan" ad with a warning sign from Level 5 (the return-visit memory).
 - Every factual statement is a `ClaimRef` backed by a current official source in `l09/sources.ts`, fetched and read (NPCI, RBI, SEBI or NCFE as relevant).
 - Error categories with review text; one scripted mistake path scoring 2 stars.
 - Telugu draft marked `needsReview`.
