@@ -35,6 +35,30 @@ const critical: Choice = {
 }
 
 describe('score', () => {
+  it('scores a corrected decline of a verified payment as a minor UPI mistake', () => {
+    expect(score([
+      { kind: 'choice', stepId: 'decision', correct: false, error: 'upi.declined_payment' },
+      correct(), correct('transfer'),
+    ], defaultRubric)).toMatchObject({
+      stars: 2, penalty: 1,
+      reviewItems: [{ error: 'upi.declined_payment', severity: 'minor', skillNode: 'bank.upi' }],
+    })
+  })
+
+  it('scores a corrected wrong-payee mistake and generates its UPI review card', () => {
+    expect(score([
+      { kind: 'choice', stepId: 'decision', correct: false, error: 'upi.wrong_payee' },
+      correct(), correct('transfer'),
+    ], defaultRubric)).toMatchObject({
+      stars: 2,
+      penalty: 2,
+      reviewItems: [{
+        error: 'upi.wrong_payee', severity: 'major', skillNode: 'bank.upi',
+        reviewKey: 'upi.wrong_payee.review',
+      }],
+    })
+  })
+
   it.each<[string, InteractionEvent[], number, number]>([
     ['correct only', [correct()], 3, 0],
     ['one minor', [minor, correct()], 2, 1],

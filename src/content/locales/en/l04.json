@@ -1,0 +1,61 @@
+{
+  "_meta": { "translationStatus": "Human educator approval reported by the user, 2026-10-10. All people, shops, handles and payments are fictional." },
+  "hook": {
+    "1": "Mina: A phone stand costs ₹180 at Nila Phone Corner. Let's practise the payment first.",
+    "2": "Shopkeeper: Here's a mock screen. No real money or PIN belongs in this game.",
+    "3": "Mina: First, what if a request says I must approve a payment to get a refund?"
+  },
+  "lesson": {
+    "title": "A refund or a payment request?",
+    "prompt": "You expect a ₹60 refund from Nila Phone Corner. A merchant collect request arrives with this instruction. What do you do?",
+    "payeeName": "Nila Phone Corner — FICTIONAL",
+    "payeeHandle": "nila-corner@demo.invalid",
+    "note": "Untrusted instruction: ‘Approve with your PIN to receive your refund.’ SAMPLE ONLY",
+    "decline": "Decline this request",
+    "approve": "Follow the instruction (simulate PIN approval)",
+    "hint1": "A collect request asks you to pay. It is not an incoming refund.",
+    "hint2": "You never need a UPI PIN to receive money. Decline this request to pay.",
+    "explanation": "A collect request asks you to send money to the requester. Approving a payment with a UPI PIN authorizes money to leave your account; receiving money does not require your PIN. Decline a payment request disguised as a refund. This screen is simulated; never enter a real PIN."
+  },
+  "payment": {
+    "approve": "Approve payment (simulate PIN)",
+    "decline": "Decline and re-check with the shopkeeper",
+    "hint1": "Check the displayed recipient name and payment ID before approving.",
+    "hint2": "If the details differ from the intended recipient, stop and confirm the correct payment ID. A similar name is not enough."
+  },
+  "decision": {
+    "title": "Check before paying",
+    "prompt": "You agreed to buy the phone stand for ₹180. You independently confirmed the shop's details: Nila Phone Corner, nila-corner@demo.invalid. Compare the screen below, then complete this fictional payment if all details match.",
+    "payeeName": "Nila Phone Corner — FICTIONAL",
+    "payeeHandle": "nila-corner@demo.invalid",
+    "note": "Phone stand — fictional payment of ₹180",
+    "explanation": "The name, payment ID and ₹180 amount match the details you independently confirmed for your purchase. In this exercise, approve the intended payment using the simulated PIN action. A UPI PIN authorizes paying, not receiving. Never approve an unexpected request just because its name looks familiar."
+  },
+  "consequence": {
+    "paid": "Verified fictional payment completed",
+    "explanation": "You checked the details and completed the agreed fictional purchase. Any earlier decline paused the exercise, and your corrected choice completed it. No real money moved. Now check a different payee and amount."
+  },
+  "transfer": {
+    "leela": {
+      "title": "A different repair counter",
+      "prompt": "The fictional receipt says Leela Repairs, ₹275. Check the new screen before paying.",
+      "payeeName": "Leela Repair — FICTIONAL",
+      "payeeHandle": "leela-repair@demo.invalid",
+      "note": "Screen repair — fictional payment of ₹275",
+      "explanation": "The receipt says Leela Repairs, but the screen says Leela Repair. A similar name does not confirm the recipient. Stop and confirm the correct payment ID before approving."
+    },
+    "kavi": {
+      "title": "A different cable purchase",
+      "prompt": "The fictional receipt says Kavi Cables, ₹95. Check the new screen before paying.",
+      "payeeName": "Kavi Cable — FICTIONAL",
+      "payeeHandle": "kavi-cable@demo.invalid",
+      "note": "Charging cable — fictional payment of ₹95",
+      "explanation": "The receipt says Kavi Cables, but the screen says Kavi Cable. Even with the expected amount, a name mismatch needs checking. Confirm the correct payment ID before approving."
+    }
+  },
+  "upi": {
+    "declined_payment": { "review": "Your choice: you declined the agreed purchase even though the name, payment ID and amount matched the independently confirmed details. Expected choice in this exercise: approve the fictional payment after checking. Concept: a UPI PIN authorizes paying, not receiving. Why it matters: always declining leaves intended payments unfinished and does not demonstrate recipient checking. If you are unsure in real life, pause and verify rather than pay." },
+    "wrong_payee": { "review": "Your choice: you approved a payment whose recipient name did not match the intended shop. Safer choice: decline and confirm the correct payment ID. Concept: verify the recipient before authorizing a payment. Why it matters: a similar name can belong to a different recipient, so money could go to the wrong account. Retry after checking the details." },
+    "pin_to_receive": { "review": "Your choice: you followed an instruction to approve with a PIN to receive a refund. Safer choice: decline that payment request. Concept: a UPI PIN authorizes paying; receiving money never requires it. Why it matters: approving the request could send money out instead of bringing a refund in. A corrected safety mistake still caps this attempt at 1 star; replay to practise safely." }
+  }
+}

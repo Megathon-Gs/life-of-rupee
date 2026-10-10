@@ -3,6 +3,8 @@ import { ErrorCategoryDefSchema, type ErrorCategoryDef } from '../contracts'
 export const errorCategories: Readonly<Record<string, ErrorCategoryDef>> = Object.fromEntries(
   [
     { code: 'upi.pin_to_receive', severity: 'critical', skillNode: 'bank.upi' },
+    { code: 'upi.wrong_payee', severity: 'major', skillNode: 'bank.upi' },
+    { code: 'upi.declined_payment', severity: 'minor', skillNode: 'bank.upi' },
     { code: 'fraud.shared_otp', severity: 'critical', skillNode: 'safety.fraud' },
     { code: 'fraud.clicked_link', severity: 'major', skillNode: 'safety.fraud' },
     { code: 'fraud.misclassified', severity: 'minor', skillNode: 'safety.fraud' },
