@@ -15,7 +15,7 @@ permissions:
 jobs:
   reconcile:
     if: github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, orca-vm]
     steps:
       - uses: actions/checkout@v4
       - name: Reconcile task issues
