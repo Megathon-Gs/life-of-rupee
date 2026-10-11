@@ -112,3 +112,46 @@ describe('conditional level steps', () => {
     expect(completions[0]!.attempt.stars).toBe(0)
   })
 })
+
+describe('decision config overrides', () => {
+  const base = fixtureLevel.steps[3]
+  const level: LevelDef = {
+    ...fixtureLevel,
+    steps: [
+      fixtureLevel.steps[0],
+      fixtureLevel.steps[1],
+      fixtureLevel.steps[2],
+      {
+        ...base,
+        config: { variant: 'plain' },
+        configOverrides: [{ when: { flag: 'loan.activeInstallment', equals: 'true' }, config: { variant: 'installment' } }],
+      },
+      fixtureLevel.steps[4],
+      fixtureLevel.steps[5],
+    ],
+  }
+  const decisionConfig = (flags: Record<string, string>, resumeFlags?: Record<string, string>) => {
+    const runner = createLevelRunner({ levels: [level], newId: () => 'override-attempt', now })
+    runner.start(level, 7, now, flags)
+    runner.advance()
+    runner.complete()
+    runner.arrive(level.location)
+    if (resumeFlags) {
+      const snapshot = InLevelSnapshotSchema.parse(runner.snapshot())
+      const resumed = createLevelRunner({ levels: [level], newId: () => 'override-attempt', now })
+      resumed.resume(snapshot, { worldFlags: resumeFlags })
+      return resumed.current().view
+    }
+    return runner.current().view
+  }
+
+  it('uses the base config unless a condition holds at start', () => {
+    expect(decisionConfig({})).toMatchObject({ type: 'decision', config: { variant: 'plain' } })
+    expect(decisionConfig({ 'loan.activeInstallment': 'true' })).toMatchObject({ config: { variant: 'installment' } })
+  })
+
+  it('keeps the start-time choice after resume even if flags change', () => {
+    expect(decisionConfig({ 'loan.activeInstallment': 'true' }, {})).toMatchObject({ config: { variant: 'installment' } })
+    expect(decisionConfig({}, { 'loan.activeInstallment': 'true' })).toMatchObject({ config: { variant: 'plain' } })
+  })
+})

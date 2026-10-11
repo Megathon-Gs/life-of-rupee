@@ -73,6 +73,13 @@ export const TravelStepSchema = z
 /** Step that sends the player to the level's location. */
 export type TravelStep = z.infer<typeof TravelStepSchema>
 
+/** Schema for a config that replaces a step's own when a derived world flag matches. */
+export const ConfigOverrideSchema = z
+  .object({ when: StepConditionSchema, config: z.unknown() })
+  .strict()
+/** Alternative decision config, chosen once at level start from derived world flags. */
+export type ConfigOverride = z.infer<typeof ConfigOverrideSchema>
+
 /** Schema for the scored decision step. */
 export const DecisionStepSchema = z
   .object({
@@ -80,6 +87,8 @@ export const DecisionStepSchema = z
     type: z.literal('decision'),
     interaction: InteractionIdSchema,
     config: z.unknown(),
+    /** The first override whose condition holds at level start replaces `config`. */
+    configOverrides: z.array(ConfigOverrideSchema).optional(),
     rubric: RubricSchema,
   })
   .strict()

@@ -1,0 +1,101 @@
+{
+  "_meta": {
+    "translationStatus": "English draft; NGO educator sign-off pending."
+  },
+  "hook": {
+    "1": "Nila: Here's your receipt. Does the total fit your plan?",
+    "2": "Nila: The shelf tag is only where we start.",
+    "3": "Mina: Then let's follow every line down to the total."
+  },
+  "lesson": {
+    "title": "Read a fictional receipt",
+    "prompt": "This fictional receipt has a discount and tax (assumed 10%, not a real rate). Tap the tax line, then the amount Mina actually pays.",
+    "hint1": "Hint 1: Read each line label before you tap it.",
+    "hint2": "Hint 2: The discount comes off first, then tax is added, and the last line is what you pay.",
+    "explanation": "The tag prices add up to the subtotal, but the discount lowers it and tax adds to what is left. The amount you pay is the total on the last line.",
+    "items": {
+      "notebook": "Notebook (fictional)",
+      "bottle": "Water bottle (fictional)"
+    }
+  },
+  "decision": {
+    "title": "Check Mina's receipt at the counter",
+    "prompt": "Mina bought a few things at Nila's counter. This fictional receipt applies a discount and tax (assumed 10%, not a real rate). Tap the tax line, then the amount Mina has to pay.",
+    "hint1": "Hint 1: The subtotal is only the tag prices added up.",
+    "hint2": "Hint 2: Take off the discount, add the tax, and read the last line.",
+    "explanation": "The subtotal is the tag prices added up. The discount and the tax both change it, so the amount to pay is the total line, not the subtotal.",
+    "items": {
+      "lentils": "Lentils (fictional)",
+      "oil": "Cooking oil (fictional)",
+      "soap": "Soap (fictional)"
+    }
+  },
+  "chain": {
+    "title": "Check the bill, then plan the money",
+    "prompt": "First read Mina's receipt. Then place her fictional ₹1,500 for the month so the bill and her other needs are covered and something is saved.",
+    "hint1": "Hint 1: Use the amount on the total line, not the tag prices.",
+    "hint2": "Hint 2: Cover needs first, then keep some money for savings.",
+    "explanation": "The amount payable on the receipt is the real cost. Cover it, and any fixed payment, before spending on wants or saving."
+  },
+  "budget": {
+    "title": "Plan Mina's money for the month",
+    "prompt": "Mina has a fictional ₹1,500 this month. The receipt total of ₹418 is a need. Share the money across needs, wants and savings.",
+    "promptInstallment": "Mina has a fictional ₹1,500 this month. The receipt total of ₹418 is a need, and a fictional instalment of ₹500 (assumed amount) is already committed. Share the rest across needs, wants and savings.",
+    "hint1": "Hint 1: Needs must cover the receipt total and any fixed payment.",
+    "hint2": "Hint 2: Keep some money for savings.",
+    "explanation": "Needs come first: the amount payable on the receipt and any fixed monthly payment. Even a small saving protects you from surprises.",
+    "no_essentials": {
+      "review": "Your choice: you left too little in needs to cover the receipt total and any fixed payment. Safer choice: put the amount payable and the committed payment in needs before anything else. Concept: a budget is a statement of income, expenses and saving, and money already committed is not free to spend. Why it matters: if needs are not covered, the bill or the payment can go unpaid."
+    },
+    "no_savings": {
+      "review": "Your choice: you placed all the money in needs and wants and saved nothing. Safer choice: set some money aside after needs are covered. Concept: a budget shows what is left to save once expenses are planned. Why it matters: with no savings, a small surprise cost has nothing to be paid from."
+    }
+  },
+  "consequence": {
+    "tags": "Tag prices added up: ₹400",
+    "total": "Receipt total after the ₹20 discount and 10% tax (assumed): ₹418",
+    "budget": "Mina set aside ₹410 for this trip, so the receipt is ₹8 over her budget.",
+    "explanation": "Compare the receipt total, not the tag prices, with your budget. A discount can lower the bill and tax can raise it. The rate and amounts here are assumptions for a fictional receipt."
+  },
+  "transfer": {
+    "stationery": {
+      "title": "Another receipt: school supplies",
+      "prompt": "A different fictional receipt. The discount is taken off first and tax (assumed 18%, not a real rate) is added to what is left. Tap the tax line, then the amount to pay.",
+      "hint1": "Hint 1: Work out which line is the discounted price before tax.",
+      "hint2": "Hint 2: The tax is added after the discount, and the last line is what you pay.",
+      "explanation": "The discount comes off the price first. Tax is then added to the discounted amount, and the total line is what you pay.",
+      "items": {
+        "notebook": "Notebook (fictional)",
+        "geometry": "Geometry box (fictional)",
+        "bag": "School bag (fictional)"
+      }
+    },
+    "grocery": {
+      "title": "Another receipt: groceries",
+      "prompt": "A different fictional receipt. The discount is taken off first and tax (assumed 5%, not a real rate) is added to what is left. Tap the tax line, then the amount to pay.",
+      "hint1": "Hint 1: The subtotal is before the discount and before tax.",
+      "hint2": "Hint 2: Subtract the discount, add the tax, and read the last line.",
+      "explanation": "The discount comes off the price first. Tax is then added to the discounted amount, and the total line is what you pay.",
+      "items": {
+        "flour": "Flour (fictional)",
+        "sugar": "Sugar (fictional)",
+        "tea": "Tea (fictional)"
+      }
+    }
+  },
+  "claim": {
+    "invoiceLines": "A tax invoice from a registered seller shows the taxable value after any discount, the rate of tax and the amount of tax charged.",
+    "discountValue": "A discount given before or at the time of the sale, and recorded in the invoice, is not counted in the value of the supply.",
+    "askForBill": "Ask for a bill or receipt on every purchase. A bill shows details such as the date, the units bought, the price per unit, any discount, the taxes and the total amount.",
+    "indirectTax": "GST is an indirect tax on the sale of goods and services, so a bill can be higher than the price you first saw because tax is added.",
+    "budget": "A budget is a statement of income, expenses and saving. It helps to compare actual spending with the budgeted amount."
+  },
+  "receipt": {
+    "discount_before_tax": {
+      "review": "Your choice: you took the subtotal, the tag prices added up, as the amount to pay. Safer choice: read down to the total line, where the discount is taken off and tax is added. Concept: price, discount and tax can each change what you pay, and a tax invoice shows the discounted value, the tax rate and the tax charged. Why it matters: checking the total against your budget only works if you use the amount actually payable."
+    },
+    "missed_tax": {
+      "review": "Your choice: you tapped a line that is not the tax added at the counter. Safer choice: look for the line labelled tax, with its assumed rate. Concept: a bill can be higher than the price you first saw because tax is added, and the receipt shows the rate and the tax charged. Why it matters: missing the tax means you underestimate what you will pay."
+    }
+  }
+}
