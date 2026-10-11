@@ -22,8 +22,16 @@ export function OfferComparator({ config, locale, onEvent, onComplete, stepId = 
   const [explanationOpen, setExplanationOpen] = useState(false)
   const [hintLevel, setHintLevel] = useState(0)
   const completed = useRef(false)
+  const instruments = config.investmentInstruments
+  if (
+    instruments &&
+    (new Set(instruments.map((item) => item.id)).size !== instruments.length ||
+      instruments.length !== config.offers.length ||
+      config.offers.some((item) => !instruments.some((instrument) => instrument.id === item.id)))
+  )
+    throw new Error('Investment cards must match offer IDs exactly')
 
-  const totals = config.offers.map(
+  const totals = (instruments ? [] : config.offers).map(
     (item) =>
       [
         item.id,
@@ -37,11 +45,9 @@ export function OfferComparator({ config, locale, onEvent, onComplete, stepId = 
   )
   const totalOf = (id: string) => totals.find(([offerId]) => offerId === id)![1]
   const selected = offer(config.offers, selectedId) ?? config.offers[0]!
-  const rows = schedule(
-    selected.principalPaise as Paise,
-    selected.annualRatePct,
-    selected.tenureMonths,
-  )
+  const rows = instruments
+    ? []
+    : schedule(selected.principalPaise as Paise, selected.annualRatePct, selected.tenureMonths)
   const money = (paise: Paise) => formatINR(paise, locale)
 
   const choose = (chosen: OfferComparatorConfig['offers'][number]) => {
@@ -81,8 +87,9 @@ export function OfferComparator({ config, locale, onEvent, onComplete, stepId = 
 
       <ol className={styles.cards}>
         {config.offers.map((offerItem) => {
-          const total = totalOf(offerItem.id)
-          const offerLabel = t(offerItem.labelKey)
+          const total = instruments ? undefined : totalOf(offerItem.id)
+          const instrument = instruments?.find((item) => item.id === offerItem.id)
+          const offerLabel = t(instrument?.labelKey ?? offerItem.labelKey)
           return (
             <li
               key={offerItem.id}
@@ -91,43 +98,57 @@ export function OfferComparator({ config, locale, onEvent, onComplete, stepId = 
               data-testid={`offer-${offerItem.id}`}
             >
               <h4 className={styles.offerTitle}>{offerLabel}</h4>
-              <dl className={styles.figures}>
-                <div>
-                  <dt>{lbl('loan.emi', 'EMI')}</dt>
-                  <dd>{money(total.emi)}</dd>
+              {instrument ? (
+                <div className={styles.assumptionText}>
+                  <p>{t(instrument.riskKey)}</p>
+                  <p>{t(instrument.liquidityKey)}</p>
+                  <p>{t(instrument.timeHorizonKey)}</p>
                 </div>
-                <div>
-                  <dt>{lbl('loan.tenure', 'Tenure')}</dt>
-                  <dd>
-                    {offerItem.tenureMonths} {lbl('loan.months', 'months')}
-                  </dd>
-                </div>
-                <div>
-                  <dt>{lbl('loan.fees', 'Fees')}</dt>
-                  <dd>{money(offerItem.feesPaise as Paise)}</dd>
-                </div>
-                <div>
-                  <dt>{lbl('loan.totalRepaid', 'Total repaid')}</dt>
-                  <dd>{money(total.totalRepaid)}</dd>
-                </div>
-                <div>
-                  <dt>{lbl('loan.totalInterest', 'Total interest')}</dt>
-                  <dd>{money(total.totalInterest)}</dd>
-                </div>
-              </dl>
-              <p className={styles.assumption}>
-                {lbl('loan.assumptionPrefix', 'Assumption')}: {offerItem.annualRatePct}%{' '}
-                {lbl('loan.aYear', 'a year')}
-              </p>
+              ) : (
+                total && (
+                  <dl className={styles.figures}>
+                    <div>
+                      <dt>{lbl('loan.emi', 'EMI')}</dt>
+                      <dd>{money(total.emi)}</dd>
+                    </div>
+                    <div>
+                      <dt>{lbl('loan.tenure', 'Tenure')}</dt>
+                      <dd>
+                        {offerItem.tenureMonths} {lbl('loan.months', 'months')}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>{lbl('loan.fees', 'Fees')}</dt>
+                      <dd>{money(offerItem.feesPaise as Paise)}</dd>
+                    </div>
+                    <div>
+                      <dt>{lbl('loan.totalRepaid', 'Total repaid')}</dt>
+                      <dd>{money(total.totalRepaid)}</dd>
+                    </div>
+                    <div>
+                      <dt>{lbl('loan.totalInterest', 'Total interest')}</dt>
+                      <dd>{money(total.totalInterest)}</dd>
+                    </div>
+                  </dl>
+                )
+              )}
+              {!instruments && (
+                <p className={styles.assumption}>
+                  {lbl('loan.assumptionPrefix', 'Assumption')}: {offerItem.annualRatePct}%{' '}
+                  {lbl('loan.aYear', 'a year')}
+                </p>
+              )}
               <p className={styles.assumptionText}>{t(offerItem.assumptionsKey)}</p>
               <div className={styles.cardActions}>
-                <Button
-                  aria-pressed={offerItem.id === selectedId}
-                  aria-label={`${lbl('loan.viewSchedule', 'View monthly breakdown')}: ${offerLabel}`}
-                  onClick={() => setSelectedId(offerItem.id)}
-                >
-                  {lbl('loan.viewSchedule', 'View monthly breakdown')}
-                </Button>
+                {!instruments && (
+                  <Button
+                    aria-pressed={offerItem.id === selectedId}
+                    aria-label={`${lbl('loan.viewSchedule', 'View monthly breakdown')}: ${offerLabel}`}
+                    onClick={() => setSelectedId(offerItem.id)}
+                  >
+                    {lbl('loan.viewSchedule', 'View monthly breakdown')}
+                  </Button>
+                )}
                 <Button
                   variant="primary"
                   aria-label={`${lbl('loan.choose', 'Choose')}: ${offerLabel}`}
@@ -155,7 +176,7 @@ export function OfferComparator({ config, locale, onEvent, onComplete, stepId = 
         })}
       </ol>
 
-      {config.budget && (
+      {!instruments && config.budget && (
         <section
           className={styles.budget}
           aria-label={`${lbl('loan.budget.title', 'Monthly budget')}: ${t(selected.labelKey)}`}
@@ -190,48 +211,50 @@ export function OfferComparator({ config, locale, onEvent, onComplete, stepId = 
         </section>
       )}
 
-      <section
-        className={styles.breakdown}
-        aria-label={`${lbl('loan.scheduleCaption', 'Month-by-month principal and interest')}: ${t(selected.labelKey)}`}
-      >
-        <h4>{lbl('loan.scheduleCaption', 'Month-by-month principal and interest')}</h4>
-        <table className={styles.schedule}>
-          <caption className={styles.caption}>
-            {`${lbl('loan.scheduleCaption', 'Month-by-month principal and interest')}: ${t(selected.labelKey)}`}
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">{lbl('loan.month', 'Month')}</th>
-              <th scope="col">{lbl('loan.split', 'Principal / interest')}</th>
-              <th scope="col">{lbl('loan.principal', 'Principal')}</th>
-              <th scope="col">{lbl('loan.interest', 'Interest')}</th>
-              <th scope="col">{lbl('loan.balance', 'Balance')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, index) => {
-              const paid = row.principalPaid + row.interestPaid
-              const principalWidth = paid > 0 ? (row.principalPaid / paid) * 100 : 0
-              return (
-                <tr key={index}>
-                  <th scope="row">{index + 1}</th>
-                  <td>
-                    <span className={styles.bar} aria-hidden="true">
-                      <span
-                        className={styles.barPrincipal}
-                        style={{ width: `${principalWidth}%` }}
-                      />
-                    </span>
-                  </td>
-                  <td>{money(row.principalPaid)}</td>
-                  <td>{money(row.interestPaid)}</td>
-                  <td>{money(row.balance)}</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </section>
+      {!instruments && (
+        <section
+          className={styles.breakdown}
+          aria-label={`${lbl('loan.scheduleCaption', 'Month-by-month principal and interest')}: ${t(selected.labelKey)}`}
+        >
+          <h4>{lbl('loan.scheduleCaption', 'Month-by-month principal and interest')}</h4>
+          <table className={styles.schedule}>
+            <caption className={styles.caption}>
+              {`${lbl('loan.scheduleCaption', 'Month-by-month principal and interest')}: ${t(selected.labelKey)}`}
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">{lbl('loan.month', 'Month')}</th>
+                <th scope="col">{lbl('loan.split', 'Principal / interest')}</th>
+                <th scope="col">{lbl('loan.principal', 'Principal')}</th>
+                <th scope="col">{lbl('loan.interest', 'Interest')}</th>
+                <th scope="col">{lbl('loan.balance', 'Balance')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, index) => {
+                const paid = row.principalPaid + row.interestPaid
+                const principalWidth = paid > 0 ? (row.principalPaid / paid) * 100 : 0
+                return (
+                  <tr key={index}>
+                    <th scope="row">{index + 1}</th>
+                    <td>
+                      <span className={styles.bar} aria-hidden="true">
+                        <span
+                          className={styles.barPrincipal}
+                          style={{ width: `${principalWidth}%` }}
+                        />
+                      </span>
+                    </td>
+                    <td>{money(row.principalPaid)}</td>
+                    <td>{money(row.interestPaid)}</td>
+                    <td>{money(row.balance)}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </section>
+      )}
 
       <Button disabled={hintLevel === 2} onClick={showHint}>
         {t('hint.control')}

@@ -58,6 +58,68 @@ const panel = (props: React.ComponentProps<typeof OfferComparator>) => (
 const card = (id: string) => within(screen.getByTestId(`offer-${id}`))
 
 describe('OfferComparator', () => {
+  it('rejects investment metadata that does not match the selectable cards', () => {
+    const investmentInstruments = [
+      {
+        id: 'missing',
+        labelKey: 'Missing card',
+        riskKey: 'Risk',
+        liquidityKey: 'Liquidity',
+        timeHorizonKey: 'Horizon',
+      },
+    ]
+    expect(() =>
+      renderUi(
+        panel({
+          config: { ...config, investmentInstruments },
+          locale: 'en',
+          onEvent: vi.fn(),
+          onComplete: vi.fn(),
+        }),
+      ),
+    ).toThrow('Investment cards must match offer IDs exactly')
+  })
+
+  it('renders investment characteristics, not loan figures, and keeps choice feedback', async () => {
+    const user = userEvent.setup()
+    const onEvent = vi.fn()
+    const onComplete = vi.fn()
+    const investments: OfferComparatorConfig = {
+      ...config,
+      offers: config.offers.map((item) => ({ ...item, error: 'investing.ignored_horizon' })),
+      investmentInstruments: config.offers.map((item) => ({
+        id: item.id,
+        labelKey: item.labelKey,
+        riskKey: 'Risk: capital can fall',
+        liquidityKey: 'Liquidity: check withdrawal terms',
+        timeHorizonKey: 'Horizon: match the goal',
+      })),
+    }
+    const { container } = renderUi(
+      panel({ config: investments, locale: 'en', onEvent, onComplete, stepId: 'decision' }),
+    )
+    expect(card('a').getByText('Risk: capital can fall')).toBeTruthy()
+    expect(card('b').getByText('Liquidity: check withdrawal terms')).toBeTruthy()
+    expect(card('b').getByText('Horizon: match the goal')).toBeTruthy()
+    expect(screen.queryByRole('table')).toBeNull()
+    expect(screen.queryByText('EMI')).toBeNull()
+    expect(screen.queryByText('Total repaid')).toBeNull()
+    expect(screen.queryByText('Monthly budget')).toBeNull()
+    expect(screen.queryByRole('button', { name: /View monthly breakdown/ })).toBeNull()
+    await user.click(card('b').getByRole('button', { name: /Choose:/ }))
+    expect(onEvent).toHaveBeenLastCalledWith({
+      kind: 'choice',
+      stepId: 'decision',
+      correct: false,
+      error: 'investing.ignored_horizon',
+      severity: 'major',
+    })
+    await user.click(card('a').getByRole('button', { name: /Choose:/ }))
+    await user.click(card('a').getByRole('button', { name: /Choose:/ }))
+    expect(onComplete).toHaveBeenCalledTimes(1)
+    expect(await axeViolations(container)).toEqual([])
+  }, 20_000)
+
   it('derives every displayed figure from finance and labels each rate as an assumption', async () => {
     const { container } = renderUi(
       panel({ config, locale: 'en', onEvent: vi.fn(), onComplete: vi.fn(), stepId: 'decision' }),
