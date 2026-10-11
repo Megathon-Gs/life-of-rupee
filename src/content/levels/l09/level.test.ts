@@ -484,10 +484,8 @@ describe('Level 9 content, claims and safety', () => {
     check(level)
   })
 
-  it('marks the Telugu draft for review and the English text as educator-approved', () => {
-    expect(Object.keys(te)[1]).toBe('_needsReview')
-    expect(te._needsReview).toBe(true)
-    expect(te._meta.translationStatus).toMatch(/యంత్ర/)
+  it('marks the Telugu translation as reviewed and the English text as educator-approved', () => {
+    expect(te._meta.translationStatus).toMatch(/ఆమోదించబడింది/)
     expect(en._meta.translationStatus).toMatch(/approved by NGO educator/)
     expect(en.translationStatus).toMatch(/approved by NGO educator/)
   })

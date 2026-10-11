@@ -31,8 +31,8 @@ describe('dev gallery', () => {
     }
   }, 20_000)
 
-  it('has a Telugu draft for every English ui string, marked for review', () => {
+  it('has a reviewed Telugu translation for every English ui string', () => {
     expect(flatKeys(te).sort()).toEqual(flatKeys(en).sort())
-    expect(te._needsReview).toBe(true)
+    expect(te._meta.translationStatus).toMatch(/reviewed and approved/)
   })
 })
