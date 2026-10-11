@@ -1,0 +1,69 @@
+{
+  "_meta": {
+    "translationStatus": "English draft; NGO educator sign-off pending."
+  },
+  "hook": {
+    "1": "Asha: My first payslip came, and it says ₹18,000 at the top.",
+    "2": "Supervisor: That is your gross pay. Some amounts are deducted before the rest reaches you.",
+    "3": "Asha: Let's read the fictional payslip and find what I actually take home."
+  },
+  "lesson": {
+    "title": "Read a fictional payslip",
+    "prompt": "Tap the amount that is paid to Asha after deductions (take-home pay).",
+    "grossLabel": "Gross pay (before deductions)",
+    "grossValue": "₹18,000",
+    "deductionsLabel": "Total deductions",
+    "deductionsValue": "₹3,060",
+    "netLabel": "Net pay (take-home)",
+    "netValue": "₹14,940"
+  },
+  "decision": {
+    "title": "Which amount reaches the account?",
+    "prompt": "This fictional payslip lists a retirement-savings contribution (assumed 12% of gross), tax deducted at source (assumed ₹400) and a canteen charge (assumed ₹500). Tap the take-home pay.",
+    "grossLabel": "Gross pay",
+    "grossValue": "₹18,000",
+    "deductionsLabel": "Total deductions (assumed amounts)",
+    "deductionsValue": "₹3,060",
+    "netLabel": "Net pay (take-home)",
+    "netValue": "₹14,940"
+  },
+  "consequence": {
+    "net": "Take-home pay: ₹14,940",
+    "deductions": "Deductions: ₹3,060 out of ₹18,000 gross",
+    "explanation": "Gross pay is the total before deductions; net pay is what is left after them. Plan your budget around net pay. The rates and amounts here are assumptions for a fictional payslip."
+  },
+  "transfer": {
+    "prompt": "Tap the amount this worker takes home after deductions.",
+    "dev": {
+      "title": "Dev's payslip lists net pay first and a bigger year-to-date figure. Find his take-home pay.",
+      "extraLabel": "Gross pay, year to date",
+      "extraValue": "₹72,000",
+      "netLabel": "Net pay this month",
+      "netValue": "₹19,380",
+      "grossLabel": "Gross pay this month",
+      "grossValue": "₹24,000",
+      "deductionsLabel": "Total deductions this month (assumed)",
+      "deductionsValue": "₹4,620"
+    },
+    "ila": {
+      "title": "Ila's payslip shows the employer's total cost too. Find her take-home pay.",
+      "extraLabel": "Total cost to employer",
+      "extraValue": "₹34,500",
+      "netLabel": "Net pay (take-home)",
+      "netValue": "₹24,000",
+      "grossLabel": "Gross pay",
+      "grossValue": "₹30,000",
+      "deductionsLabel": "Total deductions (assumed)",
+      "deductionsValue": "₹6,000"
+    }
+  },
+  "claim": {
+    "tds": "For salary, the employer deducts tax at source (TDS) on the employee's behalf, using the employee's declarations to work out the amount.",
+    "form16": "Form 16 is the certificate of tax deducted at source on salary. The employer issues it to the employee at the end of the financial year."
+  },
+  "payslip": {
+    "gross_as_net": {
+      "review": "Your choice: you read an amount other than take-home pay as what you receive. Safer choice: use net pay, the amount after deductions, when planning spending. Concept: gross pay, deductions and net pay are different numbers; for salary, tax is deducted at source by the employer. Why it matters: budgeting from gross pay overstates what you can spend."
+    }
+  }
+}
