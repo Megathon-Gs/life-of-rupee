@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
-import type { AttemptRecord, SaveFile } from '@/core/contracts'
+import type { AttemptRecord, LevelDef, SaveFile } from '@/core/contracts'
 import { migrate } from '@/core/state'
 import { v1Fixture } from '@/core/state/migrations/fixtures'
 import { world } from '@/content/world'
@@ -11,18 +11,18 @@ import { LevelPanel } from './LevelPanel'
 import { createGameStore, GameStoreContext } from './store'
 
 const save = (): SaveFile => ({ ...migrate(structuredClone(v1Fixture)), attempts: [] })
-const levels = [fixtureBankLevel]
 
 const stepType = () => screen.getByTestId('level-step').getAttribute('data-step-type')
 
-function setup(initial = save()) {
+function setup(initial = save(), shownLevel: LevelDef = fixtureBankLevel) {
+  const levels = [shownLevel]
   const store = createGameStore(initial, { levels, locations: world.locations })
   const onCompleted = vi.fn()
   const onClose = vi.fn()
   const view = renderUi(
     <GameStoreContext.Provider value={store}>
       <LevelPanel
-        level={fixtureBankLevel}
+        level={shownLevel}
         levels={levels}
         locale="en"
         test
@@ -124,5 +124,32 @@ describe('LevelPanel', () => {
     }
     setup(initial)
     expect(stepType()).toBe('decision')
+  })
+
+  it('resuming at a ScenarioChain step drops that step’s events from the save', () => {
+    const chainLevel: LevelDef = {
+      ...fixtureBankLevel,
+      steps: fixtureBankLevel.steps.map((step) =>
+        step.type === 'decision' ? { ...step, interaction: 'scenarioChain' as never } : step,
+      ) as LevelDef['steps'],
+    }
+    const initial = save()
+    initial.position = {
+      locationId: initial.position.locationId,
+      inLevel: {
+        levelId: chainLevel.id,
+        stepIndex: 3,
+        events: [
+          { kind: 'choice', stepId: 'lesson', correct: true },
+          { kind: 'hint', stepId: 'decision', level: 1 },
+          { kind: 'choice', stepId: 'decision', correct: true },
+        ],
+      },
+    }
+    const { store } = setup(initial, chainLevel)
+    expect(store.getState().save.position.inLevel).toMatchObject({
+      stepIndex: 3,
+      events: [{ kind: 'choice', stepId: 'lesson', correct: true }],
+    })
   })
 })

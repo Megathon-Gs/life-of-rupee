@@ -1,0 +1,24 @@
+{
+  "banner": "Simulated — never enter real details",
+  "progress": {
+    "label": "Progress through this month",
+    "step": "Step {n} of {total}",
+    "done": "done",
+    "current": "now",
+    "todo": "next"
+  },
+  "missing": "This step is not available yet.",
+  "explanation": { "control": "Why is this incorrect?" },
+  "hint": {
+    "control": "Show a hint",
+    "level1": "Hint 1: Each step uses what the last one left you with.",
+    "level2": "Hint 2: Money you set aside in one step is not there to spend in the next."
+  },
+  "sample": {
+    "title": "One fictional month",
+    "prompt": "Work through the steps in order. What you decide carries into the next step.",
+    "hint1": "Hint 1: Read what you were left with before you start the next step.",
+    "hint2": "Hint 2: A choice in an early step changes the money you have later.",
+    "explanation": "Each step builds on the last, so a mistake early in the month shows up again later."
+  }
+}

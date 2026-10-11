@@ -52,6 +52,12 @@ export function reducer(state: SaveFile, action: Action): SaveFile {
         position: { ...state.position, inLevel: { ...inLevel, stepIndex: inLevel.stepIndex + 1 } },
       }
     }
+    case 'stepEventsCleared': {
+      const inLevel = state.position.inLevel
+      if (!inLevel) return state
+      const events = inLevel.events.filter((event) => event.stepId !== action.stepId)
+      return { ...state, position: { ...state.position, inLevel: { ...inLevel, events } } }
+    }
     case 'attemptCompleted': {
       if (state.attempts.some((x) => x.id === action.attempt.id)) return state
       const position = { locationId: state.position.locationId }

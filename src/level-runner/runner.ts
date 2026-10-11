@@ -52,6 +52,13 @@ export interface ResumeOptions {
   worldFlags?: Readonly<Record<string, string>>
 }
 
+/**
+ * Interactions that cannot resume mid-way: the snapshot records events but not which link or
+ * carried values they came from, so a resume restarts the interaction and drops its step's
+ * earlier events rather than count them twice.
+ */
+const RESTARTS_ON_RESUME: ReadonlySet<string> = new Set(['scenarioChain'])
+
 /** Factory dependencies, injected so the runner stays pure and testable. */
 export interface LevelRunnerDeps {
   /** Level lookup used by `resume`, which only receives a level id. */
@@ -276,6 +283,11 @@ export function createLevelRunner(deps: LevelRunnerDeps): LevelRunnerImpl {
         snapshot.startedAt,
         snapshot.conditionResults,
       )
+      const s = active()
+      const shown = view(s)
+      if (shown && 'interaction' in shown && RESTARTS_ON_RESUME.has(shown.interaction)) {
+        s.events = s.events.filter((event) => event.stepId !== shown.stepId)
+      }
     },
 
     current() {

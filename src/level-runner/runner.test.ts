@@ -4,6 +4,7 @@ import {
   InLevelSnapshotSchema,
   type InteractionEvent,
   type LevelCompletion,
+  type LevelDef,
   type LocationId,
 } from '@/core/contracts'
 import { score } from '@/core/scoring'
@@ -161,6 +162,63 @@ describe('LevelRunner', () => {
     resumed.dispatch({ kind: 'choice', stepId: 'transfer', correct: true })
     resumed.complete()
     expect(completions[0]!.attempt).toMatchObject({ stars: 2, hints: 1 })
+  })
+
+  describe('scenarioChain step', () => {
+    const chainLevel: LevelDef = {
+      ...fixtureLevel,
+      steps: fixtureLevel.steps.map((step) =>
+        step.type === 'decision' ? { ...step, interaction: 'scenarioChain' as never } : step,
+      ) as LevelDef['steps'],
+    }
+    const chainRunner = () => {
+      const runner = createLevelRunner({ levels: [chainLevel], newId: () => 'attempt-1' })
+      const completions: LevelCompletion[] = []
+      runner.onComplete((c) => completions.push(c))
+      return { runner, completions }
+    }
+
+    it('resume restarts the chain: its step events are dropped, earlier steps keep theirs', () => {
+      const first = chainRunner().runner
+      first.start(chainLevel, 7, clock())
+      toDecision(first)
+      first.dispatch({ kind: 'hint', stepId: 'decision', level: 1 })
+      first.dispatch({
+        kind: 'choice',
+        stepId: 'decision',
+        correct: false,
+        error: 'bank.wrong_document',
+        severity: 'minor',
+      })
+      first.dispatch({ kind: 'choice', stepId: 'decision', correct: true })
+
+      const { runner, completions } = chainRunner()
+      runner.resume(InLevelSnapshotSchema.parse(first.snapshot()), { now: clock() })
+      expect(runner.current().events).toEqual([{ kind: 'choice', stepId: 'lesson', correct: true }])
+      expect(runner.snapshot().events).toHaveLength(1)
+
+      // Replaying the chain from link 1 scores as one clean pass, not as a double count.
+      runner.dispatch({ kind: 'choice', stepId: 'decision', correct: true })
+      runner.complete()
+      runner.advance()
+      runner.dispatch({ kind: 'choice', stepId: 'transfer', correct: true })
+      runner.complete()
+      expect(completions[0]!.attempt).toMatchObject({ stars: 3, hints: 0, errors: [] })
+    })
+
+    it('keeps a finished chain’s events when the snapshot is already past it', () => {
+      const first = chainRunner().runner
+      first.start(chainLevel, 7, clock())
+      toDecision(first)
+      first.dispatch({ kind: 'hint', stepId: 'decision', level: 1 })
+      first.dispatch({ kind: 'choice', stepId: 'decision', correct: true })
+      first.complete()
+
+      const { runner } = chainRunner()
+      runner.resume(InLevelSnapshotSchema.parse(first.snapshot()), { now: clock() })
+      expect(runner.current().view).toMatchObject({ type: 'consequence' })
+      expect(runner.current().events.filter((e) => e.stepId === 'decision')).toHaveLength(2)
+    })
   })
 
   it('resume falls back to the factory clock and rejects unknown levels', () => {

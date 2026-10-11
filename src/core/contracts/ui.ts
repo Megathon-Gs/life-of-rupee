@@ -8,7 +8,11 @@ export interface InteractionProps<C> {
   config: C
   locale: Locale
   onEvent: (event: InteractionEvent) => void
-  onComplete: () => void
+  /**
+   * `carry` hands named numbers (e.g. `availablePaise`) to the next link of a ScenarioChain;
+   * interactions with nothing to hand on call it with no argument.
+   */
+  onComplete: (result?: { carry?: Record<string, number> }) => void
 }
 
 /** A UI component for one interaction; returns a renderable (typed `unknown` to keep core React-free). */

@@ -132,6 +132,18 @@ describe('reducer', () => {
       expect(SaveFileSchema.safeParse(out).success).toBe(true)
     }
   })
+  it('stepEventsCleared drops only that step’s events from the in-level snapshot', () => {
+    let s = save()
+    s = reducer(s, { type: 'levelStarted', levelId: 'l02-bank-account' as never })
+    for (const stepId of ['lesson', 'decision', 'decision']) {
+      s = reducer(s, { type: 'eventRecorded', event: { kind: 'explanationOpened', stepId } })
+    }
+    s = reducer(s, { type: 'stepEventsCleared', stepId: 'decision' })
+    expect(s.position.inLevel?.events).toEqual([{ kind: 'explanationOpened', stepId: 'lesson' }])
+    expect(SaveFileSchema.safeParse(s).success).toBe(true)
+    const noLevel = save()
+    expect(reducer(noLevel, { type: 'stepEventsCleared', stepId: 'decision' })).toBe(noLevel)
+  })
   it('flows through a level', () => {
     let s = save()
     for (const a of actions.slice(1, 5)) s = reducer(s, a)

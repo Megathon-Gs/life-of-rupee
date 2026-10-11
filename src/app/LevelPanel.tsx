@@ -129,6 +129,11 @@ export function LevelPanel({
       try {
         runner.resume(saved, { seed: seedFor(), now, worldFlags: store.derived().worldFlags })
         resumed = true
+        // The runner drops events of an interaction that restarts on resume; trim the save to match.
+        const { events, view } = runner.current()
+        if (view && events.length < saved.events.length) {
+          store.getState().dispatch({ type: 'stepEventsCleared', stepId: view.stepId })
+        }
       } catch {
         // A snapshot from older content no longer fits; start the level again.
       }

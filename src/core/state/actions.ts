@@ -20,6 +20,7 @@ export type Action =
   | { type: 'levelStarted'; levelId: LevelId }
   | { type: 'eventRecorded'; event: InteractionEvent }
   | { type: 'stepAdvanced' }
+  | { type: 'stepEventsCleared'; stepId: string }
   | { type: 'attemptCompleted'; attempt: AttemptRecord }
   | { type: 'settingsUpdated'; patch: Partial<Omit<Settings, 'updatedAt'>>; updatedAt: string }
   | { type: 'transitionSeen'; id: string }
