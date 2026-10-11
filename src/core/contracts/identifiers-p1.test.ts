@@ -13,7 +13,13 @@ import {
 
 describe('P1 identifiers', () => {
   it('exports both world flags and accepts the Level 9 installment signal', () => {
-    expect(WORLD_FLAGS).toEqual(['fraud.seenWarningSigns', 'loan.activeInstallment'])
+    expect(WORLD_FLAGS).toEqual([
+      'fraud.seenWarningSigns',
+      'loan.activeInstallment',
+      'savings.goalMet',
+      'insurance.policyInspected',
+      'curriculum.completed',
+    ])
     const key = 'loan.activeInstallment'
     const flags = { [key]: 'true' }
     expect(WorldEffectSchema.parse({ key, value: 'true' })).toEqual({ key, value: 'true' })
