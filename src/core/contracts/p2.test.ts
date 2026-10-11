@@ -49,6 +49,24 @@ describe('P2 contracts', () => {
         error: 'inflation.nominal_vs_real',
       }).success,
     ).toBe(true)
+    const sliderChoices = {
+      ...text,
+      initialAmountPaise: 100,
+      maxYears: 5,
+      rangeSpreadPct: 2,
+      error: 'saving.ignored_liquidity',
+      choices: [
+        { id: 'fd', labelKey: 'fd', error: 'saving.ignored_liquidity', severity: 'major' },
+        { id: 'sav', labelKey: 'sav' },
+      ],
+    }
+    expect(
+      TimeSliderConfigSchema.safeParse({ ...sliderChoices, correctChoiceId: 'sav' }).success,
+    ).toBe(true)
+    expect(TimeSliderConfigSchema.safeParse(sliderChoices).success).toBe(false)
+    expect(
+      TimeSliderConfigSchema.safeParse({ ...sliderChoices, correctChoiceId: 'nope' }).success,
+    ).toBe(false)
     expect(
       ScenarioChainConfigSchema.safeParse({
         ...text,

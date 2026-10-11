@@ -312,9 +312,31 @@ export const TimeSliderConfigSchema = z
     annualRatePct: z.number().finite().nonnegative().optional(),
     annualInflationPct: z.number().finite().nonnegative().optional(),
     maxYears: PositiveIntegerSchema,
+    /** Spread (percentage points) for an illustrative range around `annualRatePct`. */
+    rangeSpreadPct: z.number().finite().positive().optional(),
+    /** Fallback category for a wrong answer that carries none of its own. */
     error: ErrorCategorySchema,
+    /** Answer options; when omitted the interaction derives a default pair. */
+    choices: z
+      .array(z.object({ id: KeySchema, labelKey: KeySchema, ...ChoiceFeedbackFields }).strict())
+      .min(2)
+      .refine((choices) => new Set(choices.map((choice) => choice.id)).size === choices.length, {
+        message: 'Choice IDs must be unique',
+      })
+      .optional(),
+    correctChoiceId: KeySchema.optional(),
   })
   .strict()
+  .refine((config) => (config.choices === undefined) === (config.correctChoiceId === undefined), {
+    path: ['correctChoiceId'],
+    message: 'choices and correctChoiceId go together',
+  })
+  .refine(
+    (config) =>
+      config.choices === undefined ||
+      config.choices.some((choice) => choice.id === config.correctChoiceId),
+    { path: ['correctChoiceId'], message: 'Answer must reference a configured choice' },
+  )
 export type TimeSliderConfig = z.infer<typeof TimeSliderConfigSchema>
 
 export const ScenarioChainConfigSchema = z

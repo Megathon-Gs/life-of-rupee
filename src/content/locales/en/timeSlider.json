@@ -1,0 +1,45 @@
+{
+  "banner": "Simulated — never enter real details",
+  "assumption": {
+    "rate": "Assumption: {rate}% a year",
+    "inflation": "Assumption: prices rise {rate}% a year",
+    "range": "Assumption: outcomes could be {spread} percentage points lower or higher"
+  },
+  "step": {
+    "back": "Back one year",
+    "forward": "Forward one year"
+  },
+  "slider": {
+    "label": "Years passed: {years} of {max}",
+    "valueText": "{years} years"
+  },
+  "chart": {
+    "label": "Chart of the amount after {years} years"
+  },
+  "line": {
+    "savings": "After {years} years, {from} could grow to {to}.",
+    "basket": "After {years} years, a basket that costs {from} today could cost {to}.",
+    "range": "After {years} years, the illustrative range is {low} to {high}.",
+    "rangeNote": "This is a range, not a promise. Real results can be lower or higher.",
+    "cash": "If you keep {from} as cash, after {years} years it buys only what {value} buys today.",
+    "realRange": "In today's money, that range is worth {low} to {high}."
+  },
+  "choices": {
+    "label": "Your answer",
+    "inflation": {
+      "wrong": "The bigger rupee number is worth more",
+      "right": "What the money can buy matters most"
+    },
+    "plain": {
+      "wrong": "The amount stays the same",
+      "right": "The amount grows over time"
+    }
+  },
+  "feedback": "That choice does not fit the numbers shown. You can try again.",
+  "explanation": {
+    "control": "Why is this incorrect?"
+  },
+  "hint": {
+    "control": "Show a hint"
+  }
+}
