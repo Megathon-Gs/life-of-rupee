@@ -29,9 +29,14 @@ export default defineConfig({
       },
       workbox: {
         skipWaiting: false,
-        clientsClaim: false,
+        clientsClaim: true,
         cleanupOutdatedCaches: true,
-        globPatterns: ['**/*.{js,css,html,woff2}', 'assets/manifest.json', 'assets/urban.*.png'],
+        globPatterns: [
+          '**/*.{js,css,html,woff2}',
+          'assets/manifest.json',
+          'assets/urban.*.png',
+          'interiors/bank.png',
+        ],
         navigateFallback: 'index.html',
         navigateFallbackDenylist: [API_PATH_PATTERN],
         runtimeCaching: [
@@ -44,8 +49,8 @@ export default defineConfig({
             handler: 'NetworkOnly',
           },
           {
-            // Later levels' chunks and atlases: cached on first visit, served offline after.
-            urlPattern: /\/assets\//,
+            // Later levels' chunks, atlases and backdrops: cached on first visit, served offline after.
+            urlPattern: /\/(assets|interiors)\//,
             handler: 'StaleWhileRevalidate',
             options: { cacheName: ASSET_CACHE },
           },

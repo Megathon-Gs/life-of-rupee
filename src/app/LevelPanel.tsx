@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ComponentType } from 'react'
+import { useEffect, useRef, useState, type ComponentType, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   DocumentInspectorConfigSchema,
@@ -14,10 +14,12 @@ import {
   type SkillNodeId,
 } from '@/core/contracts'
 import { skillTree } from '@/content/skillTree'
+import { interiors } from '@/content/interiors'
 import { createLevelRunner, type LevelRunnerImpl, type RunnerView } from '@/level-runner'
 import { interactions } from '@/ui/interactions'
 import { ResultsScreen } from '@/ui/screens/Results'
 import { DialogueSheet } from '@/ui/shell'
+import { InteriorBackdrop } from '@/ui/shell/InteriorBackdrop'
 import { attemptSeed, levelNamespace } from './levels'
 import { TEST_SEED } from './mode'
 import { useGameStore } from './store'
@@ -157,9 +159,19 @@ export function LevelPanel({
 
   if (!shown) return null
 
+  const withBackdrop = (content: ReactNode) =>
+    interiors[level.location] ? (
+      <div className={styles.levelLayout}>
+        <InteriorBackdrop location={level.location} />
+        <div className={styles.levelContent}>{content}</div>
+      </div>
+    ) : (
+      content
+    )
+
   if (shown.done) {
     if (!completion) return null
-    return (
+    return withBackdrop(
       <div data-testid="results">
         <ResultsScreen
           stars={completion.score.stars}
@@ -172,7 +184,7 @@ export function LevelPanel({
           onRetry={start}
           onContinue={onClose}
         />
-      </div>
+      </div>,
     )
   }
 
@@ -231,9 +243,9 @@ export function LevelPanel({
     }
   }
 
-  return (
+  return withBackdrop(
     <div data-testid="level-step" data-step-type={view.type}>
       {body}
-    </div>
+    </div>,
   )
 }

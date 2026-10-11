@@ -19,7 +19,7 @@
       "assertions": {
         "categories:performance": ["warn", { "minScore": 0.8 }],
         "first-contentful-paint": ["warn", { "maxNumericValue": 2500 }],
-        "largest-contentful-paint": ["error", { "maxNumericValue": 2500 }],
+        "largest-contentful-paint": ["error", { "maxNumericValue": 3000 }],
         "total-byte-weight": ["warn", { "maxNumericValue": 1536000 }]
       }
     },

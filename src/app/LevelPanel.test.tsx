@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
-import type { AttemptRecord, LevelDef, SaveFile } from '@/core/contracts'
+import type { AttemptRecord, LevelDef, LocationId, SaveFile } from '@/core/contracts'
 import { migrate } from '@/core/state'
 import { v1Fixture } from '@/core/state/migrations/fixtures'
 import { world } from '@/content/world'
@@ -36,6 +36,21 @@ function setup(initial = save(), shownLevel: LevelDef = fixtureBankLevel) {
 }
 
 describe('LevelPanel', () => {
+  it('shows the location backdrop until the lesson unmounts', () => {
+    const { view } = setup()
+    expect(screen.getByTestId('interior-backdrop').querySelector('img')?.getAttribute('src')).toBe(
+      '/interiors/bank.png',
+    )
+    view.unmount()
+    expect(screen.queryByTestId('interior-backdrop')).toBeNull()
+  })
+
+  it('does not add a backdrop to an unmapped location', () => {
+    setup(save(), { ...fixtureBankLevel, location: 'home' as LocationId })
+    expect(screen.queryByTestId('interior-backdrop')).toBeNull()
+    expect(stepType()).toBe('hook')
+  })
+
   it('plays the fixture level to results and records the attempt', async () => {
     const user = userEvent.setup()
     const { store, onCompleted, onClose } = setup()

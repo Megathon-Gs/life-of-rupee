@@ -28,6 +28,10 @@ test('shell and the first level play after one load, then offline', async ({ pag
   await expect(page.getByTestId('profile-picker')).toHaveCount(0)
   await travelTo(page, 'bank')
   await openDoor(page)
+  await expect(page.getByTestId('interior-backdrop').locator('img')).toHaveJSProperty(
+    'naturalWidth',
+    384,
+  )
   await playLevel(page)
   await expect(results(page)).toBeVisible()
 })
@@ -41,6 +45,10 @@ test('a level visited once online reopens offline', async ({ page, context }) =>
   await openDoor(page)
   await expect(step(page)).toBeVisible()
   expect(await step(page).getAttribute('data-step-type')).toBeTruthy()
+  await expect(page.getByTestId('interior-backdrop').locator('img')).toHaveJSProperty(
+    'naturalWidth',
+    384,
+  )
 
   await context.setOffline(true)
   await page.reload()
@@ -49,6 +57,10 @@ test('a level visited once online reopens offline', async ({ page, context }) =>
   await expect(band(page)).toHaveAttribute('data-location', 'phone-shop')
   await openDoor(page)
   await expect(step(page)).toBeVisible()
+  await expect(page.getByTestId('interior-backdrop').locator('img')).toHaveJSProperty(
+    'naturalWidth',
+    384,
+  )
 })
 
 test('a deploy mid-level does not reload the page until the level ends', async ({ page }) => {
@@ -74,9 +86,7 @@ test('a deploy mid-level does not reload the page until the level ends', async (
   await expect(page.getByRole('dialog')).toHaveCount(0)
   await expect(updateToast(page)).toBeVisible()
   await updateToast(page).getByRole('button', { name: 'Update' }).click()
-  await expect
-    .poll(() => page.evaluate(() => (window as PwaWindow).pwaSentinel ?? null))
-    .toBeNull()
+  await expect.poll(() => page.evaluate(() => (window as PwaWindow).pwaSentinel ?? null)).toBeNull()
 })
 
 test('never stores API responses in Cache Storage', async ({ page }) => {
@@ -86,7 +96,9 @@ test('never stores API responses in Cache Storage', async ({ page }) => {
   // Reload once so the worker controls the page before the API calls.
   await page.reload()
   await expect(band(page)).toHaveAttribute('data-ready', 'true')
-  await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true)
+  await expect
+    .poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller)))
+    .toBe(true)
 
   // The worker's NetworkOnly route handles these; the point is that they are attempted.
   await page.evaluate(async () => {

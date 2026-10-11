@@ -27,12 +27,19 @@ export async function warmAssetCache(): Promise<void> {
   } catch {
     // Offline first visit: precache still serves the shell and first level.
   }
-  // "Offline ready" means the worker is active too, so an offline reload is served from cache.
+  // An active worker is not enough: it must control this page before we can go offline.
   if ('serviceWorker' in navigator) {
-    await navigator.serviceWorker.ready.catch(() => undefined)
-    // Give the browser a beat to associate the new worker with the scope: reloading
-    // in the same tick as activation can otherwise race ahead of the worker.
-    await new Promise((resolve) => setTimeout(resolve, 1200))
+    const workers = navigator.serviceWorker
+    await workers.ready
+    await new Promise<void>((resolve) => {
+      const controlled = () => {
+        if (!workers.controller) return
+        workers.removeEventListener('controllerchange', controlled)
+        resolve()
+      }
+      workers.addEventListener('controllerchange', controlled)
+      controlled()
+    })
   }
   // e2e waits for this flag before cutting the network, so the lazy cache is warm.
   document.documentElement.dataset.pwaAssets = 'ready'

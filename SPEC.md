@@ -58,7 +58,7 @@ Not duplicated here. Types and Zod schemas live in `src/core/contracts/` (task P
 
 ## 7. Constraints
 - Compatibility: Android Chrome and desktop browsers; Playwright viewports 360×740 touch, 412×915 touch, 1440×900. Phone quality takes precedence. English and Telugu from day one; text only in the DOM, never in the canvas.
-- Performance: initial JS ≤ 250 KB gzipped; first-level assets ≤ 1.5 MB; LCP ≤ 2.5 s on simulated 4G (Lighthouse mobile); ≥ 45 fps during travel under 4× CPU throttle.
+- Performance: initial JS ≤ 250 KB gzipped; first-level assets ≤ 1.5 MB; LCP ≤ 3.0 s on simulated 4G (Lighthouse mobile; product-owner-approved P2-29 exception from 2.5 s); ≥ 45 fps during travel under 4× CPU throttle.
 - Accessibility: zero `@axe-core/playwright` violations on key screens; a level completable by keyboard alone and with reduced motion on; finger-sized targets; no star loss tied to reading speed or accessibility needs.
 - Security/privacy (plan §11): nothing ever leaves the device; no names, contact details or real financial data; free text from students is not collected (pickers and pre-filled fictional values); only educational error categories are recorded; no analytics, ads, trackers or third-party scripts; strict CSP; self-hosted fonts; all financial claims traceable to RBI, NPCI, SEBI or NCFE sources, with educator sign-off on sensitive ones before a level ships. Privacy is a release blocker.
 - Allowed dependencies: those listed in the tech plan stack, installed once by P0-01 (TypeScript, Vite, pnpm, PixiJS, React, GSAP, Zustand, Zod, Dexie, vite-plugin-pwa, i18next, AssetPack, sharp, Vitest, fast-check, Playwright, axe-core). New deps require an ADR.
