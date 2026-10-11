@@ -86,6 +86,38 @@ describe('PixiWorldRenderer travelTo', () => {
       renderer.travelTo('nope' as LocationId, { reducedMotion: false }),
     ).rejects.toThrow()
   })
+
+  it('eases the camera toward the bank and reverses to the street position', async () => {
+    await renderer.travelTo('bank' as LocationId, { reducedMotion: false })
+    const before = layerXs(renderer)
+    await renderer.transitionLocation('bank' as LocationId, false)
+    expect(layerXs(renderer)).not.toEqual(before)
+    for (const x of layerXs(renderer)) expect(Number.isInteger(x)).toBe(true)
+    await renderer.transitionLocation('bank' as LocationId, false, true)
+    expect(layerXs(renderer)).toEqual(before)
+  })
+
+  it('keeps bank entry and exit inside the unobscured side-panel area', async () => {
+    await renderer.travelTo('bank' as LocationId, { reducedMotion: false })
+    renderer.setSideInset(585)
+    const before = layerXs(renderer)
+    await renderer.transitionLocation('bank' as LocationId, false)
+    expect(renderer.protagonistSprite.x).toBe(56)
+    await renderer.transitionLocation('bank' as LocationId, false, true)
+    expect(renderer.protagonistSprite.x).toBe(73)
+    expect(layerXs(renderer)).toEqual(before)
+  })
+
+  it('never moves the camera on reduced-motion entry or an aborted entry', async () => {
+    await renderer.travelTo('bank' as LocationId, { reducedMotion: false })
+    const before = layerXs(renderer)
+    await renderer.transitionLocation('bank' as LocationId, true)
+    expect(layerXs(renderer)).toEqual(before)
+    const controller = new AbortController()
+    controller.abort()
+    await renderer.transitionLocation('bank' as LocationId, false, false, controller.signal)
+    expect(layerXs(renderer)).toEqual(before)
+  })
 })
 
 describe('PixiWorldRenderer applyVisuals', () => {

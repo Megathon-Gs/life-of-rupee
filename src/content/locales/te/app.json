@@ -22,6 +22,9 @@
   "door": {
     "enter": "{place}లోకి వెళ్లండి"
   },
+  "transition": {
+    "skip": "ప్రవేశ యానిమేషన్‌ను దాటవేయండి"
+  },
   "settings": {
     "switchProfile": "ఆటగాడిని మార్చండి"
   },

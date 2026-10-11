@@ -1,17 +1,40 @@
 import { defineConfig, devices } from '@playwright/test'
+import { createServer } from 'node:net'
 
-const webPort = Number(process.env.E2E_PORT ?? 4173)
-const baseURL = `http://127.0.0.1:${webPort}`
+// CI shares this VM with worktrees; never reuse another checkout's preview server.
+const configuredPort = process.env.E2E_PORT ?? process.env.PAISA_E2E_PORT
+const port = configuredPort
+  ? Number(configuredPort)
+  : process.env.CI
+    ? await new Promise<number>((resolve, reject) => {
+        const server = createServer()
+        server.on('error', reject)
+        server.listen(0, '127.0.0.1', () => {
+          const address = server.address()
+          if (!address || typeof address === 'string') {
+            server.close()
+            reject(new Error('Could not allocate a preview port'))
+            return
+          }
+          server.close((error) => (error ? reject(error) : resolve(address.port)))
+        })
+      })
+    : 4173
+if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('Invalid preview port')
+// Playwright workers reload this config and must inherit the parent's allocated port.
+process.env.PAISA_E2E_PORT = String(port)
+const baseURL = `http://127.0.0.1:${port}`
 // Concurrent runs must not share artifacts: a run on a custom E2E_PORT gets its own
 // output dir (override with E2E_OUTPUT_DIR). Plain `pnpm e2e` keeps `test-results`.
 const outputDir =
   process.env.E2E_OUTPUT_DIR ??
-  (process.env.E2E_PORT ? `test-results-${webPort}` : 'test-results')
+  (configuredPort || process.env.CI ? `test-results-${port}` : 'test-results')
 
 export default defineConfig({
   testDir: './tests/e2e',
   outputDir,
   fullyParallel: true,
+  workers: process.env.CI ? 2 : undefined,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? 'github' : 'list',
@@ -48,11 +71,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    // In CI: a dedicated port, strictPort (fail if taken), and never reuse a foreign
-    // server. Locally: reuse a dev/preview server on the default port for speed.
-    command: process.env.CI
-      ? `pnpm build && pnpm preview --host 127.0.0.1 --port ${webPort} --strictPort`
-      : 'pnpm build && pnpm preview --host 127.0.0.1',
+    command: `pnpm build && pnpm preview --host 127.0.0.1 --port ${port} --strictPort`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

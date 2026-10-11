@@ -192,6 +192,22 @@ test('completing the bank fixture level shows results and applies the teller var
   expect(Object.values(stars).some((value) => Number(value) >= 1)).toBe(true)
 })
 
+test('profile creation, saving, and lesson completion work without crypto.randomUUID', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(crypto, 'randomUUID', { value: undefined, configurable: true })
+  })
+  await startNewProfile(page)
+  await completeBankLevel(page)
+  const stars = await band(page).getAttribute('data-stars')
+  expect(Object.keys(parseJson(stars)).length).toBeGreaterThan(0)
+  await page.reload()
+  await expect(band(page)).toHaveAttribute('data-ready', 'true')
+  await expect(band(page)).toHaveAttribute('data-location', 'bank')
+  await expect(band(page)).toHaveAttribute('data-stars', stars ?? '')
+})
+
 test('reload restores the same location and stars', async ({ page }) => {
   await startNewProfile(page)
   await completeBankLevel(page)

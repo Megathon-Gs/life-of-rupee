@@ -19,6 +19,9 @@
   "door": {
     "enter": "Go into the {place}"
   },
+  "transition": {
+    "skip": "Skip entry animation"
+  },
   "settings": {
     "switchProfile": "Switch player"
   },

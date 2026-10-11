@@ -36,12 +36,16 @@
 /* Door cue over the building the protagonist stands at. */
 .door {
   position: absolute;
-  left: var(--door-center, 50%);
+  left: 50%;
   top: var(--door-top, 46%);
   z-index: calc(var(--z-hud) + 1);
   translate: -50% 0;
   width: max-content;
   max-width: calc(100% - var(--sp-6));
+}
+
+.band[inert] .door {
+  visibility: hidden;
 }
 
 /* DialogueSheet is built to pin to the world band; inside a panel it flows in place. */
@@ -55,6 +59,36 @@
   /* Undo the wide-screen centring (left 50% + translate) so the sheet stays inside the panel. */
   translate: none;
   width: auto;
+}
+
+/* Darken the street first, then reveal the menu and interior together without movement. */
+.interiorPanel {
+  --interior-entry-duration: 500ms;
+}
+
+.interiorPanel[data-reduced-motion='true'] {
+  --interior-entry-duration: 0ms;
+}
+
+.interiorPanel > div > :global([aria-hidden='true']) {
+  animation-duration: var(--interior-entry-duration);
+}
+
+.interiorPanel :global([role='dialog']) {
+  animation: revealInterior calc(var(--interior-entry-duration) * 0.4) steps(1, end) both;
+}
+
+.interiorPanel :global([data-testid='interior-backdrop']) {
+  animation: none;
+}
+
+@keyframes revealInterior {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Reserve the image band only for lessons with interiors; other panels keep their layout. */

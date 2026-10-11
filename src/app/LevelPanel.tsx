@@ -19,6 +19,7 @@ import { createLevelRunner, type LevelRunnerImpl, type RunnerView } from '@/leve
 import { interactions } from '@/ui/interactions'
 import { ResultsScreen } from '@/ui/screens/Results'
 import { DialogueSheet } from '@/ui/shell'
+import { randomUUID } from '@/randomUUID'
 import { InteriorBackdrop } from '@/ui/shell/InteriorBackdrop'
 import { attemptSeed, levelNamespace } from './levels'
 import { TEST_SEED } from './mode'
@@ -113,7 +114,7 @@ export function LevelPanel({
   }
 
   const start = () => {
-    const runner = createLevelRunner({ levels, newId: () => crypto.randomUUID(), now })
+    const runner = createLevelRunner({ levels, newId: randomUUID, now })
     runner.onComplete((done) => {
       store.getState().dispatch({ type: 'attemptCompleted', attempt: done.attempt })
       void (async () => {

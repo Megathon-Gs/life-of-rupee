@@ -1,4 +1,5 @@
 import { SaveFileSchema, type SaveFile, type SaveStore } from '../core/contracts'
+import { randomUUID } from '../randomUUID'
 import { db } from './db'
 
 export type SaveMigrator = (file: unknown) => SaveFile | Promise<SaveFile>
@@ -22,7 +23,7 @@ export function createSaveStore({ migrate }: { migrate: SaveMigrator }): SaveSto
       const now = Date.now()
       const previous = await db.saves.get(copy.learner.localId)
       await db.snapshots.add({ localId: copy.learner.localId, file: previous?.file ?? copy, createdAt: now })
-      await db.saves.put({ localId: copy.learner.localId, file: copy, updatedAt: now, revision: crypto.randomUUID() })
+      await db.saves.put({ localId: copy.learner.localId, file: copy, updatedAt: now, revision: randomUUID() })
       const rows = (await db.snapshots.where('localId').equals(copy.learner.localId).toArray()).sort((a, b) => (b.id ?? 0) - (a.id ?? 0))
       await db.snapshots.bulkDelete(rows.slice(3).map((row) => row.id!))
     })).then(() => {
@@ -88,7 +89,7 @@ export function createSaveStore({ migrate }: { migrate: SaveMigrator }): SaveSto
       return (await db.profiles.toArray()).map(({ localId, avatar, displayName }) => ({ localId, avatar, displayName }))
     },
     async createProfile() {
-      const localId = crypto.randomUUID()
+      const localId = randomUUID()
       const avatar = 'player'
       const displayName = `${words[Math.floor(Math.random() * words.length)]} ${words[Math.floor(Math.random() * words.length)]}`
       const file: SaveFile = {
@@ -101,7 +102,7 @@ export function createSaveStore({ migrate }: { migrate: SaveMigrator }): SaveSto
       }
       await db.transaction('rw', db.profiles, db.saves, async () => {
         await db.profiles.add({ localId, avatar, displayName, createdAt: Date.now() })
-        await db.saves.put({ localId, file, updatedAt: Date.now(), revision: crypto.randomUUID() })
+        await db.saves.put({ localId, file, updatedAt: Date.now(), revision: randomUUID() })
       })
       return file
     },

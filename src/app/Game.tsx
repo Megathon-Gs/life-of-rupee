@@ -34,7 +34,7 @@ import { buildTeacherSummary, topErrors } from './teacher'
 import { loadTextureProvider } from './textures'
 import { LocationLabels } from './LocationLabels'
 import { stageMetrics } from './stage'
-import { enterLocation, exitLocation, onArrive } from './transitions'
+import { cueDoor, enterLocation, exitLocation, onArrive } from './transitions'
 import styles from './App.module.css'
 
 const ids = world.locations.map((location) => location.id)
@@ -72,11 +72,12 @@ export function Game({ mode, levels, saveStore, features, onSwitchProfile }: Gam
   const reducedMotion = useReducedMotion()
 
   useEffect(() => {
-    if (locationId !== 'bank') return
+    const interior = interiors[locationId]
+    if (!interior) return
     const preload = document.createElement('link')
     preload.rel = 'preload'
     preload.as = 'image'
-    preload.href = interiors.bank!
+    preload.href = interior
     document.head.append(preload)
     return () => preload.remove()
   }, [locationId])
@@ -93,7 +94,10 @@ export function Game({ mode, levels, saveStore, features, onSwitchProfile }: Gam
 
   // Visuals follow the saved state: refreshed at mount and after each finished attempt is saved.
   const [savedDerived, setSavedDerived] = useState(() => store.derived())
-  const visuals = useMemo(() => deriveWorldVisuals(savedDerived, { features }), [savedDerived, features])
+  const visuals = useMemo(
+    () => deriveWorldVisuals(savedDerived, { features }),
+    [savedDerived, features],
+  )
   // P1 locations are enterable regardless of the cosmetic lit state; P0 gating still applies.
   const enterable = useMemo(
     () => [
@@ -171,8 +175,8 @@ export function Game({ mode, levels, saveStore, features, onSwitchProfile }: Gam
       const created = new PixiWorldRenderer({ world, textures, test: mode.test })
       renderer = created
       rendererRef.current = created
-      created.onArrive((id) =>
-        void onArrive(id, { reducedMotion: latest.current.reducedMotion, test: mode.test }),
+      created.onArrive(
+        (id) => void onArrive(id, { reducedMotion: latest.current.reducedMotion, test: mode.test }),
       )
       created.mount(host)
       window.addEventListener('resize', onResize)
@@ -212,15 +216,14 @@ export function Game({ mode, levels, saveStore, features, onSwitchProfile }: Gam
   useEffect(() => {
     const renderer = rendererRef.current
     if (!ready || !renderer) return
-    const apply = (bottom: number, side: number, center: number) => {
+    const apply = (bottom: number, side: number) => {
       const dpr = window.devicePixelRatio || 1
       renderer.setBottomInset(bottom * dpr)
       renderer.setSideInset(side * dpr)
-      bandRef.current?.style.setProperty('--door-center', `${center}%`)
       if (mode.test) renderer.step(16)
     }
     if (panel === null) {
-      apply(0, 0, 50)
+      apply(0, 0)
       return
     }
     const dialog = document.querySelector('[role="dialog"]')
@@ -228,9 +231,9 @@ export function Game({ mode, levels, saveStore, features, onSwitchProfile }: Gam
     const measure = () => {
       const rect = dialog.getBoundingClientRect()
       if (rect.width >= window.innerWidth * 0.9) {
-        apply(Math.max(0, window.innerHeight - rect.top), 0, 50)
+        apply(Math.max(0, window.innerHeight - rect.top), 0)
       } else {
-        apply(0, Math.max(0, window.innerWidth - rect.left), (rect.left / window.innerWidth) * 50)
+        apply(0, Math.max(0, window.innerWidth - rect.left))
       }
     }
     measure()
@@ -270,7 +273,8 @@ export function Game({ mode, levels, saveStore, features, onSwitchProfile }: Gam
     if (travelling || !arrivedRef.current) return
     arrivedRef.current = false
     doorRef.current?.focus()
-  }, [travelling, locationId])
+    return cueDoor(doorRef.current, reducedMotion || mode.test)
+  }, [travelling, locationId, reducedMotion, mode.test])
 
   const transitionCtx = () => ({ reducedMotion: latest.current.reducedMotion, test: mode.test })
   const openPanel = (next: Panel) => {
@@ -283,10 +287,13 @@ export function Game({ mode, levels, saveStore, features, onSwitchProfile }: Gam
     machine.send({ kind: 'panelClosed' })
     if (closing?.kind === 'level') void exitLocation(closing.level.location, transitionCtx())
   }
+  const openLevel = (target: LevelDef) => {
+    if (!interiors[target.location]) void enterLocation(target.location, transitionCtx())
+    openPanel({ kind: 'level', level: target })
+  }
   const enter = () => {
-    if (!level || travelling) return
-    void enterLocation(level.location, transitionCtx())
-    openPanel({ kind: 'level', level })
+    if (!level || travelling || panel) return
+    openLevel(level)
   }
   const step = (dir: 1 | -1) => {
     const cmd = machine.send({ kind: 'button', dir })
@@ -317,8 +324,7 @@ export function Game({ mode, levels, saveStore, features, onSwitchProfile }: Gam
       await runCommand({ kind: 'goto', id: target.location })
       if (store.getState().save.position.locationId !== target.location) return
     }
-    void enterLocation(target.location, transitionCtx())
-    openPanel({ kind: 'level', level: target })
+    openLevel(target)
   }
 
   return (
@@ -360,76 +366,92 @@ export function Game({ mode, levels, saveStore, features, onSwitchProfile }: Gam
           </div>
         )}
       </div>
-      <PanelShell
-        open={panel !== null}
-        onOpenChange={(open) => {
-          if (!open) closePanel()
-        }}
-        title={panelTitle}
-        footer={
-          panel?.kind === 'settings' ? (
-            <>
-              <Button onClick={() => setPanel({ kind: 'skillTree' })}>
-                {t('openTree', { ns: 'skilltree' })}
-              </Button>
-              <Button data-testid="teacher-open" onClick={() => setPanel({ kind: 'teacherSummary' })}>
-                {t('title', { ns: 'teacher' })}
-              </Button>
-              <Button data-testid="profile-switch" onClick={onSwitchProfile}>
-                {t('settings.switchProfile')}
-              </Button>
-              <Button variant="primary" onClick={closePanel}>
-                {t('settings.done', { ns: 'ui' })}
-              </Button>
-            </>
-          ) : undefined
+      <div
+        data-reduced-motion={String(reducedMotion)}
+        className={
+          panel?.kind === 'level' && interiors[panel.level.location]
+            ? styles.interiorPanel
+            : undefined
         }
       >
-        {panel?.kind === 'settings' && (
-          <SettingsPanel settings={settings} onChange={changeSettings} />
-        )}
-        {panel?.kind === 'skillTree' && (
-          <SkillTreeScreen
-            tree={skillTree}
-            completed={derived.skills}
-            focusNode={panel.focusNode}
-            justLit={panel.focusNode}
-            bestStars={Object.fromEntries(
-              levels.flatMap((candidate) => {
-                const stars = derived.bestStars[candidate.id]
-                return stars === undefined ? [] : candidate.skillNodes.map((node) => [node, stars])
-              }),
-            )}
-            onReplay={replayNode}
-            onBack={closePanel}
-          />
-        )}
-        {panel?.kind === 'capstone' && <CapstoneScreen features={features} />}
-        {panel?.kind === 'teacherSummary' && (
-          <TeacherSummaryScreen
-            summary={teacherSummary}
-            topErrors={teacherErrors}
-            onBack={() => setPanel({ kind: 'settings' })}
-          />
-        )}
-        {panel?.kind === 'level' && (
-          <LevelPanel
-            level={panel.level}
-            levels={levels}
-            locale={settings.locale}
-            test={mode.test}
-            onCompleted={async () => {
-              await saveStore.flush().catch((error: unknown) => console.error('Save failed', error))
-              setSavedDerived(store.derived())
-            }}
-            onClose={closePanel}
-            onOpenSkill={(node) => {
-              void exitLocation(panel.level.location, transitionCtx())
-              setPanel({ kind: 'skillTree', focusNode: node })
-            }}
-          />
-        )}
-      </PanelShell>
+        <PanelShell
+          open={panel !== null}
+          onOpenChange={(open) => {
+            if (!open) closePanel()
+          }}
+          title={panelTitle}
+          footer={
+            panel?.kind === 'settings' ? (
+              <>
+                <Button onClick={() => setPanel({ kind: 'skillTree' })}>
+                  {t('openTree', { ns: 'skilltree' })}
+                </Button>
+                <Button
+                  data-testid="teacher-open"
+                  onClick={() => setPanel({ kind: 'teacherSummary' })}
+                >
+                  {t('title', { ns: 'teacher' })}
+                </Button>
+                <Button data-testid="profile-switch" onClick={onSwitchProfile}>
+                  {t('settings.switchProfile')}
+                </Button>
+                <Button variant="primary" onClick={closePanel}>
+                  {t('settings.done', { ns: 'ui' })}
+                </Button>
+              </>
+            ) : undefined
+          }
+        >
+          {panel?.kind === 'settings' && (
+            <SettingsPanel settings={settings} onChange={changeSettings} />
+          )}
+          {panel?.kind === 'skillTree' && (
+            <SkillTreeScreen
+              tree={skillTree}
+              completed={derived.skills}
+              focusNode={panel.focusNode}
+              justLit={panel.focusNode}
+              bestStars={Object.fromEntries(
+                levels.flatMap((candidate) => {
+                  const stars = derived.bestStars[candidate.id]
+                  return stars === undefined
+                    ? []
+                    : candidate.skillNodes.map((node) => [node, stars])
+                }),
+              )}
+              onReplay={replayNode}
+              onBack={closePanel}
+            />
+          )}
+          {panel?.kind === 'capstone' && <CapstoneScreen features={features} />}
+          {panel?.kind === 'teacherSummary' && (
+            <TeacherSummaryScreen
+              summary={teacherSummary}
+              topErrors={teacherErrors}
+              onBack={() => setPanel({ kind: 'settings' })}
+            />
+          )}
+          {panel?.kind === 'level' && (
+            <LevelPanel
+              level={panel.level}
+              levels={levels}
+              locale={settings.locale}
+              test={mode.test}
+              onCompleted={async () => {
+                await saveStore
+                  .flush()
+                  .catch((error: unknown) => console.error('Save failed', error))
+                setSavedDerived(store.derived())
+              }}
+              onClose={closePanel}
+              onOpenSkill={(node) => {
+                void exitLocation(panel.level.location, transitionCtx())
+                setPanel({ kind: 'skillTree', focusNode: node })
+              }}
+            />
+          )}
+        </PanelShell>
+      </div>
     </>
   )
 }

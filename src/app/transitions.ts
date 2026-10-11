@@ -1,6 +1,8 @@
 import gsap from 'gsap'
 import type { LocationId } from '@/core/contracts'
 
+export { BANK_ENTRY_ID, cueDoor, transitionPanel } from '@/transitions'
+
 /**
  * P1 signature transitions (product plan §5): the phone emerges into the UPI
  * panel at the phone shop, and the loan offers fan out at the showroom.
@@ -51,7 +53,15 @@ export async function enterLocation(id: LocationId, ctx: TransitionContext): Pro
     gsap.fromTo(
       cards,
       { y: 18, opacity: 0, rotate: -3 },
-      { y: 0, opacity: 1, rotate: 0, duration: 0.35, stagger: 0.06, ease: 'power2.out', clearProps: 'all' },
+      {
+        y: 0,
+        opacity: 1,
+        rotate: 0,
+        duration: 0.35,
+        stagger: 0.06,
+        ease: 'power2.out',
+        clearProps: 'all',
+      },
     )
   }
 }
