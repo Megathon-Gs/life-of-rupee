@@ -1,0 +1,25 @@
+{
+  "tool": "PixelLab MCP create_image_pixflux + local palette-exact edits",
+  "toolVersion": "not exposed by MCP (queried 2026-10-11)",
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-11",
+  "referenceIds": [
+    "upload:f38ddab3-f5e4-4b45-a679-00ed99b8992f (palette A strip, 32x1)",
+    "art/bible/art-bible.md"
+  ],
+  "reviewFlags": "architecture and dress are GUESS: needs photo-reference pass and Hyderabad/Telangana reviewer; awaiting product-owner contact-sheet approval",
+  "kind": "tile",
+  "prompt": "scooter under a plain teal cover, covered incident",
+  "notes": "derived locally from incident-uncovered: body covered by a teal two-tone checker tarp (palette only); the covered state",
+  "tags": [
+    "prop",
+    "incident",
+    "p2",
+    "level-10",
+    "covered"
+  ],
+  "frameSize": [
+    68,
+    50
+  ]
+}

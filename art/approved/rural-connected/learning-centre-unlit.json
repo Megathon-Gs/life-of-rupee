@@ -1,0 +1,26 @@
+{
+  "tool": "PixelLab MCP create_image_pixflux + local palette-exact edits",
+  "toolVersion": "not exposed by MCP (queried 2026-10-11)",
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-11",
+  "referenceIds": [
+    "upload:f38ddab3-f5e4-4b45-a679-00ed99b8992f (palette A strip, 32x1)",
+    "art/bible/art-bible.md"
+  ],
+  "reviewFlags": "architecture and dress are GUESS: needs photo-reference pass and Hyderabad/Telangana reviewer; awaiting product-owner contact-sheet approval",
+  "kind": "tile",
+  "prompt": "financial learning centre, neutral two-storey building No text, no letters, no numerals, no logos, no watermark, no signage lettering; signboards are blank.",
+  "notes": "160x160 seed 7 palette-forced, transparent bg, unedited; UNLIT variant; sky-blue/cream so it stays distinct from the teal capstone centre",
+  "tags": [
+    "facade",
+    "p2",
+    "rural-connected",
+    "learning-centre",
+    "level-11",
+    "unlit"
+  ],
+  "frameSize": [
+    160,
+    160
+  ]
+}
