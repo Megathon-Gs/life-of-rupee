@@ -6,8 +6,8 @@ Status: accepted · Date: 2026-10-10 · Owner: Paisa Street team
 
 The canonical saved state is an append-only attempt log plus settings and position; stars,
 skills, world flags and the wallet are all recomputed from it by a pure `derive()`. The reducer
-must be unit-testable with no DOM, the same schemas must validate level content, saves and
-(later) sync payloads, and the save must survive a tab close and work offline.
+must be unit-testable with no DOM, the same schemas must validate level content and saves,
+and the save must survive a tab close and work offline.
 
 ## Decision
 
@@ -17,7 +17,7 @@ boundary data with Zod, and persist to IndexedDB with Dexie.
 ## Consequences
 
 - Positive: the reducer is testable in isolation; Zustand gives React bindings with little
-  ceremony; one Zod schema set guards content, saves and sync; Dexie is transactional and
+  ceremony; one Zod schema set guards content and saves; Dexie is transactional and
   offline-first and survives tab close.
 - Negative / cost: three libraries to learn and keep current; migrations must be written and
   tested against fixture saves for every released schema version.

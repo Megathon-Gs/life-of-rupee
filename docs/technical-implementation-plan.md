@@ -4,7 +4,7 @@ Oct 10, 2026 · Parth
 
 Build Paisa Street as a static, offline-capable web app (PWA). A PixiJS canvas draws the pixel-art town. A React DOM layer draws every lesson, form and line of text. A pure TypeScript core owns scoring, finance maths and saved state.
 
-The P0 slice (one street, one bank, Level 2) runs with no backend and no AI. Sync, the educator view and NPCs are added later without changing the core. This document turns the product plan (`plan (1).md`, 10 Oct 2026), which deliberately leaves architecture open, into concrete engineering decisions.
+The P0 slice (one street, one bank, Level 2) runs with no backend and no AI. NPCs are added later without changing the core. This document turns the product plan (`plan (1).md`, 10 Oct 2026), which deliberately leaves architecture open, into concrete engineering decisions.
 
 ## Plan review
 
@@ -45,21 +45,19 @@ flowchart TB
     CORE -->|derived visuals| WL
     CORE -->|save file| DB
   end
-  SYNC["Sync API · P2<br/>Supabase, Mumbai region<br/>RLS: one learner per row"]
   NPC["NPC proxy · P3<br/>picks approved scenarios<br/>off unless flag + review"]
-  DB -.->|opt-in, by learner code| SYNC
   LR -.->|skills + error codes| NPC
 ```
 
 Arrows show what each part feeds; dashed links are optional, later-phase services. Three rules keep the shape:
 
 - The canvas never holds text or game rules, so Telugu, screen readers and scoring never depend on it.
-- The core has no DOM, network or AI dependency; it runs identically in tests, offline and in a future server check.
-- Everything that leaves the device (dashed) is optional and arrives in P2 or later.
+- The core has no DOM, network or AI dependency; it runs identically in tests and offline.
+- Everything that leaves the device (dashed) is optional and arrives in P3 or later.
 
 ## Tech stack and repository layout
 
-One TypeScript codebase, built by Vite, deployed as static files. Everything below runs in the browser; the only server piece (sync, P2) is optional.
+One TypeScript codebase, built by Vite, deployed as static files. Everything below runs in the browser; there is no server piece.
 
 | Layer | Choice | Why | Rejected alternative |
 | --- | --- | --- | --- |
@@ -68,14 +66,13 @@ One TypeScript codebase, built by Vite, deployed as static files. Everything bel
 | UI layer | React 19, CSS Modules, design tokens as CSS custom properties | Real DOM text for Telugu shaping, screen readers, focus and forms | Canvas-drawn UI: inaccessible, poor Indic text |
 | Animation | GSAP 3 (incl. Flip) | One timeline clock drives both the Pixi camera and DOM morphs (phone → UPI panel) | Motion (framer-motion): DOM only |
 | State | Zustand store over a pure reducer in `core/` | Reducer is unit-testable with no DOM; store gives React bindings | Redux Toolkit: more ceremony for no gain here |
-| Validation | Zod | Same schemas validate level content, saves and sync payloads | — |
+| Validation | Zod | Same schemas validate level content and saves | — |
 | Local persistence | IndexedDB via Dexie | Survives tab close; works offline; transactional | localStorage: size-limited, synchronous, easy to corrupt |
 | Offline | vite-plugin-pwa (Workbox) | Precache app shell + first level; lazy-cache later levels | — |
 | i18n | i18next with ICU messages; self-hosted Noto Sans + Noto Sans Telugu | English and Telugu from day one; no font CDN calls | — |
 | Asset packing | AssetPack (PixiJS) + sharp | Atlases, WebP/PNG variants, content-hashed manifest | Hand-made sprite sheets |
 | Tests | Vitest + fast-check, Playwright, @axe-core/playwright | Unit/property tests for maths and scoring; device-sized e2e and screenshot diffs; automated a11y | — |
-| Sync (P2) | Supabase Postgres with Row Level Security, Mumbai region | Hosted, RLS enforces one-learner-one-row; data stays in India | Cloudflare D1 + Workers (viable if the NGO prefers it) |
-| Hosting | Static host (Cloudflare Pages or Vercel), strict CSP | No server to secure for P0/P1; no third-party scripts | — |
+| Hosting | Static host (Cloudflare Pages or Vercel), strict CSP | No server to secure; no third-party scripts | — |
 
 Proposed layout. The rule that matters: `core/` imports nothing from the DOM, Pixi or React, so every lesson rule and calculation is testable in isolation.
 
@@ -97,7 +94,7 @@ src/
   level-runner/         binds content → UI → core for one level
   ui/                   React: HUD, panels, dialogue, results, skill tree, settings
     interactions/       reusable financial interaction kit
-  persistence/          db.ts (Dexie), saveQueue.ts, sync/ (P2)
+  persistence/          db.ts (Dexie), saveQueue.ts
   platform/             viewport, reduced motion, audio, PWA
 art/
   bible/                art-bible.md, palette.json, reference scenes
@@ -208,7 +205,7 @@ Rules, applied in order:
 
 There is no time-based scoring anywhere. The "What changed my result?" review is generated from the same events: each error event maps to a review card (your choice, the safer choice, the concept, why it costs or risks money, a retry button, the skill node). Card text lives in the level's content keyed by error category.
 
-Error categories are stable dotted codes, for example `upi.pin_to_receive`, `fraud.shared_otp`, `loan.ignored_total_cost`, `inflation.nominal_vs_real`. They are the only learning signal that ever leaves the device.
+Error categories are stable dotted codes, for example `upi.pin_to_receive`, `fraud.shared_otp`, `loan.ignored_total_cost`, `inflation.nominal_vs_real`. They are the only learning signal the app stores.
 
 ### Finance maths (`core/finance/`)
 
@@ -244,7 +241,7 @@ The saved state is small and canonical: the attempt log, settings and current po
 ```ts
 type SaveFile = {
   schemaVersion: number;
-  learner: { localId: string; syncCode?: string };   // random UUID; never a name
+  learner: { localId: string };                        // random UUID; never a name
   settings: { locale: 'en' | 'te'; reducedMotion: 'system' | boolean; muted: boolean; textScale: 1 | 1.25 | 1.5 };
   position: { locationId: LocationId; inLevel?: { levelId: LevelId; stepIndex: number; events: InteractionEvent[] } };
   attempts: AttemptRecord[];                          // append-only
@@ -268,7 +265,6 @@ const derive = (save: SaveFile) => ({
 - **Corruption guard:** three rolling snapshots. A save that fails Zod validation after migration is moved to a quarantine store and the last good snapshot loads.
 - **Migrations:** numbered functions from each `schemaVersion` to the next, tested against fixture saves from every released version.
 - **Shared phones:** the start screen lists local players by an avatar and a generated fictional name ("Blue Kite"), with Switch player and Remove from this device. No real names are asked for.
-- **Sync-ready by design:** because the canonical data is an append-only log, merging two devices is a union of attempts by ID plus last-writer-wins settings. No conflict UI is needed.
 
 ### Content, language and accuracy (`content/`, `tools/content-lint/`)
 
@@ -300,21 +296,16 @@ Sign text, Telugu labels and numbers are never baked into art; they are DOM or b
 
 ### Privacy and security
 
-P0 and P1 store nothing off the device, which satisfies the privacy gate by construction. The P2 sync design keeps that property: the server never learns who a learner is.
+The app stores nothing off the device, which satisfies the privacy gate by construction.
 
 | Data | Where it lives | Leaves the device? |
 | --- | --- | --- |
-| Attempt log, settings, position | IndexedDB on the device | Only if sync is enabled (P2), under a learner code |
-| Learner code (e.g. `KITE-7Q4M`) | Device; server stores a hash | Yes, to authenticate sync |
 | Code-to-student mapping | NGO's offline class list | Never uploaded |
 | Names, phone, email, roll numbers, real financial data | Nowhere | Never collected |
 | Free text from students | None: fictional forms use pickers and pre-filled fictional values | — |
 
-- **Identity (P2):** an educator creates a class; the server issues random learner codes with at least 40 bits of entropy, printed on slips. A Supabase edge function exchanges a code for a short-lived JWT carrying `learner_id`, with rate limiting on attempts.
-- **Isolation:** Row Level Security restricts every learner row to `learner_id = auth.jwt() ->> 'learner_id'`. Educator tokens carry `class_id` and read only class views; counts below 5 are shown as "<5".
-- **Browser hardening:** strict CSP (`default-src 'self'`, `connect-src` limited to the sync origin), self-hosted fonts, no analytics, ads or third-party SDKs. Error screens show no state; server logs redact codes; the service worker never caches API responses.
-- **Automated release checks:** an e2e test records all network requests and fails on any non-allowlisted origin. A CI test against a local Supabase proves learner A's token cannot read learner B's rows.
-- **Legal:** learners are under 18, which India's DPDP Act 2023 treats as children (verifiable parental consent). The NGO, as data fiduciary, owns consent; confirm with its counsel before P2.
+- **Browser hardening:** strict CSP (`default-src 'self'`), self-hosted fonts, no analytics, ads or third-party SDKs. Error screens show no state; the service worker never caches non-app responses.
+- **Automated release checks:** an e2e test records all network requests and fails on any origin other than the app's own.
 
 ### Optional AI NPCs (P3, behind a feature flag)
 
@@ -334,7 +325,7 @@ Work runs in four phases, each closed by a gate; P0 is done when the demo journe
 flowchart LR
   P0["P0 · Playable slice<br/>One street, one bank<br/>Level 2, save, resume<br/>No backend, no AI"]
   P1["P1 · Hackathon demo<br/>Adds levels 4, 5, 9<br/>Full skill tree<br/>Capstone concept"]
-  P2["P2 · Full journey<br/>All 12 levels<br/>Sync, educator view<br/>NGO pilot"]
+  P2["P2 · Full journey<br/>All 12 levels<br/>Accessibility audit<br/>NGO pilot"]
   P3["P3 · Postgame<br/>Curated scenarios<br/>AI NPCs if approved"]
   P0 -->|"G0 · demo test on a phone"| P1
   P1 -->|"G1 · educator sign-off"| P2
@@ -374,8 +365,7 @@ Levels 4, 5 and 9 cover the plan's two emphasised risks, fraud and loan costs, a
 
 - [ ] Remaining 8 levels on the kit, adding BudgetAllocator, ReceiptInspector, TimeSlider and ScenarioChain
 - [ ] High-street and remaining district art through the same lint gate
-- [ ] Sync and educator view: learner codes, RLS, small-cell suppression
-- [ ] Offline hardening, accessibility audit, consent flow with the NGO
+- [ ] Offline hardening, accessibility audit
 - [ ] Pilot with NGO students, collecting the plan's success measures
 
 ### P3 — Postgame
@@ -396,7 +386,7 @@ The plan's demo definition becomes an automated Playwright test that must pass o
 | End to end | Playwright: 360×740 touch, 412×915 touch, 1440×900 desktop | The demo journey works on each size (script below) |
 | Visual regression | Playwright `toHaveScreenshot` in test mode | Key screens match approved references; no clipped forms or blurry scaling |
 | Accessibility | @axe-core/playwright; keyboard-only and reduced-motion runs | No axe violations; level playable with keyboard alone and with motion off |
-| Privacy | Network allowlist test; RLS test (P2) | No request leaves for an unapproved origin; learners cannot read each other's rows |
+| Privacy | Network allowlist test | No request leaves for an origin other than the app's own |
 | Performance | Lighthouse CI (mobile) + an in-page FPS probe under 4× CPU throttle | Initial JS ≤ 250 KB gzipped, first-level assets ≤ 1.5 MB, LCP ≤ 2.5 s on simulated 4G, ≥ 45 fps during travel |
 | Real device | Weekly on a budget Android phone; NGO student playtests from P1 | Swipe feel, readability and resume on real hardware |
 
@@ -430,7 +420,6 @@ The two risks most likely to sink the demo are art drift and swipe feel, so both
 Open questions that change the plan:
 
 - [ ] What is the hackathon deadline and team size? This sets each phase's length.
-- [ ] Do students play on their own phones or shared lab devices? This decides whether P2 sync is needed for the pilot.
 - [ ] Who translates and reviews Telugu, and is Hindi or Urdu needed?
 - [ ] pen.dev or Google Stitch as the single UI design tool?
 - [ ] Has Vanguard approved its name and branding for the capstone?

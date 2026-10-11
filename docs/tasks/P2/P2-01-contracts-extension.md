@@ -12,8 +12,6 @@ Additive changes only (no breaking edits to P0/P1 types):
 - Location IDs `market`, `workplace`, `insurance-desk`, `learning-centre`; district IDs `urban`, `high-street`, `rural-connected`.
 - World flags (string values): `savings.goalMet`, `loan.activeInstallment`, `insurance.policyInspected`, `curriculum.completed`.
 - Error categories for Levels 1, 3, 6, 7, 8, 10, 11, 12 (e.g. `budget.no_essentials`, `budget.no_savings`, `saving.ignored_liquidity`, `receipt.missed_tax`, `receipt.discount_before_tax`, `inflation.nominal_vs_real`, `payslip.gross_as_net`, `insurance.excluded_event`, `insurance.ignored_deductible`, `invest.return_guaranteed`, `invest.ignored_horizon`).
-- Sync schemas: `LearnerCode` (format `WORD-XXXX`), `SyncPush { attempts, settings, position }`, `SyncPull`, `ClassSummary` (per skill node: learners attempted, median best stars; any count below 5 typed as the literal `'<5'`). No name, contact or free-text field anywhere.
-- `ConsentState { status: 'unknown' | 'granted' | 'declined', recordedAt, policyVersion }` in `Settings` (optional, defaults to `unknown`), with a save migration note for P2-20.
 
 ## Constraints
 - Read and follow: AGENTS.md, SPEC.md, `docs/technical-implementation-plan.md` § Level runner and content model, § Privacy and security
@@ -28,8 +26,6 @@ Additive changes only (no breaking edits to P0/P1 types):
 ## Observable acceptance
 - [ ] `pnpm typecheck && pnpm test` pass with **no changes** to existing P0/P1 tests
 - [ ] Fixture configs for the four new interactions and the three extended ones parse
-- [ ] A `ClassSummary` with a count of 3 fails to parse unless written as `'<5'`
-- [ ] `SyncPush` rejects any unknown key (`.strict()`)
 
 ## Definition of Done
 - [ ] acceptance passes · [ ] tests added · [ ] comment+status updated · [ ] PR small

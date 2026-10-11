@@ -7,7 +7,6 @@ Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P2-2
 
 ## Change
 - Precache the app shell, fonts and the first level's assets; lazy-cache each later level's chunk and district atlas on first visit, keyed by the content-hashed manifest.
-- The service worker never caches sync or educator API responses.
 - Update flow: a new version waits until the player is outside a level, then offers "Update" (no reload mid-level).
 - Storage pressure: request persistent storage; on quota errors keep the save and drop cached assets first.
 
@@ -15,7 +14,7 @@ Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P2-2
 - Read and follow: AGENTS.md, `docs/technical-implementation-plan.md` § Tech stack (Offline), SPEC.md §6 (Offline row)
 - Do-not-touch: `package.json` (vite-plugin-pwa is already installed), `src/persistence/**`
 - Allowed dependencies: none new
-- Non-goals: no background sync of learning data (P2-20 owns sync)
+- Non-goals: no background upload of learning data
 
 ## Ownership
 - You may edit: the target paths above
@@ -26,7 +25,7 @@ Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P2-2
   - load once, go offline, reload → shell and Level 1 playable
   - a level visited once online is playable offline afterwards
   - a deploy mid-level does not reload the page until the level ends
-  - no API response is present in Cache Storage
+  - no cross-origin response is present in Cache Storage
 - [ ] Lighthouse budgets unchanged
 
 ## Definition of Done

@@ -14,7 +14,7 @@ Grade 11–12 students served by an NGO in Hyderabad (about 1,500 learners) rare
 - Economy simulation, 3D movement, arbitrary LLM-generated interfaces, or more empty buildings before P0/P1 polish (plan §14).
 - Recommending specific securities or products; presenting simulations as guaranteed outcomes (plan §2).
 - Time-based or reaction-speed scoring (plan §7).
-- A backend, sync, educator view or AI NPCs in P0/P1 (tech plan, phases).
+- A backend or AI NPCs in P0/P1 (tech plan, phases).
 
 ## 3. Users & user stories
 - As a **student on a phone**, I want to swipe to the next building and enter it so that I can start a lesson without a tutorial.
@@ -27,7 +27,7 @@ Grade 11–12 students served by an NGO in Hyderabad (about 1,500 learners) rare
 ## 4. Scope
 **P0 (playable slice, gate G0):** one street (urban to rural-connected); one bank; Level 2 (identity and bank account) with FormFiller and DocumentInspector; protagonist walk cycle; travel controller; pure core (money in paise, interest, scoring, save, `derive`); IndexedDB persistence with mid-level resume; UI shell (HUD, dialogue, panel, results, skill tree); one world change (teller recognises the player); English and Telugu strings; content, asset and e2e gates; no backend, no AI.
 **P1 (hackathon demo, gate G1):** UpiPayment, MessageTriage, OfferComparator; Levels 4 (UPI), 5 (fraud), 9 (loans) with one clear negative borrowing outcome; a return visit that remembers an earlier choice; full skill-tree screen and replay-to-improve; capstone centre concept behind the branding flag; Telugu for all P1 strings; if capacity allows, an on-device "Show my teacher" summary.
-**Out (until their phase):** P2: remaining 8 levels, BudgetAllocator, ReceiptInspector, TimeSlider, ScenarioChain, sync, educator view, consent flow, NGO pilot (gate G2). P3: curated postgame scenarios, AI NPC proxy after the privacy review.
+**Out (until their phase):** P2: remaining 8 levels, BudgetAllocator, ReceiptInspector, TimeSlider, ScenarioChain, NGO pilot (gate G2). P3: curated postgame scenarios, AI NPC proxy after the privacy review.
 
 ## 5. Interfaces & contracts (define first)
 Not duplicated here. Types and Zod schemas live in `src/core/contracts/` (task P0-04) and are frozen for the wave once merged; a change needs its own small PR approved by the coordinator. Definitions of record, in the tech plan:
@@ -60,7 +60,7 @@ Not duplicated here. Types and Zod schemas live in `src/core/contracts/` (task P
 - Compatibility: Android Chrome and desktop browsers; Playwright viewports 360×740 touch, 412×915 touch, 1440×900. Phone quality takes precedence. English and Telugu from day one; text only in the DOM, never in the canvas.
 - Performance: initial JS ≤ 250 KB gzipped; first-level assets ≤ 1.5 MB; LCP ≤ 2.5 s on simulated 4G (Lighthouse mobile); ≥ 45 fps during travel under 4× CPU throttle.
 - Accessibility: zero `@axe-core/playwright` violations on key screens; a level completable by keyboard alone and with reduced motion on; finger-sized targets; no star loss tied to reading speed or accessibility needs.
-- Security/privacy (plan §11): nothing leaves the device in P0/P1; no names, contact details or real financial data; free text from students is not collected (pickers and pre-filled fictional values); only educational error categories are recorded; no analytics, ads, trackers or third-party scripts; strict CSP; self-hosted fonts; all financial claims traceable to RBI, NPCI, SEBI or NCFE sources, with educator sign-off on sensitive ones before a level ships. Privacy is a release blocker.
+- Security/privacy (plan §11): nothing ever leaves the device; no names, contact details or real financial data; free text from students is not collected (pickers and pre-filled fictional values); only educational error categories are recorded; no analytics, ads, trackers or third-party scripts; strict CSP; self-hosted fonts; all financial claims traceable to RBI, NPCI, SEBI or NCFE sources, with educator sign-off on sensitive ones before a level ships. Privacy is a release blocker.
 - Allowed dependencies: those listed in the tech plan stack, installed once by P0-01 (TypeScript, Vite, pnpm, PixiJS, React, GSAP, Zustand, Zod, Dexie, vite-plugin-pwa, i18next, AssetPack, sharp, Vitest, fast-check, Playwright, axe-core). New deps require an ADR.
 - Do-not-touch paths: `src/core/contracts/` after P0-04 merges (except via an approved contracts PR); `src/ui/interactions/index.ts` and `src/content/levels/index.ts` outside their single owner task; `package.json` and lockfile outside P0-01; paths owned by another task (docs/tasks/README.md rule 3).
 
@@ -94,7 +94,6 @@ Not duplicated here. Types and Zod schemas live in `src/core/contracts/` (task P
 
 ## 9. Open questions
 - [ ] What is the hackathon deadline and team size? This sets each phase's length. — owner: Parth — decide by: before P0 planning ends
-- [ ] Do students play on their own phones or shared lab devices? This decides whether P2 sync is needed for the pilot. — owner: Parth (ask NGO) — decide by: before G1
 - [ ] Who translates and reviews Telugu, and is Hindi or Urdu needed? — owner: Parth (ask NGO) — decide by: before P1 Telugu task
 - [ ] pen.dev or Google Stitch as the single UI design tool? — owner: Parth — decide by: before P0-11
 - [ ] Has Vanguard approved its name and branding for the capstone? — owner: Parth — decide by: before P1 capstone (neutral placeholder until then)
@@ -105,7 +104,7 @@ Owners and dates are proposals for the coordinator to confirm; the questions are
 ## 10. Milestones (smallest releasable slices)
 1. **P0 Playable slice** — one street, bank, Level 2, save, resume, no backend or AI. Gate **G0**: demo journey test passes on all three viewports and on a real phone.
 2. **P1 Hackathon demo** — Levels 4, 5, 9, full skill tree, capstone concept. Gate **G1**: section 8 G1 list passes and an educator signs off.
-3. **P2 Full journey and pilot** — all 12 levels, sync, educator view, accessibility audit, consent flow. Gate **G2**: privacy gate (no real student financial data needed; learner A's token cannot read learner B's rows, tested in CI) and a pilot with NGO students.
+3. **P2 Full journey and pilot** — all 12 levels and an accessibility audit. Gate **G2**: privacy gate (the demo journey proves no real student financial data is needed and no request leaves the device, tested in CI) and a pilot with NGO students.
 4. **P3 Postgame** — curated scenarios, then AI NPCs behind a flag only after the privacy review.
 
 Each gate must pass before the next phase starts; nothing from a later phase starts early.

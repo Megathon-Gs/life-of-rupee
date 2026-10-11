@@ -10,9 +10,9 @@ Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P2-2
 - Register BudgetAllocator, ReceiptInspector, TimeSlider, ScenarioChain and Levels 1, 3, 6, 7, 8, 10, 11, 12.
 - Level 9: record `loan.activeInstallment: 'true'` as a world choice when the player takes a loan; no other edit to Level 9.
 - Interior backdrops: add `market`, `workplace`, `home`, `insurance-desk` and `learning-centre` to `src/content/interiors.ts` (from IN-02) and copy the P2-08/P2-09 images to `public/interiors/`; `home` uses the upgraded variant when `savings.goalMet` is `'true'`.
-- Wire P2-18 visuals to sprites; wire sync (P2-20), the consent screen (P2-22) and the `/educator` route (P2-21) into the app; apply P2-23's PWA config.
+- Wire P2-18 visuals to sprites and apply P2-23's PWA config.
 - Transitions for the new interactions following product plan §5 (receipt slides up, time-lapse for TimeSlider).
-- CSP `connect-src` allows only the app origin and the sync origin.
+- CSP `connect-src` allows only the app origin.
 - E2E per new level on all 3 projects: clean path 3 stars, scripted mistake 2 stars, review item shown; installment pressure appears in Level 6 only after Level 9's loan choice; capstone opens only after Level 12; reload keeps everything.
 
 ## Constraints
@@ -28,7 +28,7 @@ Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P2-2
 ## Observable acceptance
 - [ ] `pnpm e2e` green on all 3 projects, including `tests/e2e/p2/**`, the P1 suite and the unchanged P0 demo journey
 - [ ] Lighthouse budgets and FPS probe still pass with all districts present
-- [ ] Network allowlist test: consent not granted → only the app origin; granted → app and sync origins only
+- [ ] Network allowlist test: no request to any origin other than the app's own
 - [ ] All 12 levels completable in order from a fresh profile (one long e2e, test mode)
 
 ## Definition of Done

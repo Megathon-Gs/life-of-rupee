@@ -159,12 +159,11 @@ flowchart LR
 
 ## P2 — Full journey and pilot
 
-Starts after gate G1. Ends at gate G2: the privacy gate (no real student financial data needed; learner A cannot read learner B's rows, tested in CI) plus an NGO pilot.
+Starts after gate G1. Ends at gate G2: the privacy gate (no real student financial data needed and no request leaves the device, tested in CI) plus an NGO pilot.
 
 ```mermaid
 flowchart LR
   G1(["G1 passed"]) --> T01["P2-01 Contracts extension"]
-  G1 --> T02["P2-02 Sync deps + ADR"]
   G1 --> T08["P2-08 Art: high street ⛩"]
   G1 --> T09["P2-09 Art: rural-connected ⛩"]
   T01 --> T03["P2-03 BudgetAllocator"]
@@ -173,7 +172,6 @@ flowchart LR
   T01 --> T07["P2-07 Finance maths"]
   T07 --> T04["P2-04 ReceiptInspector"]
   T01 --> T18["P2-18 World consequences"]
-  T01 --> T22["P2-22 Consent flow ⛩"]
   T01 --> T23["P2-23 Offline hardening"]
   T03 --> L01["P2-10 Level 1 ⛩"]
   T05 --> L03["P2-11 Level 3 ⛩"]
@@ -184,21 +182,17 @@ flowchart LR
   T07 --> L10["P2-15 Level 10 ⛩"]
   T05 --> L11["P2-16 Level 11 ⛩"]
   T03 & T06 --> L12["P2-17 Level 12 ⛩"]
-  T01 & T02 --> T19["P2-19 Sync backend + RLS"]
-  T19 --> T20["P2-20 Client sync"]
-  T19 --> T21["P2-21 Educator view"]
-  L01 & L03 & L06 & L07 & L08 & L10 & L11 & L12 & T21 & T22 --> T24["P2-24 Telugu pass ⛩"]
-  T08 & T09 & T18 & T20 & T23 & T24 --> T25["P2-25 Integration"]
+  L01 & L03 & L06 & L07 & L08 & L10 & L11 & L12 --> T24["P2-24 Telugu pass ⛩"]
+  T08 & T09 & T18 & T23 & T24 --> T25["P2-25 Integration"]
   T25 --> T26["P2-26 Accessibility audit"]
   T25 & T26 --> T27["P2-27 Pilot + G2 ⛩"]
 ```
 
-P2-25 depends on every task from P2-03 to P2-24; the graph shows only the edges that are not already implied.
+P2-25 depends on every remaining P2 task; the graph shows only the edges that are not already implied.
 
 | ID | Task | Depends on | Owns (may edit) | Agent fit |
 | --- | --- | --- | --- | --- |
 | [P2-01](P2/P2-01-contracts-extension.md) | Contracts extension for P2 | G1 | `src/core/contracts/` | Strong reasoning |
-| [P2-02](P2/P2-02-sync-deps-adr.md) | Sync dependencies and ADR 0008 | G1 | `package.json`, lockfile, `docs/adr/0008-*`, CI `rls` job | Fast |
 | [P2-03](P2/P2-03-budget-allocator.md) | BudgetAllocator component | P2-01 | `src/ui/interactions/BudgetAllocator/`, `locales/*/budgetAllocator.json` | Fast |
 | [P2-04](P2/P2-04-receipt-inspector.md) | ReceiptInspector component | P2-01, P2-07 | `src/ui/interactions/ReceiptInspector/`, `locales/*/receiptInspector.json` | Fast |
 | [P2-05](P2/P2-05-time-slider.md) | TimeSlider component | P2-01 | `src/ui/interactions/TimeSlider/`, `locales/*/timeSlider.json` | Fast |
@@ -215,13 +209,9 @@ P2-25 depends on every task from P2-03 to P2-24; the graph shows only the edges 
 | [P2-16](P2/P2-16-level-11.md) | Level 11: investing ⛩ | P2-01, P2-05 | `src/content/levels/l11/`, `locales/*/l11.json` | Strong reasoning + NGO educator |
 | [P2-17](P2/P2-17-level-12.md) | Level 12: capstone ⛩ | P2-01, P2-03, P2-06 | `src/content/levels/l12/`, `locales/*/l12.json` | Strong reasoning + NGO educator |
 | [P2-18](P2/P2-18-world-consequences.md) | World consequences | P2-01 | `src/core/worldVisuals/` | Fast |
-| [P2-19](P2/P2-19-sync-backend.md) | Sync backend: schema, RLS, learner codes | P2-01, P2-02 | `supabase/`, `tests/rls/` | Strong reasoning |
-| [P2-20](P2/P2-20-client-sync.md) | Opt-in client sync | P2-01, P2-02, P2-19 | `src/persistence/sync/`, `src/core/state/migrations/` | Strong reasoning |
-| [P2-21](P2/P2-21-educator-view.md) | Educator view | P2-01, P2-19 | `src/educator/`, `locales/*/educator.json` | Fast |
-| [P2-22](P2/P2-22-consent-flow.md) | Consent flow and data policies ⛩ | P2-01 | `src/ui/screens/Consent/`, `locales/*/consent.json`, `docs/privacy/` | Fast + NGO |
 | [P2-23](P2/P2-23-offline-hardening.md) | Offline hardening | P2-01 | `src/platform/pwa/`, `vite.config.ts` (PWA block), `tests/e2e/offline/` | Strong reasoning |
-| [P2-24](P2/P2-24-telugu.md) | Telugu pass for P2 strings ⛩ | P2-03 to 06, P2-10 to 17, P2-21, P2-22 | `src/content/locales/te/` | Translator + fast agent |
-| [P2-25](P2/P2-25-integration.md) | P2 integration: full journey | P2-03 to P2-24, IN-02 | `src/content/world.ts`, both registries, `src/app/`, `src/world/`, `tests/e2e/p2/` | Strong reasoning |
+| [P2-24](P2/P2-24-telugu.md) | Telugu pass for P2 strings ⛩ | P2-03 to 06, P2-10 to 17 | `src/content/locales/te/` | Translator + fast agent |
+| [P2-25](P2/P2-25-integration.md) | P2 integration: full journey | P2-03 to P2-18, P2-23, P2-24, IN-02 | `src/content/world.ts`, both registries, `src/app/`, `src/world/`, `tests/e2e/p2/` | Strong reasoning |
 | [P2-26](P2/P2-26-accessibility-audit.md) | Accessibility audit and fixes | P2-25 | `tests/a11y/`, `docs/accessibility-audit.md` | Fast + real devices |
 | [P2-27](P2/P2-27-pilot-g2.md) | NGO pilot and gate G2 ⛩ | P2-25, P2-26 | `docs/pilot/`, `tests/e2e/g2/` | Product owner + NGO educator |
 
@@ -229,8 +219,8 @@ P2-25 depends on every task from P2-03 to P2-24; the graph shows only the edges 
 
 | Run | Tasks | Max parallel agents |
 | --- | --- | --- |
-| 8 | P2-01, P2-02, P2-08, P2-09 | 4 |
-| 9 | P2-03, 05, 06, 07, 18, 19, 22, 23 · then P2-04, P2-20, P2-21 | 8 |
+| 8 | P2-01, P2-08, P2-09 | 3 |
+| 9 | P2-03, 05, 06, 07, 18, 23 · then P2-04 | 6 |
 | 10 | P2-10 to P2-17 (eight levels, each as its components merge) · then P2-24 | 8 |
 | 11 | P2-25 → P2-26 → P2-27 | 1 |
 
