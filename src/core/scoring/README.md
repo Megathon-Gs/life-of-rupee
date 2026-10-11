@@ -23,6 +23,8 @@ Level 4 uses `upi.wrong_payee` (major, 2 penalty points) and
 `upi.pin_to_receive` (critical, capped at 1 star even after correction).
 `upi.declined_payment` is a minor mistake in the verified-payment exercise.
 
+The capstone budget codes are `budget.no_essentials` (major) and `budget.no_savings` (minor).
+
 The initial Level 2 codes are `kyc.wrong_document` and `bank.wrong_document`, already
 used in repository fixtures. Review keys follow `<error code>.review`; their text belongs
 to level content. This module contains no UI, translated strings or financial claims.
