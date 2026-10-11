@@ -59,6 +59,9 @@ export interface ResumeOptions {
  */
 const RESTARTS_ON_RESUME: ReadonlySet<string> = new Set(['scenarioChain'])
 
+/** Condition-result key for the `i`th config override of a step. */
+const overrideKey = (stepId: string, i: number) => `${stepId}#override.${i}`
+
 /** Factory dependencies, injected so the runner stays pure and testable. */
 export interface LevelRunnerDeps {
   /** Level lookup used by `resume`, which only receives a level id. */
@@ -124,14 +127,21 @@ export function createLevelRunner(deps: LevelRunnerDeps): LevelRunnerImpl {
     startedAt = now(),
     savedConditions?: Record<string, boolean>,
   ) => {
-    const conditionResults = Object.fromEntries(
-      level.steps
+    const holds = (key: string, when: { flag: string; equals: string | boolean }) =>
+      savedConditions?.[key] ?? worldFlags[when.flag] === String(when.equals)
+    const conditionResults = Object.fromEntries([
+      ...level.steps
         .filter((step) => step.when)
-        .map((step) => [
-          step.id,
-          savedConditions?.[step.id] ?? worldFlags[step.when!.flag] === String(step.when!.equals),
-        ]),
-    )
+        .map((step) => [step.id, holds(step.id, step.when!)]),
+      ...level.steps.flatMap((step) =>
+        step.type === 'decision'
+          ? (step.configOverrides ?? []).map((override, i) => [
+              overrideKey(step.id, i),
+              holds(overrideKey(step.id, i), override.when),
+            ])
+          : [],
+      ),
+    ])
     session = {
       level,
       seed,
@@ -157,13 +167,23 @@ export function createLevelRunner(deps: LevelRunnerDeps): LevelRunnerImpl {
       case 'hook':
         return { type: 'hook', stepId: step.id, lineKeys: step.lineKeys }
       case 'lesson':
-      case 'decision':
         return {
           type: step.type,
           stepId: step.id,
           interaction: step.interaction,
           config: step.config,
         }
+      case 'decision': {
+        const override = step.configOverrides?.find(
+          (_, i) => s.conditionResults?.[overrideKey(step.id, i)],
+        )
+        return {
+          type: step.type,
+          stepId: step.id,
+          interaction: step.interaction,
+          config: override ? override.config : step.config,
+        }
+      }
       case 'travel':
         return { type: 'travel', stepId: step.id, location: step.location }
       case 'consequence':

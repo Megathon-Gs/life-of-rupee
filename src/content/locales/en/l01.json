@@ -1,0 +1,61 @@
+{
+  "_meta": {
+    "translationStatus": "English draft awaiting NGO educator sign-off. All people, stipends, prices and amounts are fictional assumptions; no interest is assumed on savings."
+  },
+  "hook": {
+    "1": "Kiran: My fictional ₹4,000 stipend just arrived, and there is so much I want to buy!",
+    "2": "Lata: First tell needs from wants. Needs are must-haves, and wants are good to have and can be postponed.",
+    "3": "Lata: Let's go home and plan the month before spending anything."
+  },
+  "lesson": {
+    "title": "Needs or wants?",
+    "prompt": "A need is a must-have. A want is good to have and can be postponed. Kiran is looking at three fictional things. Tap the one that is a need.",
+    "busPassLabel": "Bus pass",
+    "busPassValue": "₹600 for the month, so Kiran can reach school.",
+    "concertLabel": "Concert ticket",
+    "concertValue": "₹800 for one evening out.",
+    "snacksLabel": "Café snacks",
+    "snacksValue": "₹400 for treats with friends."
+  },
+  "decision": {
+    "title": "Plan Kiran's month",
+    "prompt": "Kiran has ₹4,000 this month. Needs cost ₹2,000 (bus pass, tiffin and school supplies). Share all the money across needs, wants and savings.",
+    "hint1": "Hint 1: Put the ₹2,000 for needs in first.",
+    "hint2": "Hint 2: Keep some money for savings, then place what is left in wants.",
+    "explanation": "Essentials come first, and even a small saving protects you from surprises."
+  },
+  "consequence": {
+    "plan": "Kiran's ₹4,000 stipend: needs ₹2,000 are covered first, ₹1,000 goes to wants and ₹1,000 goes to savings.",
+    "savings": "Saving ₹1,000 a month, Kiran reaches a ₹6,000 school-trip fund in 6 months. This assumes no interest is added.",
+    "explanation": "Kiran paid for needs first, enjoyed some wants and set money aside, so the month balances. If something unexpected comes up, the plan can be revised: move money out of wants before touching needs or savings. All amounts here are fictional."
+  },
+  "transfer": {
+    "explanation": "The surprise cost is now part of your needs, so it comes out of what was left. Revise the plan: needs first, some savings, then wants.",
+    "rohan": {
+      "title": "Rohan's stipend, with a surprise",
+      "prompt": "Rohan has a ₹5,000 stipend. Needs cost ₹2,500. Mid-month, his bicycle chain breaks and the ₹1,000 repair is already added to needs. Revise his plan with all the money placed.",
+      "hint1": "Hint 1: Needs are ₹2,500 plus the ₹1,000 repair.",
+      "hint2": "Hint 2: Keep some money for savings, then place what is left in wants."
+    },
+    "sana": {
+      "title": "Sana's stipend, with a surprise",
+      "prompt": "Sana has a ₹3,000 stipend. Needs cost ₹1,500. Mid-month, a ₹500 lab fee for a school project comes up and is already added to needs. Revise her plan with all the money placed.",
+      "hint1": "Hint 1: Needs are ₹1,500 plus the ₹500 fee.",
+      "hint2": "Hint 2: Keep some money for savings, then place what is left in wants."
+    }
+  },
+  "budget": {
+    "no_essentials": {
+      "review": "Your choice: you left too little in needs to cover the essentials. Safer choice: pay for needs first, then keep some savings, then spend on wants. Concept: needs are must-haves, and a budget should prioritise essential expenses. Why it matters: if wants take the money, the bills that matter most go unpaid."
+    },
+    "no_savings": {
+      "review": "Your choice: you spent everything and put nothing into savings. Safer choice: after needs are covered, keep a small share of every month for savings. Concept: a budget allocates funds for savings as well as essentials. Why it matters: with no savings, one surprise cost has nothing to be paid from."
+    }
+  },
+  "claim": {
+    "needsWants": "Needs are must-haves, whereas wants are good to have; wants can be postponed and acquired later.",
+    "budget": "Budgeting is balancing income and expenses so that expenses are less than income; any surplus can be invested for future needs.",
+    "prioritise": "A realistic budget tracks income and expenses, allocates funds for savings and prioritises essential expenses.",
+    "differentiate": "Living below your means involves differentiating between wants and needs."
+  }
+}
