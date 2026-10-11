@@ -47,5 +47,35 @@ export const world: WorldDef = WorldDefSchema.parse({
       buildingAsset: 'house',
       labelKey: 'loc.filler2',
     },
+    {
+      // P1: L4 (UPI) then L5 (fraud) are played here. Locked until the bank visit
+      // would light it (unlockedBy), but entry is decoupled in the app (P1-14).
+      id: 'phone-shop',
+      x: 1760,
+      doorX: 1760,
+      district: 'rural-connected',
+      buildingAsset: 'phone-shop',
+      labelKey: 'loc.phone-shop',
+      unlockedBy: ['l04-upi-basics'],
+    },
+    {
+      // P1: L9 (loans) is played here; lights after the Level 5 fraud lesson.
+      id: 'showroom',
+      x: 2080,
+      doorX: 2080,
+      district: 'rural-connected',
+      buildingAsset: 'showroom',
+      labelKey: 'loc.showroom',
+      unlockedBy: ['l05-fraud-safety'],
+    },
+    {
+      // P1 concept: revealed by the app's capstone flag, not by any level unlock.
+      id: 'capstone',
+      x: 2400,
+      doorX: 2400,
+      district: 'rural-connected',
+      buildingAsset: 'capstone',
+      labelKey: 'loc.capstone',
+    },
   ],
 })

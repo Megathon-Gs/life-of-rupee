@@ -4,6 +4,7 @@ import type { LevelDef, ProfileSummary, SaveFile, SaveStore } from '@/core/contr
 import { world } from '@/content/world'
 import { changeLanguage, i18n } from '@/i18n'
 import { UiRoot } from '@/ui/shell'
+import { readFeatures } from './config'
 import type { AppMode } from './mode'
 import { ProfilePicker } from './ProfilePicker'
 import { createGameStore, GameStoreContext, useGame, type GameStore } from './store'
@@ -49,6 +50,10 @@ export function App({ mode, saveStore, loadLevels }: AppProps) {
   const [phase, setPhase] = useState<Phase>({ kind: 'loading' })
   const [levels, setLevels] = useState<LevelDef[]>([])
   const [busy, setBusy] = useState(false)
+  const features = useMemo(
+    () => readFeatures(typeof window === 'undefined' ? '' : window.location.search),
+    [],
+  )
 
   const play = useCallback(
     (file: SaveFile, allLevels: readonly LevelDef[]) => {
@@ -130,6 +135,7 @@ export function App({ mode, saveStore, loadLevels }: AppProps) {
                   mode={mode}
                   levels={levels}
                   saveStore={saveStore}
+                  features={features}
                   onSwitchProfile={() =>
                     void run(async () => {
                       await saveStore.flush()

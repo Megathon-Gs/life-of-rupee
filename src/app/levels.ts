@@ -20,14 +20,20 @@ export async function loadLevels(mode: AppMode): Promise<LevelDef[]> {
   return mergeLevels(contentLevels, fixtureLevels, mode.fixturesOnly)
 }
 
-/** The level played at a location, if the location is unlocked and has one. */
+/**
+ * The level played at a location, if the location is unlocked and has one.
+ * When a location hosts more than one level (P1: L4 and L5 at the phone shop),
+ * the first not-yet-completed one is offered, so a visit advances the sequence.
+ */
 export function levelAt(
   levels: readonly LevelDef[],
   id: LocationId,
   unlocked: readonly LocationId[],
+  completed: readonly string[] = [],
 ): LevelDef | undefined {
   if (!unlocked.includes(id)) return undefined
-  return levels.find((level) => level.location === id)
+  const here = levels.filter((level) => level.location === id)
+  return here.find((level) => !completed.includes(level.id)) ?? here[0]
 }
 
 /** The i18n namespace a level's strings live in, read from its first hook key ('l02:hook.1'). */

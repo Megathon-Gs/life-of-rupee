@@ -3,6 +3,9 @@ import { useTranslation } from 'react-i18next'
 import {
   DocumentInspectorConfigSchema,
   FormFillerConfigSchema,
+  MessageTriageConfigSchema,
+  OfferComparatorConfigSchema,
+  UpiPaymentConfigSchema,
   type InteractionEvent,
   type InteractionProps,
   type LevelCompletion,
@@ -25,6 +28,9 @@ type AnyInteraction = ComponentType<InteractionProps<unknown> & { stepId: string
 const configSchemas: Record<string, { parse: (value: unknown) => unknown }> = {
   formFiller: FormFillerConfigSchema,
   documentInspector: DocumentInspectorConfigSchema,
+  upiPayment: UpiPaymentConfigSchema,
+  messageTriage: MessageTriageConfigSchema,
+  offerComparator: OfferComparatorConfigSchema,
 }
 
 const now = () => new Date().toISOString()
@@ -121,14 +127,14 @@ export function LevelPanel({
     let resumed = false
     if (saved?.levelId === level.id) {
       try {
-        runner.resume(saved, { seed: seedFor(), now })
+        runner.resume(saved, { seed: seedFor(), now, worldFlags: store.derived().worldFlags })
         resumed = true
       } catch {
         // A snapshot from older content no longer fits; start the level again.
       }
     }
     if (!resumed) {
-      runner.start(level, seedFor(), now)
+      runner.start(level, seedFor(), now, store.derived().worldFlags)
       store.getState().dispatch({ type: 'levelStarted', levelId: level.id })
     }
     setCompletion(null)

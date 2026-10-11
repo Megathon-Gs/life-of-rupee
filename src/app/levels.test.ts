@@ -33,6 +33,15 @@ describe('levels', () => {
     expect(levelAt([fixtureBankLevel], at('bank'), [at('home')])).toBeUndefined()
   })
 
+  it('offers the first not-yet-completed level when a location hosts several', () => {
+    const l4 = { ...fixtureBankLevel, id: 'l04', location: 'phone-shop' } as LevelDef
+    const l5 = { ...fixtureBankLevel, id: 'l05', location: 'phone-shop' } as LevelDef
+    const open = [at('phone-shop')]
+    expect(levelAt([l4, l5], at('phone-shop'), open)?.id).toBe('l04')
+    expect(levelAt([l4, l5], at('phone-shop'), open, ['l04'])?.id).toBe('l05')
+    expect(levelAt([l4, l5], at('phone-shop'), open, ['l04', 'l05'])?.id).toBe('l04')
+  })
+
   it('loads fixtures only in test mode', async () => {
     expect(await loadLevels({ test: false, fixturesOnly: false })).toEqual(contentLevels)
     expect(await loadLevels({ test: true, fixturesOnly: true })).toEqual([fixtureBankLevel])
@@ -53,7 +62,8 @@ describe('travelTarget', () => {
   it('steps one stop and stops at the street ends', () => {
     expect(travelTarget(at('home'), { kind: 'step', dir: 1 })).toBe('bank')
     expect(travelTarget(at('home'), { kind: 'step', dir: -1 })).toBe('home')
-    expect(travelTarget(at('filler-2'), { kind: 'step', dir: 1 })).toBe('filler-2')
+    expect(travelTarget(at('filler-2'), { kind: 'step', dir: 1 })).toBe('phone-shop')
+    expect(travelTarget(at('capstone'), { kind: 'step', dir: 1 })).toBe('capstone')
     expect(travelTarget(at('home'), { kind: 'goto', id: at('kirana') })).toBe('kirana')
     expect(travelTarget(at('home'), { kind: 'goto', id: at('nowhere') })).toBe('home')
   })

@@ -4,7 +4,10 @@
     "bank": "Bank",
     "kirana": "Kirana Store",
     "filler1": "Community Centre",
-    "filler2": "Bus Stop"
+    "filler2": "Bus Stop",
+    "phone-shop": "Phone Shop",
+    "showroom": "Showroom",
+    "capstone": "Financial Futures Centre"
   },
   "branch": {
     "money-management": "Money Management",

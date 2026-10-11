@@ -1,6 +1,14 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { LevelDef, LocationId, SaveStore, SkillNodeId, TravelCommand } from '@/core/contracts'
+import {
+  P1_LOCATION_IDS,
+  type AppConfig,
+  type LevelDef,
+  type LocationId,
+  type SaveStore,
+  type SkillNodeId,
+  type TravelCommand,
+} from '@/core/contracts'
 import { deriveWorldVisuals } from '@/core/worldVisuals'
 import { skillTree } from '@/content/skillTree'
 import { world } from '@/content/world'
@@ -13,12 +21,15 @@ import {
   useReducedMotion,
   type UiSettings,
 } from '@/ui/shell'
+import { CapstoneScreen } from '@/ui/screens/Capstone'
 import { SkillTreeScreen } from '@/ui/screens/SkillTree/SkillTreeScreen'
+import { TeacherSummaryScreen } from '@/ui/screens/TeacherSummary'
 import { GROUND_Y, PixiWorldRenderer } from '@/world'
 import { LevelPanel } from './LevelPanel'
 import { levelAt } from './levels'
 import type { AppMode } from './mode'
 import { useDerived, useGame, useGameStore } from './store'
+import { buildTeacherSummary, topErrors } from './teacher'
 import { loadTextureProvider } from './textures'
 import { LocationLabels } from './LocationLabels'
 import { stageMetrics } from './stage'
@@ -38,21 +49,25 @@ type Panel =
   | { kind: 'level'; level: LevelDef }
   | { kind: 'settings' }
   | { kind: 'skillTree'; focusNode?: SkillNodeId }
+  | { kind: 'capstone' }
+  | { kind: 'teacherSummary' }
 
 export interface GameProps {
   mode: AppMode
   levels: readonly LevelDef[]
   saveStore: SaveStore
+  features: AppConfig['features']
   onSwitchProfile: () => void
 }
 
 /** The street (world band, HUD, door cue) plus the level and settings panels over it. */
-export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
+export function Game({ mode, levels, saveStore, features, onSwitchProfile }: GameProps) {
   const { t } = useTranslation(['app', 'world', 'ui'])
   const store = useGameStore()
   const derived = useDerived()
   const locationId = useGame((s) => s.save.position.locationId)
   const settings = useGame((s) => s.save.settings)
+  const attempts = useGame((s) => s.save.attempts)
   const reducedMotion = useReducedMotion()
 
   const bandRef = useRef<HTMLDivElement>(null)
@@ -67,10 +82,31 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
 
   // Visuals follow the saved state: refreshed at mount and after each finished attempt is saved.
   const [savedDerived, setSavedDerived] = useState(() => store.derived())
-  const visuals = useMemo(() => deriveWorldVisuals(savedDerived), [savedDerived])
-  const level = levelAt(levels, locationId, derived.unlockedLocations)
+  const visuals = useMemo(() => deriveWorldVisuals(savedDerived, { features }), [savedDerived, features])
+  // P1 locations are enterable regardless of the cosmetic lit state; P0 gating still applies.
+  const enterable = useMemo(
+    () => [
+      ...new Set([...derived.unlockedLocations, ...P1_LOCATION_IDS.map((id) => id as LocationId)]),
+    ],
+    [derived.unlockedLocations],
+  )
+  const completedLevels = useMemo(
+    () =>
+      Object.entries(derived.bestStars)
+        .filter(([, stars]) => stars >= 1)
+        .map(([id]) => id),
+    [derived.bestStars],
+  )
+  const level = levelAt(levels, locationId, enterable, completedLevels)
   const location = world.locations.find((l) => l.id === locationId) ?? world.locations[0]!
   const placeName = t(location.labelKey, { ns: 'world' })
+  // The capstone concept opens only with its feature flag on.
+  const canEnterCapstone = features.capstone && locationId === 'capstone'
+  const teacherSummary = useMemo(
+    () => buildTeacherSummary(derived, levels, skillTree),
+    [derived, levels],
+  )
+  const teacherErrors = useMemo(() => topErrors(attempts), [attempts])
 
   const render = () => {
     if (mode.test) rendererRef.current?.step(16)
@@ -124,7 +160,9 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
       const created = new PixiWorldRenderer({ world, textures, test: mode.test })
       renderer = created
       rendererRef.current = created
-      created.onArrive((id) => void onArrive(id))
+      created.onArrive((id) =>
+        void onArrive(id, { reducedMotion: latest.current.reducedMotion, test: mode.test }),
+      )
       created.mount(host)
       window.addEventListener('resize', onResize)
       await created.whenReady()
@@ -223,6 +261,7 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
     doorRef.current?.focus()
   }, [travelling, locationId])
 
+  const transitionCtx = () => ({ reducedMotion: latest.current.reducedMotion, test: mode.test })
   const openPanel = (next: Panel) => {
     setPanel(next)
     machine.send({ kind: 'panelOpened' })
@@ -231,11 +270,11 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
     const closing = panel
     setPanel(null)
     machine.send({ kind: 'panelClosed' })
-    if (closing?.kind === 'level') void exitLocation(closing.level.location)
+    if (closing?.kind === 'level') void exitLocation(closing.level.location, transitionCtx())
   }
   const enter = () => {
     if (!level || travelling) return
-    void enterLocation(level.location)
+    void enterLocation(level.location, transitionCtx())
     openPanel({ kind: 'level', level })
   }
   const step = (dir: 1 | -1) => {
@@ -254,7 +293,11 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
       ? t('settings.title', { ns: 'ui' })
       : panel?.kind === 'skillTree'
         ? t('skillTree.title', { ns: 'ui' })
-        : placeName
+        : panel?.kind === 'capstone'
+          ? t('title', { ns: 'capstone' })
+          : panel?.kind === 'teacherSummary'
+            ? t('title', { ns: 'teacher' })
+            : placeName
   const replayNode = async (node: SkillNodeId) => {
     const target = levels.find((candidate) => candidate.skillNodes.includes(node))
     if (!target) return
@@ -263,7 +306,7 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
       await runCommand({ kind: 'goto', id: target.location })
       if (store.getState().save.position.locationId !== target.location) return
     }
-    void enterLocation(target.location)
+    void enterLocation(target.location, transitionCtx())
     openPanel({ kind: 'level', level: target })
   }
 
@@ -293,9 +336,14 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
           onOpenSkillTree={() => openPanel({ kind: 'skillTree' })}
         />
         <LocationLabels renderer={ready ? rendererRef.current : null} hidden={panel !== null} />
-        {ready && level && !travelling && (
+        {ready && (level || canEnterCapstone) && !travelling && (
           <div className={styles.door}>
-            <Button ref={doorRef} variant="primary" data-testid="door-cue" onClick={enter}>
+            <Button
+              ref={doorRef}
+              variant="primary"
+              data-testid="door-cue"
+              onClick={() => (level ? enter() : openPanel({ kind: 'capstone' }))}
+            >
               {t('door.enter', { place: placeName })}
             </Button>
           </div>
@@ -312,6 +360,9 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
             <>
               <Button onClick={() => setPanel({ kind: 'skillTree' })}>
                 {t('openTree', { ns: 'skilltree' })}
+              </Button>
+              <Button data-testid="teacher-open" onClick={() => setPanel({ kind: 'teacherSummary' })}>
+                {t('title', { ns: 'teacher' })}
               </Button>
               <Button data-testid="profile-switch" onClick={onSwitchProfile}>
                 {t('settings.switchProfile')}
@@ -342,6 +393,14 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
             onBack={closePanel}
           />
         )}
+        {panel?.kind === 'capstone' && <CapstoneScreen features={features} />}
+        {panel?.kind === 'teacherSummary' && (
+          <TeacherSummaryScreen
+            summary={teacherSummary}
+            topErrors={teacherErrors}
+            onBack={() => setPanel({ kind: 'settings' })}
+          />
+        )}
         {panel?.kind === 'level' && (
           <LevelPanel
             level={panel.level}
@@ -354,7 +413,7 @@ export function Game({ mode, levels, saveStore, onSwitchProfile }: GameProps) {
             }}
             onClose={closePanel}
             onOpenSkill={(node) => {
-              void exitLocation(panel.level.location)
+              void exitLocation(panel.level.location, transitionCtx())
               setPanel({ kind: 'skillTree', focusNode: node })
             }}
           />

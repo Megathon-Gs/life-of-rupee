@@ -7,14 +7,27 @@ describe('world content', () => {
     expect(WorldDefSchema.safeParse(world).success).toBe(true)
   })
 
-  it('lists the P0 street in order', () => {
+  it('keeps the P0 street first and appends the P1 locations in order', () => {
     expect(world.locations.map((l) => l.id)).toEqual([
       'home',
       'bank',
       'kirana',
       'filler-1',
       'filler-2',
+      'phone-shop',
+      'showroom',
+      'capstone',
     ])
+  })
+
+  it('gates each P1 building with a P1-level unlock so L2 alone lights none', () => {
+    const byId = new Map<string, (typeof world.locations)[number]>(
+      world.locations.map((l) => [l.id as string, l]),
+    )
+    expect(byId.get('phone-shop')?.unlockedBy).toEqual(['l04-upi-basics'])
+    expect(byId.get('showroom')?.unlockedBy).toEqual(['l05-fraud-safety'])
+    // The capstone concept is revealed by the app flag, not by a level unlock.
+    expect(byId.get('capstone')?.unlockedBy).toBeUndefined()
   })
 
   it('snaps every x to the 16 px grid, strictly increasing', () => {

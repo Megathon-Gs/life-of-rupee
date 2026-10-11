@@ -89,13 +89,25 @@
           "x": 896,
           "y": 0,
           "w": 192,
-          "h": 160
+          "h": 160,
+          "baseline": [
+            {
+              "opaque": 160,
+              "facade": 160
+            }
+          ]
         },
         "capstone-centre-unlit": {
           "x": 1088,
           "y": 0,
           "w": 192,
-          "h": 160
+          "h": 160,
+          "baseline": [
+            {
+              "opaque": 160,
+              "facade": 160
+            }
+          ]
         },
         "filler-apartment": {
           "x": 1280,
