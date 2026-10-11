@@ -12,6 +12,8 @@ build/
 .next/
 out/
 coverage/
+test-results*/
+.lighthouseci/
 *.log
 # python
 __pycache__/

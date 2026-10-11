@@ -2,9 +2,15 @@ import { defineConfig, devices } from '@playwright/test'
 
 const webPort = Number(process.env.E2E_PORT ?? 4173)
 const baseURL = `http://127.0.0.1:${webPort}`
+// Concurrent runs must not share artifacts: a run on a custom E2E_PORT gets its own
+// output dir (override with E2E_OUTPUT_DIR). Plain `pnpm e2e` keeps `test-results`.
+const outputDir =
+  process.env.E2E_OUTPUT_DIR ??
+  (process.env.E2E_PORT ? `test-results-${webPort}` : 'test-results')
 
 export default defineConfig({
   testDir: './tests/e2e',
+  outputDir,
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
