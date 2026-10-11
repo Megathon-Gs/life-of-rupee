@@ -1,0 +1,25 @@
+{
+  "tool": "local palette swap of lender-officer (PixelLab character, P1-05)",
+  "toolVersion": "not exposed by MCP (queried 2026-10-10)",
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-11",
+  "prompt": "office-manager (office manager), recoloured clothing and skin tone ramp, same 32x48 rig. No text.",
+  "referenceIds": [
+    "upload:4222cd0a-c0e9-4b1a-b36c-7c77fd3b914f (palette A strip, 32x1)",
+    "PixelLab character 9042781b-d4f1-40e7-8b37-a42f6159aef1 (standard, side view, 4 directions, size 42, stylized, single color outline, basic shading, low detail)"
+  ],
+  "notes": "palette-exact recolour of the P1 lender-officer idle sheet; same frames and baseline",
+  "reviewFlags": "dress is GUESS; awaiting product-owner contact-sheet approval",
+  "kind": "sheet",
+  "tags": [
+    "character",
+    "office-manager",
+    "idle",
+    "east",
+    "p2"
+  ],
+  "frameSize": [
+    32,
+    48
+  ]
+}

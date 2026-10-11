@@ -1,0 +1,13 @@
+{
+  "tool": "scripted (sharp), composed from art/approved",
+  "toolVersion": "compose script, 2026-10-11",
+  "prompt": "not applicable: composed from art/approved",
+  "referenceIds": ["art/approved/**"],
+  "licence": "Original work composed in code by us from approved assets under art/approved; no third-party material; commercial use allowed",
+  "date": "2026-10-11",
+  "kind": "tile",
+  "tags": ["review", "contact-sheet", "p2"],
+  "frameSize": [1146, 678],
+  "notes": "Top row: P0 street at 1x (bank, kirana, street props). Second row: P2 high street (market lit/unlit, office lit/unlit, workshop, bus stop, lamp, planter, two-wheeler, market shopkeeper, office manager). Bottom: interior backdrops market, workplace, home plain, home upgraded at 0.5x. REVIEW IMAGE: not a game asset, do not copy to art/approved.",
+  "reviewFlags": "product owner approval of the contact sheet is the gate"
+}
