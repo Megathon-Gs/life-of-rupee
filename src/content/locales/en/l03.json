@@ -1,0 +1,66 @@
+{
+  "_meta": {
+    "translationStatus": "English draft awaiting NGO educator sign-off. All people, deposits, rates and amounts are fictional assumptions, not market rates."
+  },
+  "hook": {
+    "1": "Leela: Welcome back. You helped Mina open her account last time. Now she is saving for a reading lamp and desk set.",
+    "2": "Leela: The set costs ₹11,000, and Mina wants it in 2 years. The date matters as much as the growth.",
+    "3": "Leela: Before we compare deposits, let me show you how a balance grows."
+  },
+  "lesson": {
+    "title": "How a balance grows",
+    "prompt": "Mina puts ₹10,000 in a fictional deposit that pays 4% a year, with interest added each year. Move the slider to watch the balance grow. Interest can be added once a year, every quarter or every month. For 2 years at 4%, adding it yearly gives ₹10,816, quarterly gives ₹10,828.57 and monthly gives ₹10,831.43, so more frequent adding earns a little more. A savings account lets you withdraw whenever you need money. A fixed deposit holds the money for a set period and may pay a higher rate, but closing it early pays less interest. Which statement is true?",
+    "wrongChoice": "A fixed deposit pays its full rate even if you take the money out early",
+    "rightChoice": "A fixed deposit may pay more, but only if you can leave the money alone until it matures",
+    "hint1": "Look at when the money can be taken out. What is the difference between a savings account and a fixed deposit?",
+    "hint2": "A fixed deposit holds the money for a set period. Taking it out before then earns less interest.",
+    "explanation": "A fixed deposit holds your money for a set period, and the rate it pays is for keeping it there. Taking the money out early earns less interest, and a penalty may apply. A savings account lets you withdraw whenever you need to, and in this story pays a lower rate. Locking money away is worth it only if you will not need it before the end. All rates here are fictional."
+  },
+  "decision": {
+    "title": "Match the deposit to the date",
+    "prompt": "Mina has ₹10,000 now and needs ₹11,000 in exactly 2 years for the lamp and desk set. All rates are fictional assumptions: a savings account pays 2% a year, and both fixed deposits pay 6% a year, with interest added each year. In this story, closing a fixed deposit early pays only the savings rate, 2% a year, for the time it was held. The slider shows ₹10,000 growing at 6% a year. Move it to Mina's date, 2 years, then read each option's terms. Which deposit should Mina choose?",
+    "savings": "Savings account: 2% a year, withdraw any time. After 2 years it reaches ₹10,404.",
+    "rd": "Recurring deposit: add ₹500 each month for 3 years at 6% a year. It matures after year 3, so it is not ready at year 2.",
+    "fd5": "5-year fixed deposit: 6% a year. It reaches ₹13,382.26 at year 5. Closed early, it pays only 2% a year, so ₹10,404 at year 2.",
+    "fd2": "2-year fixed deposit: 6% a year. It matures after exactly 2 years with ₹11,236.",
+    "hint1": "Move the slider to 2 years. Then ask of each option: how much will there be on Mina’s date, and can Mina take it out by then?",
+    "hint2": "Only one option has at least ₹11,000 available on exactly the date Mina needs it, without closing early.",
+    "explanation": "The highest number is not always the best deposit. The 5-year deposit shows the most, but Mina would have to close it at year 2, and then it pays only the savings rate: ₹10,404, less than the ₹11,000 needed. The savings account is available but reaches the same ₹10,404. The recurring deposit matures after year 3. Growth, access and the goal date have to be compared together."
+  },
+  "consequence": {
+    "matured": "The 2-year fixed deposit matures on Mina’s date with ₹11,236. The lamp and desk set costs ₹11,000, so Mina buys it and has ₹236 left over.",
+    "compare": "The savings account would have reached only ₹10,404, which is ₹596 short. The 5-year fixed deposit shows ₹13,382.26 at year 5, but closed at year 2 it would also give only ₹10,404. All rates are fictional.",
+    "explanation": "A larger balance helps only if the money is available when you need it. Locking money away can earn more, but only if you will not need it early; taking it out early earns less interest. A savings account keeps the money available, at a lower rate. How often interest is added also changes the result, so check the terms. Pick the option that fits the goal and the date."
+  },
+  "transfer": {
+    "kabir": {
+      "title": "Kabir has ₹4,000 and must pay a ₹4,000 school-trip fee in 3 months. The date could even move earlier. Fictional assumptions: the savings account pays 2% a year and lets him withdraw any time; the 2-year fixed deposit pays 6% a year, but closing it early pays only the savings rate; the recurring deposit asks for a monthly amount for 2 years. Where should he keep the money?",
+      "whereLabel": "Where should Kabir keep the ₹4,000?",
+      "fd": "In the 2-year fixed deposit, for the higher 6% rate",
+      "savings": "In the savings account, where he can withdraw any time",
+      "rd": "In the recurring deposit, adding a little each month"
+    },
+    "asha": {
+      "title": "Asha’s exam fee of ₹5,000 is due in about 8 months. Fictional assumptions: the savings account pays 2.5% a year and lets her withdraw any time; a 1-year fixed deposit pays 9% a year and matures in 12 months; a 3-year fixed deposit pays 9% a year for 3 years; closing either fixed deposit early pays only the savings rate. Choose the best place for her ₹5,000.",
+      "prompt": "The slider shows one year of savings-account growth. Her fee is due before year 1, so compare when each option pays its full rate.",
+      "savings": "Savings account: 2.5% a year, withdraw any time",
+      "fd1": "1-year fixed deposit: 9% a year, pays out after 12 months",
+      "fd3": "3-year fixed deposit: 9% a year, runs for 3 years",
+      "hint1": "Her fee is due in about 8 months. Which option can she take money from then, and what rate does she earn if she does?",
+      "hint2": "A higher rate helps only if the money can stay in until the deposit matures.",
+      "explanation": "Asha needs the money in about 8 months. Both fixed deposits pay 9% only if they run to the end. Closed at 8 months they pay only the savings rate, so she would earn no more than in the savings account. Here the savings account is the right place, because access on her date matters more than a rate she cannot earn."
+    }
+  },
+  "saving": {
+    "ignored_liquidity": {
+      "review": "Your choice: you picked a deposit without checking the goal date and when the money becomes available, or you chose one that does not reach the amount needed. Safer choice: compare each option’s amount on the date you need the money, and check whether you can take it out by then without losing interest. Concept: growth, access and purpose have to be compared together; locked money earns more only if you will not need it early. Why it matters: money that is stuck, or short, on the day you need it can force you to give up interest or miss your goal."
+    }
+  },
+  "claim": {
+    "depositTypes": "Banks offer savings, term and recurring deposit accounts. A savings deposit lets us withdraw money whenever we need it. A term deposit holds money for a fixed period. A recurring deposit is for depositing an amount periodically, such as every month.",
+    "termHigher": "A term deposit may earn interest at a higher rate than a savings account, because the money is deposited for a pre-decided fixed period. We can withdraw before the due date, but then we get less interest.",
+    "lockIn": "Money in a fixed deposit is locked for a predetermined period, and a premature withdrawal can attract a penalty.",
+    "interest": "Interest is the amount our money earns when we save it.",
+    "compounding": "Interest can be worked out as simple or compound interest, and for compound interest the compounding frequency can be yearly, quarterly or monthly."
+  }
+}
