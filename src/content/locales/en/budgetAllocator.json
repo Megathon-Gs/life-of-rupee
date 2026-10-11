@@ -1,0 +1,27 @@
+{
+  "banner": "Simulated — never enter real details",
+  "available": "Money to plan",
+  "remaining": "Still to place",
+  "commitment": "Fixed monthly payment",
+  "dragHint": "Drag {amount} into a jar, or use the + buttons",
+  "locked": "{amount} is already committed and cannot be removed",
+  "jar": { "needs": "Needs", "wants": "Wants", "savings": "Savings" },
+  "add": "Add money to {jar}",
+  "remove": "Take money out of {jar}",
+  "check": "Check my plan",
+  "feedback": {
+    "noEssentials": "Essentials come first. Your needs jar does not cover them yet.",
+    "noSavings": "A plan with no savings is fragile. Put something aside.",
+    "unallocated": "Place all the money before checking your plan.",
+    "ok": "Good plan: essentials are covered and you are saving too."
+  },
+  "explanation": { "control": "Why is this incorrect?" },
+  "hint": { "control": "Show a hint" },
+  "sample": {
+    "title": "Plan your fictional stipend",
+    "prompt": "Share the money across needs, wants and savings.",
+    "hint1": "Hint 1: Cover your needs first.",
+    "hint2": "Hint 2: Keep some money for savings.",
+    "explanation": "Needs must be covered first, and even a small saving protects you from surprises."
+  }
+}
