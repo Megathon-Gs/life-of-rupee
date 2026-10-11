@@ -1,0 +1,64 @@
+{
+  "_meta": {
+    "translationStatus": "English draft awaiting NGO educator sign-off. All people, policies, premiums, deductibles, caps and amounts are fictional assumptions, not market rates."
+  },
+  "hook": {
+    "1": "Dev: Mina’s scooter is how she gets to work. A repair bill could land any day, so she is looking at insurance for it.",
+    "2": "Dev: Read the terms and conditions before you buy anything, and don’t buy a product until you have understood it fully.",
+    "3": "Dev: Having no insurance does not make a scooter break down. Insurance only decides who pays for some kinds of costs."
+  },
+  "lesson": {
+    "title": "Two covers for one scooter",
+    "prompt": "Mina, a fictional future adult, has a fictional scooter and two fictional covers to compare. Each pays only for accidents and theft. The premium is paid every year whether or not anything happens. The deductible is the part of a repair bill that Mina pays first. The cap is the most the insurer will pay. Suppose a covered accident costs ₹18,000 to repair. Tap the cover that leaves Mina paying less in total for the year, premium included.",
+    "basicLabel": "Basic cover",
+    "fullerLabel": "Fuller cover",
+    "event": "Accident: repair bill ₹18,000 (a covered event).",
+    "basicValue": "Premium ₹1,200 a year. Covers accidents and theft. Deductible ₹5,000. Cap ₹20,000. On the ₹18,000 accident the insurer pays ₹13,000, so Mina pays ₹5,000 plus the premium: ₹6,200 in all. With no accident, it costs ₹1,200.",
+    "fullerValue": "Premium ₹2,400 a year. Covers accidents and theft. Deductible ₹1,000. Cap ₹40,000. On the ₹18,000 accident the insurer pays ₹17,000, so Mina pays ₹1,000 plus the premium: ₹3,400 in all. With no accident, it costs ₹2,400."
+  },
+  "decision": {
+    "title": "Read Mina’s policy",
+    "prompt": "Mina took the Fuller cover. The policy covers accidents and theft. It does not cover wear and tear, maintenance or flood damage. The deductible is ₹1,000 and the cap is ₹40,000. Mina’s fictional scooter was hit by a car. Tap the field that shows what the insurer pays.",
+    "event": "Accident: repair bill ₹18,000 (a covered event).",
+    "wholeLabel": "Insurer pays the whole bill",
+    "wholeValue": "₹18,000: the full repair bill.",
+    "excludedLabel": "Insurer pays nothing",
+    "excludedValue": "₹0: accidents are not covered.",
+    "deductibleLabel": "Insurer pays the bill minus the deductible",
+    "deductibleValue": "₹17,000: ₹18,000 minus the ₹1,000 deductible, which is below the ₹40,000 cap."
+  },
+  "consequence": {
+    "paid": "The insurer pays ₹17,000 of the ₹18,000 repair bill.",
+    "youPay": "Mina pays ₹1,000, the deductible. With the ₹2,400 premium she paid for the year, the accident cost her ₹3,400 in all.",
+    "explanation": "A policy pays only for events it names, and only after the deductible and up to the cap. Here the accident was covered, so most of the bill was paid. A worn-out battery, a service or a flood would not have been covered, and the premium was paid either way. For those costs, the emergency fund is what pays. Not having insurance never makes a scooter break down, and insurance does not replace maintenance. If an insurer’s handling of a claim seems wrong, IRDAI’s Bima Bharosa portal takes complaints and does not ask for any payment. All amounts here are fictional."
+  },
+  "transfer": {
+    "insurer": "The insurer pays",
+    "emergencyFund": "Mina’s emergency fund pays",
+    "battery": {
+      "title": "Mina’s scooter battery has worn out after years of use. A new one costs ₹3,500. Her Fuller cover lists wear and tear and maintenance as not covered. Mina has a fictional ₹15,000 emergency fund. Answer both questions.",
+      "payerLabel": "Who pays the ₹3,500?",
+      "causeLabel": "Why did the battery fail?",
+      "noInsurance": "Because Mina had no insurance for it",
+      "wear": "Batteries wear out with use; insurance does not change that"
+    },
+    "flood": {
+      "title": "After heavy rain, water damaged Mina’s scooter. The repair costs ₹9,000. In this fictional policy, flood damage is listed as not covered. Mina has a fictional ₹15,000 emergency fund. Who pays?",
+      "payerLabel": "Who pays the ₹9,000?",
+      "nobody": "Nobody; the repair can wait"
+    }
+  },
+  "insurance": {
+    "excluded_event": {
+      "review": "Your choice: you expected insurance to pay for something the policy excludes, or blamed a breakdown on not having insurance. Safer choice: check the exclusions first; for excluded costs such as wear and tear, maintenance or flood in this policy, the emergency fund pays. Concept: a policy pays only for the events it names. Why it matters: assuming cover that is not there can leave a bill unpaid when you need money most."
+    },
+    "ignored_deductible": {
+      "review": "Your choice: you ignored the deductible and what it does to the total. Safer choice: subtract the deductible from the bill, keep the payout within the cap, and add the premium to see the real cost. Concept: the deductible is the part you pay first, and the premium is paid whether or not you claim. Why it matters: the cheapest premium is not always the cheapest outcome, and you should know your share before you need to claim."
+    }
+  },
+  "claim": {
+    "readTerms": "Always read the terms and conditions of any contract or agreement, and do not buy a product unless you have understood it fully.",
+    "cover": "Insurance is a financial cover for protection from risk, and the premium is the amount paid for that cover.",
+    "complaints": "IRDAI’s Bima Bharosa portal handles policyholder complaints and does not ask complainants or policyholders for payment of any kind."
+  }
+}

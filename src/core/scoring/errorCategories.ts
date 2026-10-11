@@ -17,7 +17,9 @@ export const errorCategories: Readonly<Record<string, ErrorCategoryDef>> = Objec
       severity: 'major',
       skillNode: 'inflation.purchasing_power',
     },
-    { code: 'payslip.gross_as_net', severity: 'major', skillNode: 'borrowing.income' },
+{ code: 'payslip.gross_as_net', severity: 'major', skillNode: 'borrowing.income' },
+    { code: 'insurance.excluded_event', severity: 'major', skillNode: 'safety.insurance' },
+    { code: 'insurance.ignored_deductible', severity: 'major', skillNode: 'safety.insurance' },
     { code: 'kyc.wrong_document', severity: 'major', skillNode: 'access.identity' },
     { code: 'bank.wrong_document', severity: 'minor', skillNode: 'access.identity' },
   ].map((definition) => [
