@@ -1,0 +1,30 @@
+{
+  "banner": "Simulated — never enter real details",
+  "receipt": {
+    "label": "Fictional shop receipt",
+    "subtotal": "Subtotal before discount",
+    "discount": "Discount",
+    "tax": "Tax (GST {rate}% assumed)",
+    "total": "Total to pay",
+    "lineNote": "{qty} × {unit}"
+  },
+  "ask": {
+    "tax": "Which line shows the tax added at the counter?",
+    "total": "Which amount do you actually pay?"
+  },
+  "feedback": "That line is not the one asked for. Check the receipt labels and try again.",
+  "explanation": { "control": "Why is this incorrect?" },
+  "hint": {
+    "control": "Show a hint",
+    "level1": "Hint 1: Read each line label before you tap it.",
+    "level2": "Hint 2: The discount comes off first, then tax is added, and the last line is what you pay."
+  },
+  "sample": {
+    "title": "Read the fictional receipt",
+    "prompt": "Tap the lines to find the tax and the amount you actually pay.",
+    "hint1": "Hint 1: The GST rate beside the tax line is only an assumption.",
+    "hint2": "Hint 2: Follow subtotal, discount, tax and total down to the last line.",
+    "explanation": "A discount lowers the price and tax adds to what is left, so the amount you pay is the final total, not the subtotal.",
+    "item": { "rice": "Rice (fictional)", "soap": "Soap (fictional)" }
+  }
+}

@@ -22,19 +22,25 @@ describe('P2 contracts', () => {
         errors: { noEssentials: 'budget.no_essentials', noSavings: 'budget.no_savings' },
       }).success,
     ).toBe(true)
-    expect(
-      ReceiptInspectorConfigSchema.safeParse({
-        ...text,
-        items: [{ id: 'a', labelKey: 'a', amountPaise: 10 }],
-        discountPaise: 0,
-        taxPaise: 1,
-        totalPaise: 11,
-        errors: {
-          missedTax: 'receipt.missed_tax',
-          discountBeforeTax: 'receipt.discount_before_tax',
-        },
-      }).success,
-    ).toBe(true)
+    const receipt = {
+      ...text,
+      items: [{ id: 'a', labelKey: 'a', unitPricePaise: 10, quantity: 3 }],
+      discountPaise: 0,
+      taxRatePct: 18,
+      taxOnDiscounted: true,
+      errors: {
+        missedTax: 'receipt.missed_tax',
+        discountBeforeTax: 'receipt.discount_before_tax',
+      },
+    }
+    expect(ReceiptInspectorConfigSchema.safeParse(receipt).success).toBe(true)
+    // Derived totals and a missing rate are rejected: content gives inputs only.
+    expect(ReceiptInspectorConfigSchema.safeParse({ ...receipt, totalPaise: 11 }).success).toBe(
+      false,
+    )
+    const noRate = { ...receipt }
+    delete (noRate as { taxRatePct?: number }).taxRatePct
+    expect(ReceiptInspectorConfigSchema.safeParse(noRate).success).toBe(false)
     expect(
       TimeSliderConfigSchema.safeParse({
         ...text,

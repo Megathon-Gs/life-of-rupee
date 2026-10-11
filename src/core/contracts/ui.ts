@@ -275,19 +275,29 @@ export const BudgetAllocatorConfigSchema = z
   .strict()
 export type BudgetAllocatorConfig = z.infer<typeof BudgetAllocatorConfigSchema>
 
+/**
+ * Receipt inputs only: item unit prices and quantities, a discount amount and a
+ * tax rate. Subtotals, tax and the total are derived by `src/core/finance`
+ * (`receiptTotals`), never typed into content.
+ */
 export const ReceiptInspectorConfigSchema = z
   .object({
     ...P2TextFields,
     items: z
       .array(
         z
-          .object({ id: KeySchema, labelKey: KeySchema, amountPaise: NonnegativePaiseSchema })
+          .object({
+            id: KeySchema,
+            labelKey: KeySchema,
+            unitPricePaise: NonnegativePaiseSchema,
+            quantity: z.number().int().positive().optional(),
+          })
           .strict(),
       )
       .min(1),
     discountPaise: NonnegativePaiseSchema,
-    taxPaise: NonnegativePaiseSchema,
-    totalPaise: NonnegativePaiseSchema,
+    taxRatePct: z.number().finite().nonnegative(),
+    taxOnDiscounted: z.boolean(),
     errors: z
       .object({ missedTax: ErrorCategorySchema, discountBeforeTax: ErrorCategorySchema })
       .strict(),
