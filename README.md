@@ -1,5 +1,7 @@
 # Lifeof₹
 
+Live demo: https://life-of-rupee-megathon-47.netlify.app
+
 ## Set up and run
 
 Requires Node.js 22 or newer and pnpm 12.10.1. From the repository root:
