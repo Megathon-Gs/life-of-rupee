@@ -44,22 +44,3 @@ export const P1_ERROR_CATEGORIES = [
   'loan.emi_only',
   'loan.missed_payment',
 ] as const
-
-/** Stable error codes used by P2 levels. */
-export const P2_ERROR_CATEGORIES = [
-  'budget.no_essentials',
-  'budget.no_savings',
-  'saving.ignored_liquidity',
-  'receipt.missed_tax',
-  'receipt.discount_before_tax',
-  'inflation.nominal_vs_real',
-  'payslip.gross_as_net',
-  'insurance.excluded_event',
-  'insurance.ignored_deductible',
-  'invest.return_guaranteed',
-  'invest.ignored_horizon',
-] as const
-
-/** P2 locations and districts added to the world contract. */
-export const P2_LOCATION_IDS = ['market', 'workplace', 'insurance-desk', 'learning-centre'] as const
-export const P2_DISTRICT_IDS = ['urban', 'high-street', 'rural-connected'] as const

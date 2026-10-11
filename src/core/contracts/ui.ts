@@ -54,8 +54,6 @@ export const DocumentInspectorConfigSchema = z
           .strict(),
       )
       .min(1),
-    documentType: z.enum(['payslip', 'insurance-policy']).optional(),
-    claimEventKey: z.string().optional(),
   })
   .strict()
 /** Config for inspecting a fictional document by tapping fields. */
@@ -227,20 +225,6 @@ export const OfferComparatorConfigSchema = z
       })
       .strict()
       .optional(),
-    investmentInstruments: z
-      .array(
-        z
-          .object({
-            id: KeySchema,
-            labelKey: KeySchema,
-            riskKey: KeySchema,
-            liquidityKey: KeySchema,
-            timeHorizonKey: KeySchema,
-          })
-          .strict(),
-      )
-      .min(1)
-      .optional(),
   })
   .strict()
   .refine((config) => config.offers.some((offer) => offer.id === config.correctOfferId), {
@@ -255,75 +239,6 @@ export const OfferComparatorConfigSchema = z
     { path: ['offers'], message: 'Wrong offers need an error category and severity' },
   )
 export type OfferComparatorConfig = z.infer<typeof OfferComparatorConfigSchema>
-
-const P2TextFields = {
-  titleKey: KeySchema,
-  promptKey: KeySchema,
-  hintKeys: z.tuple([KeySchema, KeySchema]),
-  explanationKey: KeySchema,
-}
-export const BudgetAllocatorConfigSchema = z
-  .object({
-    ...P2TextFields,
-    availablePaise: NonnegativePaiseSchema,
-    essentialsPaise: NonnegativePaiseSchema.optional(),
-    recurringCommitmentPaise: NonnegativePaiseSchema.optional(),
-    errors: z
-      .object({ noEssentials: ErrorCategorySchema, noSavings: ErrorCategorySchema })
-      .strict(),
-  })
-  .strict()
-export type BudgetAllocatorConfig = z.infer<typeof BudgetAllocatorConfigSchema>
-
-export const ReceiptInspectorConfigSchema = z
-  .object({
-    ...P2TextFields,
-    items: z
-      .array(
-        z
-          .object({ id: KeySchema, labelKey: KeySchema, amountPaise: NonnegativePaiseSchema })
-          .strict(),
-      )
-      .min(1),
-    discountPaise: NonnegativePaiseSchema,
-    taxPaise: NonnegativePaiseSchema,
-    totalPaise: NonnegativePaiseSchema,
-    errors: z
-      .object({ missedTax: ErrorCategorySchema, discountBeforeTax: ErrorCategorySchema })
-      .strict(),
-  })
-  .strict()
-export type ReceiptInspectorConfig = z.infer<typeof ReceiptInspectorConfigSchema>
-
-export const TimeSliderConfigSchema = z
-  .object({
-    ...P2TextFields,
-    initialAmountPaise: PositiveIntegerSchema,
-    annualRatePct: z.number().finite().nonnegative().optional(),
-    annualInflationPct: z.number().finite().nonnegative().optional(),
-    maxYears: PositiveIntegerSchema,
-    error: ErrorCategorySchema,
-  })
-  .strict()
-export type TimeSliderConfig = z.infer<typeof TimeSliderConfigSchema>
-
-export const ScenarioChainConfigSchema = z
-  .object({
-    ...P2TextFields,
-    links: z
-      .array(
-        z
-          .object({
-            interaction: z.string().min(1),
-            config: z.unknown(),
-            carry: z.array(z.string()).optional(),
-          })
-          .strict(),
-      )
-      .min(1),
-  })
-  .strict()
-export type ScenarioChainConfig = z.infer<typeof ScenarioChainConfigSchema>
 
 /** Registry of interaction components, keyed by interaction id. */
 export interface InteractionRegistry {

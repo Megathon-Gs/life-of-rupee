@@ -20,21 +20,10 @@ export const SettingsSchema = z
     muted: z.boolean(),
     textScale: z.union([z.literal(1), z.literal(1.25), z.literal(1.5)]),
     updatedAt: z.string(),
-    consent: z
-      .object({
-        status: z.enum(['unknown', 'granted', 'declined']),
-        recordedAt: z.string(),
-        policyVersion: z.string(),
-      })
-      .strict()
-      .optional(),
   })
   .strict()
 /** Player settings; `updatedAt` drives last-writer-wins merging. */
 export type Settings = z.infer<typeof SettingsSchema>
-
-/** Optional for old saves; P2-20 migration supplies `{ status: 'unknown' }` when absent. */
-export type ConsentState = NonNullable<Settings['consent']>
 
 /** Schema for one append-only attempt record. */
 export const AttemptRecordSchema = z
