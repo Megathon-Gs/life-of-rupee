@@ -135,3 +135,64 @@
     font-size: var(--fs-md);
   }
 }
+
+/* Phones, either way up: play it like a handheld. Previous/Next become square arrow keys at the
+   edges where thumbs rest; their words stay for screen readers. Tablets and desktops never match. */
+@media (max-width: 479px) and (orientation: portrait),
+  (orientation: landscape) and (max-height: 500px) {
+  .actions :global(button):not(:global([aria-label])) {
+    padding-inline: var(--sp-3);
+    font-size: var(--fs-sm);
+  }
+
+  .nav {
+    align-self: stretch;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--sp-2);
+  }
+
+  .step {
+    width: var(--tap-min);
+    padding: 0;
+  }
+
+  .step > span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* 9-cell glyph at 3x: whole pixels, sized for a thumb. */
+  .step > svg {
+    width: 27px;
+    height: 27px;
+  }
+
+  .dots {
+    padding: var(--sp-2);
+  }
+}
+
+/* Phones held sideways: the screen is short, so tighten the frame to leave the street visible. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hud {
+    padding: max(var(--sp-2), env(safe-area-inset-top)) max(var(--sp-4), env(safe-area-inset-right))
+      max(var(--sp-2), env(safe-area-inset-bottom)) max(var(--sp-4), env(safe-area-inset-left));
+  }
+
+  .sign {
+    padding: var(--sp-1) var(--sp-3) var(--sp-2);
+  }
+
+  .location {
+    font-size: var(--fs-lg);
+  }
+
+  /* Dots sit by Previous so the door cue can take the space beside Next. */
+  .progress {
+    justify-content: flex-start;
+  }
+}

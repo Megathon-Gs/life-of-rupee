@@ -44,6 +44,47 @@
   max-width: calc(100% - var(--sp-6));
 }
 
+/* Phones held sideways: the street is too short to cover, so the door joins the bottom row,
+   beside Next under the right thumb. Hud left-aligns its dots to leave this room. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .door {
+    top: auto;
+    left: auto;
+    bottom: max(var(--sp-2), env(safe-area-inset-bottom));
+    right: calc(
+      max(var(--sp-4), env(safe-area-inset-right)) + var(--tap-min) + var(--px) * 2 + var(--sp-2)
+    );
+    translate: none;
+    /* Long names (or Telugu) wrap rather than run into the dots. */
+    max-width: calc(50% - var(--tap-min) - var(--sp-5));
+  }
+
+  .door > button {
+    padding-inline: var(--sp-4);
+    font-size: var(--fs-sm);
+  }
+}
+
+/* Portrait phones: the door is the main thing to do, so it moves off the facade into the thumb
+   zone, full width, sitting on the road just above the arrow keys. */
+@media (max-width: 479px) and (orientation: portrait) {
+  .door {
+    top: auto;
+    bottom: calc(
+      max(var(--sp-4), env(safe-area-inset-bottom)) + var(--tap-min) + var(--px) * 2 + var(--sp-3)
+    );
+    left: var(--sp-3);
+    right: var(--sp-3);
+    translate: none;
+    width: auto;
+    max-width: none;
+  }
+
+  .door > button {
+    width: calc(100% - var(--px) * 2);
+  }
+}
+
 .band[inert] .door {
   visibility: hidden;
 }
