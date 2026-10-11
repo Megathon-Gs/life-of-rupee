@@ -1,0 +1,37 @@
+.frame {
+  position: relative;
+  flex: 0 0 30dvh;
+  overflow: hidden;
+  background: var(--color-surface);
+  animation: fade var(--dur-base) var(--ease-out) both;
+  pointer-events: none;
+}
+
+.frame img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  max-width: none;
+  image-rendering: pixelated;
+}
+
+.frame[data-reduced-motion='true'] {
+  animation: none;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .frame {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: calc(100% + var(--sp-5));
+    width: min(40vw, calc(100vw - min(36rem, 50vw) - var(--sp-5) * 3));
+  }
+}

@@ -11,6 +11,7 @@ import {
 } from '@/core/contracts'
 import { deriveWorldVisuals } from '@/core/worldVisuals'
 import { skillTree } from '@/content/skillTree'
+import { interiors } from '@/content/interiors'
 import { world } from '@/content/world'
 import { attachTravelInput, createTravelMachine } from '@/input'
 import {
@@ -69,6 +70,16 @@ export function Game({ mode, levels, saveStore, features, onSwitchProfile }: Gam
   const settings = useGame((s) => s.save.settings)
   const attempts = useGame((s) => s.save.attempts)
   const reducedMotion = useReducedMotion()
+
+  useEffect(() => {
+    if (locationId !== 'bank') return
+    const preload = document.createElement('link')
+    preload.rel = 'preload'
+    preload.as = 'image'
+    preload.href = interiors.bank!
+    document.head.append(preload)
+    return () => preload.remove()
+  }, [locationId])
 
   const bandRef = useRef<HTMLDivElement>(null)
   const hostRef = useRef<HTMLDivElement>(null)

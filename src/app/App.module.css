@@ -57,6 +57,44 @@
   width: auto;
 }
 
+/* Reserve the image band only for lessons with interiors; other panels keep their layout. */
+:global([role='dialog']):has(.levelLayout) {
+  height: 92dvh;
+}
+
+:global([role='dialog']):has(.levelLayout) > :last-child {
+  display: flex;
+  padding: 0;
+  overflow: hidden;
+}
+
+.levelLayout {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+
+.levelContent {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--sp-4);
+}
+
+@media (min-width: 768px) {
+  :global([role='dialog']):has(.levelLayout) {
+    height: calc(100% - var(--sp-5) * 2);
+  }
+
+  .levelContent {
+    padding: var(--sp-5);
+  }
+}
+
 .picker {
   display: grid;
   gap: var(--sp-4);
