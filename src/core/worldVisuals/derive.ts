@@ -13,6 +13,28 @@ export function deriveWorldVisuals(derived: Derived, config?: AppConfig): WorldV
   if (derived.worldFlags['fraud.seenWarningSigns'] === 'true') {
     visuals['phone-shop'] = visuals['phone-shop'] === 'lit' ? 'lit-recognises' : 'recognises'
   }
-  if (config?.features.capstone) visuals.capstone = 'locked'
+  if (derived.worldFlags['savings.goalMet'] === 'true') {
+    visuals.home = 'upgraded'
+    visuals['home.interior'] = 'upgraded'
+  }
+  if (derived.worldFlags['loan.activeInstallment'] === 'true') {
+    visuals['home.repayment'] = 'active'
+    visuals['hud.wallet'] = 'repayment'
+  }
+  if (derived.worldFlags['insurance.policyInspected'] === 'true') {
+    visuals['insurance-desk'] = 'recognises'
+  }
+  if (derived.unlockedLocations.some((id) => id === 'market' || id === 'workplace')) {
+    visuals['district.high-street'] = 'lit'
+  }
+  if (derived.unlockedLocations.some((id) => id === 'insurance-desk' || id === 'learning-centre')) {
+    visuals['district.rural-connected'] = 'lit'
+  }
+  if (config?.features.capstone || derived.worldFlags['curriculum.completed'] === 'true') {
+    visuals.capstone =
+      config?.features.capstone && derived.worldFlags['curriculum.completed'] === 'true'
+        ? 'open'
+        : 'locked'
+  }
   return visuals
 }
