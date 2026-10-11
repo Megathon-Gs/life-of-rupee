@@ -14,6 +14,7 @@
     "cancel": "Keep"
   },
   "hud": {
+    "repayment": "Loan instalment active",
     "chapter": "Paisa Street"
   },
   "door": {

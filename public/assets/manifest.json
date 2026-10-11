@@ -1,6 +1,393 @@
 {
   "version": 1,
   "districts": {
+    "highstreet": {
+      "atlas": "highstreet.67ad98d3.png",
+      "width": 2012,
+      "height": 208,
+      "frames": {
+        "office-lit": {
+          "x": 0,
+          "y": 0,
+          "w": 104,
+          "h": 160,
+          "baseline": [
+            {
+              "opaque": 160,
+              "facade": 160
+            }
+          ]
+        },
+        "office-unlit": {
+          "x": 104,
+          "y": 0,
+          "w": 104,
+          "h": 160,
+          "baseline": [
+            {
+              "opaque": 160,
+              "facade": 160
+            }
+          ]
+        },
+        "home-detail-plain": {
+          "x": 208,
+          "y": 0,
+          "w": 240,
+          "h": 144,
+          "baseline": [
+            {
+              "opaque": 144,
+              "facade": 144
+            }
+          ]
+        },
+        "home-detail-upgraded": {
+          "x": 448,
+          "y": 0,
+          "w": 240,
+          "h": 144,
+          "baseline": [
+            {
+              "opaque": 144,
+              "facade": 144
+            }
+          ]
+        },
+        "market-lit": {
+          "x": 688,
+          "y": 0,
+          "w": 160,
+          "h": 144,
+          "baseline": [
+            {
+              "opaque": 136,
+              "facade": 136
+            }
+          ]
+        },
+        "market-unlit": {
+          "x": 848,
+          "y": 0,
+          "w": 160,
+          "h": 144,
+          "baseline": [
+            {
+              "opaque": 136,
+              "facade": 136
+            }
+          ]
+        },
+        "workshop": {
+          "x": 1008,
+          "y": 0,
+          "w": 148,
+          "h": 144,
+          "baseline": [
+            {
+              "opaque": 137,
+              "facade": 137
+            }
+          ]
+        },
+        "street-lamp": {
+          "x": 1156,
+          "y": 0,
+          "w": 24,
+          "h": 73,
+          "baseline": [
+            {
+              "opaque": 73,
+              "facade": 73
+            }
+          ]
+        },
+        "market-shopkeeper-idle-east": {
+          "x": 1180,
+          "y": 0,
+          "w": 128,
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
+        },
+        "market-shopkeeper-idle-west": {
+          "x": 1308,
+          "y": 0,
+          "w": 128,
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
+        },
+        "market-shopkeeper-talk-east": {
+          "x": 1436,
+          "y": 0,
+          "w": 160,
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
+        },
+        "market-shopkeeper-talk-west": {
+          "x": 1596,
+          "y": 0,
+          "w": 160,
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
+        },
+        "office-manager-idle-east": {
+          "x": 1756,
+          "y": 0,
+          "w": 128,
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 32
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
+        },
+        "office-manager-idle-west": {
+          "x": 1884,
+          "y": 0,
+          "w": 128,
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 32
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
+        },
+        "office-manager-talk-east": {
+          "x": 0,
+          "y": 160,
+          "w": 128,
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            }
+          ]
+        },
+        "office-manager-talk-west": {
+          "x": 128,
+          "y": 160,
+          "w": 128,
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            }
+          ]
+        },
+        "bus-stop": {
+          "x": 256,
+          "y": 160,
+          "w": 66,
+          "h": 37,
+          "baseline": [
+            {
+              "opaque": 37,
+              "facade": 37
+            }
+          ]
+        },
+        "two-wheeler": {
+          "x": 322,
+          "y": 160,
+          "w": 38,
+          "h": 30,
+          "baseline": [
+            {
+              "opaque": 30,
+              "facade": 30
+            }
+          ]
+        },
+        "two-wheeler-b": {
+          "x": 360,
+          "y": 160,
+          "w": 38,
+          "h": 30,
+          "baseline": [
+            {
+              "opaque": 30,
+              "facade": 30
+            }
+          ]
+        },
+        "planter": {
+          "x": 398,
+          "y": 160,
+          "w": 16,
+          "h": 20,
+          "baseline": [
+            {
+              "opaque": 20,
+              "facade": 20
+            }
+          ]
+        },
+        "signboard-blank-marigold": {
+          "x": 414,
+          "y": 160,
+          "w": 48,
+          "h": 16,
+          "baseline": [
+            {
+              "opaque": 16,
+              "facade": 16
+            }
+          ]
+        },
+        "signboard-blank-teal": {
+          "x": 462,
+          "y": 160,
+          "w": 48,
+          "h": 16,
+          "baseline": [
+            {
+              "opaque": 16,
+              "facade": 16
+            }
+          ]
+        },
+        "signboard-blank-terracotta": {
+          "x": 510,
+          "y": 160,
+          "w": 48,
+          "h": 16,
+          "baseline": [
+            {
+              "opaque": 16,
+              "facade": 16
+            }
+          ]
+        }
+      }
+    },
     "rural": {
       "atlas": "rural.abbd8054.png",
       "width": 400,
@@ -15,6 +402,453 @@
             {
               "opaque": 128,
               "facade": 128
+            }
+          ]
+        }
+      }
+    },
+    "rural-connected": {
+      "atlas": "rural-connected.399a5ae7.png",
+      "width": 1992,
+      "height": 208,
+      "frames": {
+        "learning-centre-lit": {
+          "x": 0,
+          "y": 0,
+          "w": 160,
+          "h": 160,
+          "baseline": [
+            {
+              "opaque": 139,
+              "facade": 139
+            }
+          ]
+        },
+        "learning-centre-unlit": {
+          "x": 160,
+          "y": 0,
+          "w": 160,
+          "h": 160,
+          "baseline": [
+            {
+              "opaque": 139,
+              "facade": 139
+            }
+          ]
+        },
+        "agri-supply": {
+          "x": 320,
+          "y": 0,
+          "w": 160,
+          "h": 144,
+          "baseline": [
+            {
+              "opaque": 134,
+              "facade": 134
+            }
+          ]
+        },
+        "coop-lit": {
+          "x": 480,
+          "y": 0,
+          "w": 160,
+          "h": 144,
+          "baseline": [
+            {
+              "opaque": 144,
+              "facade": 144
+            }
+          ]
+        },
+        "coop-unlit": {
+          "x": 640,
+          "y": 0,
+          "w": 160,
+          "h": 144,
+          "baseline": [
+            {
+              "opaque": 144,
+              "facade": 144
+            }
+          ]
+        },
+        "insurance-desk-lit": {
+          "x": 800,
+          "y": 0,
+          "w": 100,
+          "h": 144,
+          "baseline": [
+            {
+              "opaque": 144,
+              "facade": 144
+            }
+          ]
+        },
+        "insurance-desk-unlit": {
+          "x": 900,
+          "y": 0,
+          "w": 100,
+          "h": 144,
+          "baseline": [
+            {
+              "opaque": 144,
+              "facade": 144
+            }
+          ]
+        },
+        "local-market": {
+          "x": 1000,
+          "y": 0,
+          "w": 160,
+          "h": 144,
+          "baseline": [
+            {
+              "opaque": 134,
+              "facade": 134
+            }
+          ]
+        },
+        "village-home": {
+          "x": 1160,
+          "y": 0,
+          "w": 160,
+          "h": 144,
+          "baseline": [
+            {
+              "opaque": 134,
+              "facade": 134
+            }
+          ]
+        },
+        "street-lamp": {
+          "x": 1320,
+          "y": 0,
+          "w": 24,
+          "h": 73,
+          "baseline": [
+            {
+              "opaque": 73,
+              "facade": 73
+            }
+          ]
+        },
+        "incident-covered": {
+          "x": 1344,
+          "y": 0,
+          "w": 68,
+          "h": 50,
+          "baseline": [
+            {
+              "opaque": 50,
+              "facade": 48
+            }
+          ]
+        },
+        "incident-uncovered": {
+          "x": 1412,
+          "y": 0,
+          "w": 68,
+          "h": 50,
+          "baseline": [
+            {
+              "opaque": 50,
+              "facade": 48
+            }
+          ]
+        },
+        "insurance-agent-idle-east": {
+          "x": 1480,
+          "y": 0,
+          "w": 128,
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 32
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
+        },
+        "insurance-agent-idle-west": {
+          "x": 1608,
+          "y": 0,
+          "w": 128,
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 32
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
+        },
+        "insurance-agent-talk-east": {
+          "x": 1736,
+          "y": 0,
+          "w": 128,
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            }
+          ]
+        },
+        "insurance-agent-talk-west": {
+          "x": 1864,
+          "y": 0,
+          "w": 128,
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            },
+            {
+              "opaque": 48,
+              "facade": 31
+            }
+          ]
+        },
+        "learning-guide-idle-east": {
+          "x": 0,
+          "y": 160,
+          "w": 128,
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
+        },
+        "learning-guide-idle-west": {
+          "x": 128,
+          "y": 160,
+          "w": 128,
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
+        },
+        "learning-guide-talk-east": {
+          "x": 256,
+          "y": 160,
+          "w": 160,
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
+        },
+        "learning-guide-talk-west": {
+          "x": 416,
+          "y": 160,
+          "w": 160,
+          "h": 48,
+          "baseline": [
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            },
+            {
+              "opaque": 48,
+              "facade": 48
+            }
+          ]
+        },
+        "two-wheeler": {
+          "x": 576,
+          "y": 160,
+          "w": 63,
+          "h": 47,
+          "baseline": [
+            {
+              "opaque": 47,
+              "facade": 46
+            }
+          ]
+        },
+        "two-wheeler-b": {
+          "x": 639,
+          "y": 160,
+          "w": 63,
+          "h": 47,
+          "baseline": [
+            {
+              "opaque": 47,
+              "facade": 46
+            }
+          ]
+        },
+        "part-new": {
+          "x": 702,
+          "y": 160,
+          "w": 32,
+          "h": 32,
+          "baseline": [
+            {
+              "opaque": 30,
+              "facade": 29
+            }
+          ]
+        },
+        "part-worn": {
+          "x": 734,
+          "y": 160,
+          "w": 32,
+          "h": 32,
+          "baseline": [
+            {
+              "opaque": 30,
+              "facade": 29
+            }
+          ]
+        },
+        "planter": {
+          "x": 766,
+          "y": 160,
+          "w": 16,
+          "h": 20,
+          "baseline": [
+            {
+              "opaque": 20,
+              "facade": 20
+            }
+          ]
+        },
+        "signboard-blank-jade": {
+          "x": 782,
+          "y": 160,
+          "w": 48,
+          "h": 16,
+          "baseline": [
+            {
+              "opaque": 16,
+              "facade": 16
+            }
+          ]
+        },
+        "signboard-blank-leaf": {
+          "x": 830,
+          "y": 160,
+          "w": 48,
+          "h": 16,
+          "baseline": [
+            {
+              "opaque": 16,
+              "facade": 16
+            }
+          ]
+        },
+        "signboard-blank-sky": {
+          "x": 878,
+          "y": 160,
+          "w": 48,
+          "h": 16,
+          "baseline": [
+            {
+              "opaque": 16,
+              "facade": 16
             }
           ]
         }

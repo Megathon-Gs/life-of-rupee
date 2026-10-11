@@ -49,6 +49,7 @@ export const P1_ERROR_CATEGORIES = [
 export const P2_ERROR_CATEGORIES = [
   'budget.no_essentials',
   'budget.no_savings',
+  'budget.want_as_need',
   'saving.ignored_liquidity',
   'receipt.missed_tax',
   'receipt.discount_before_tax',

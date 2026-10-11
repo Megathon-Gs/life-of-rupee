@@ -101,6 +101,9 @@ async function packDistrict(
   return { png, district: { width, height, frames } }
 }
 
+/** Folders served as standalone images (public/interiors), never packed into an atlas. */
+const STANDALONE_DIRS = new Set(['interiors'])
+
 export async function buildAtlases(
   opts: BuildOptions,
 ): Promise<{ manifest: string; districts: string[] }> {
@@ -112,6 +115,7 @@ export async function buildAtlases(
   for (const file of await findPngs(root)) {
     const rel = relative(root, file)
     const district = dirname(rel) === '.' ? 'default' : rel.split(sep)[0]
+    if (STANDALONE_DIRS.has(district)) continue
     const meta = await sharp(file).metadata()
     const sidecar = JSON.parse(
       await readFile(file.replace(/\.png$/i, '.json'), 'utf8').catch(() => '{}'),

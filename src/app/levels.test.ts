@@ -42,6 +42,18 @@ describe('levels', () => {
     expect(levelAt([l4, l5], at('phone-shop'), open, ['l04', 'l05'])?.id).toBe('l04')
   })
 
+  it('offers Level 12 at home only after Level 11 is completed', () => {
+    const l1 = { ...fixtureBankLevel, id: 'l01-budget', location: 'home' } as LevelDef
+    const l12 = { ...fixtureBankLevel, id: 'l12-capstone', location: 'home' } as LevelDef
+    const open = [at('home')]
+    expect(levelAt([l1, l12], at('home'), open)?.id).toBe('l01-budget')
+    expect(levelAt([l1, l12], at('home'), open, ['l01-budget'])?.id).toBe('l01-budget')
+    expect(levelAt([l1, l12], at('home'), open, ['l01-budget', 'l11-investing'])?.id).toBe(
+      'l12-capstone',
+    )
+    expect(levelAt([l12], at('home'), open)).toBeUndefined()
+  })
+
   it('loads fixtures only in test mode', async () => {
     expect(await loadLevels({ test: false, fixturesOnly: false })).toEqual(contentLevels)
     expect(await loadLevels({ test: true, fixturesOnly: true })).toEqual([fixtureBankLevel])
@@ -49,7 +61,7 @@ describe('levels', () => {
 
   it('reads the namespace from the first hook key', () => {
     expect(levelNamespace(fixtureBankLevel)).toBe('app')
-    expect(levelNamespace(contentLevels[0]!)).toBe('l02')
+    expect(levelNamespace(contentLevels[1]!)).toBe('l02')
   })
 
   it('gives each attempt a stable seed', () => {

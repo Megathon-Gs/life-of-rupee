@@ -7,25 +7,37 @@ describe('world content', () => {
     expect(WorldDefSchema.safeParse(world).success).toBe(true)
   })
 
-  it('keeps the P0 street first and appends the P1 locations in order', () => {
+  it('lays out the twelve-location street in order, 320 px apart', () => {
     expect(world.locations.map((l) => l.id)).toEqual([
       'home',
       'bank',
       'kirana',
+      'market',
+      'workplace',
       'filler-1',
       'filler-2',
       'phone-shop',
       'showroom',
+      'insurance-desk',
+      'learning-centre',
       'capstone',
     ])
+    world.locations.forEach((l, i) => {
+      expect(l.x).toBe(160 + 320 * i)
+      expect(l.doorX).toBe(l.x)
+    })
   })
 
-  it('gates each P1 building with a P1-level unlock so L2 alone lights none', () => {
+  it('gates each level-linked building with its level unlock', () => {
     const byId = new Map<string, (typeof world.locations)[number]>(
       world.locations.map((l) => [l.id as string, l]),
     )
     expect(byId.get('phone-shop')?.unlockedBy).toEqual(['l04-upi-basics'])
     expect(byId.get('showroom')?.unlockedBy).toEqual(['l05-fraud-safety'])
+    expect(byId.get('market')?.unlockedBy).toEqual(['l05-fraud-safety'])
+    expect(byId.get('workplace')?.unlockedBy).toEqual(['l07-inflation'])
+    expect(byId.get('insurance-desk')?.unlockedBy).toEqual(['l09-loans-emi'])
+    expect(byId.get('learning-centre')?.unlockedBy).toEqual(['l10-insurance'])
     // The capstone concept is revealed by the app flag, not by a level unlock.
     expect(byId.get('capstone')?.unlockedBy).toBeUndefined()
   })

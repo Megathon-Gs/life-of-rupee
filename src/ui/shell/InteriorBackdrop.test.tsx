@@ -23,7 +23,7 @@ describe('InteriorBackdrop', () => {
   )
 
   it('renders nothing for a location without a backdrop', () => {
-    renderUi(<InteriorBackdrop location={'home' as LocationId} />)
+    renderUi(<InteriorBackdrop location={'kirana' as LocationId} />)
     expect(screen.queryByTestId('interior-backdrop')).toBeNull()
   })
 

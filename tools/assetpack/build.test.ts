@@ -24,6 +24,7 @@ beforeAll(async () => {
   await solid(join(approved, 'urban', 'home.png'), 16, 16)
   await solid(join(approved, 'urban', 'bank.png'), 16, 32)
   await solid(join(approved, 'rural', 'tree.png'), 16, 16)
+  await solid(join(approved, 'interiors', 'bank.png'), 16, 16)
 })
 
 afterAll(async () => {
@@ -36,6 +37,7 @@ describe('assetpack build', () => {
     await buildAtlases({ path: approved, out, maxWidth: 64 })
     const manifest = JSON.parse(await readFile(join(out, 'manifest.json'), 'utf8'))
 
+    // Interiors are standalone backdrops, so they never get an atlas.
     expect(Object.keys(manifest.districts).sort()).toEqual(['rural', 'urban'])
     const urban = manifest.districts.urban
     expect(urban.atlas).toMatch(/^urban\.[0-9a-f]{8}\.png$/)

@@ -66,7 +66,7 @@ describe('Level 8', () => {
     }
   })
 
-  it('resolves every player-facing key and claim in English and Telugu; Telugu is needsReview', () => {
+  it('resolves every player-facing key and claim in English and Telugu; Telugu is approved', () => {
     const check = (value: unknown, property = ''): void => {
       if (typeof value === 'string' && (property.endsWith('Key') || property.endsWith('Keys'))) {
         for (const lng of ['en', 'te']) expect(i18n.exists(value, { lng, fallbackLng: false }), value).toBe(true)
@@ -74,7 +74,7 @@ describe('Level 8', () => {
       else if (value && typeof value === 'object') Object.entries(value).forEach(([k, v]) => check(v, k))
     }
     check(level)
-    expect(te._meta.translationStatus).toContain('needsReview')
+    expect(te._meta.translationStatus).toContain('ఆమోదించబడింది')
   })
 
   it('contains no real-looking phone, UPI, Aadhaar, PAN or IFSC strings', () => {

@@ -1,7 +1,7 @@
 import { WorldDefSchema, type WorldDef } from '@/core/contracts'
 
 /**
- * The P0 street: one contiguous run of districts, urban → high-street →
+ * The full twelve-level street (P0 + P1 + P2): one contiguous run of districts, urban → high-street →
  * rural-connected. `x` snap points are whole multiples of the 16 px tile grid
  * and strictly increasing (world renderer, technical implementation plan).
  */
@@ -32,47 +32,81 @@ export const world: WorldDef = WorldDefSchema.parse({
       labelKey: 'loc.kirana',
     },
     {
-      id: 'filler-1',
+      id: 'market',
       x: 1120,
       doorX: 1120,
+      district: 'high-street',
+      buildingAsset: 'market',
+      labelKey: 'loc.market',
+      unlockedBy: ['l05-fraud-safety'],
+    },
+    {
+      id: 'workplace',
+      x: 1440,
+      doorX: 1440,
+      district: 'high-street',
+      buildingAsset: 'workplace',
+      labelKey: 'loc.workplace',
+      unlockedBy: ['l07-inflation'],
+    },
+    {
+      id: 'filler-1',
+      x: 1760,
+      doorX: 1760,
       district: 'high-street',
       buildingAsset: 'shop',
       labelKey: 'loc.filler1',
     },
     {
       id: 'filler-2',
-      x: 1440,
-      doorX: 1440,
+      x: 2080,
+      doorX: 2080,
       district: 'rural-connected',
       buildingAsset: 'house',
       labelKey: 'loc.filler2',
     },
+    // P1: L4 (UPI) then L5 (fraud) are played here; entry is decoupled in the app (P1-14).
     {
-      // P1: L4 (UPI) then L5 (fraud) are played here. Locked until the bank visit
-      // would light it (unlockedBy), but entry is decoupled in the app (P1-14).
       id: 'phone-shop',
-      x: 1760,
-      doorX: 1760,
+      x: 2400,
+      doorX: 2400,
       district: 'rural-connected',
       buildingAsset: 'phone-shop',
       labelKey: 'loc.phone-shop',
       unlockedBy: ['l04-upi-basics'],
     },
     {
-      // P1: L9 (loans) is played here; lights after the Level 5 fraud lesson.
       id: 'showroom',
-      x: 2080,
-      doorX: 2080,
+      x: 2720,
+      doorX: 2720,
       district: 'rural-connected',
       buildingAsset: 'showroom',
       labelKey: 'loc.showroom',
       unlockedBy: ['l05-fraud-safety'],
     },
     {
-      // P1 concept: revealed by the app's capstone flag, not by any level unlock.
+      id: 'insurance-desk',
+      x: 3040,
+      doorX: 3040,
+      district: 'rural-connected',
+      buildingAsset: 'insurance-desk',
+      labelKey: 'loc.insurance-desk',
+      unlockedBy: ['l09-loans-emi'],
+    },
+    {
+      id: 'learning-centre',
+      x: 3360,
+      doorX: 3360,
+      district: 'rural-connected',
+      buildingAsset: 'learning-centre',
+      labelKey: 'loc.learning-centre',
+      unlockedBy: ['l10-insurance'],
+    },
+    // Revealed by the app's capstone flag, not by any level unlock.
+    {
       id: 'capstone',
-      x: 2400,
-      doorX: 2400,
+      x: 3680,
+      doorX: 3680,
       district: 'rural-connected',
       buildingAsset: 'capstone',
       labelKey: 'loc.capstone',

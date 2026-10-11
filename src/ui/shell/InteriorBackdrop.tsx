@@ -4,8 +4,14 @@ import { interiors } from '@/content/interiors'
 import { useReducedMotion } from './UiRoot'
 import styles from './InteriorBackdrop.module.css'
 
-export function InteriorBackdrop({ location }: { location: LocationId }) {
-  const src = interiors[location]
+export function InteriorBackdrop({
+  location,
+  src: srcProp,
+}: {
+  location: LocationId
+  src?: string
+}) {
+  const src = srcProp ?? interiors[location]
   const reducedMotion = useReducedMotion()
   const frame = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)

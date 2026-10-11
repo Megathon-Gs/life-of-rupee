@@ -64,7 +64,7 @@ describe('Level 11', () => {
     }
     expect(transfers).toHaveLength(2)
     expect(transfers.every((config) => config.correctOfferId === 'fd')).toBe(true)
-    expect(te._meta.translationStatus).toContain('needsReview')
+    expect(te._meta.translationStatus).toContain('ఆమోదించబడింది')
     expect(level.claims.every((claim) => claim.reviewerRole.includes('sign-off pending'))).toBe(
       true,
     )

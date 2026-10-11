@@ -19,6 +19,7 @@ export const errorCategories: Readonly<Record<string, ErrorCategoryDef>> = Objec
     },
     { code: 'budget.no_essentials', severity: 'major', skillNode: 'money.budgeting' },
     { code: 'budget.no_savings', severity: 'minor', skillNode: 'money.budgeting' },
+    { code: 'budget.want_as_need', severity: 'minor', skillNode: 'money.budgeting' },
     { code: 'receipt.missed_tax', severity: 'major', skillNode: 'money.spending' },
     { code: 'receipt.discount_before_tax', severity: 'major', skillNode: 'money.spending' },
     { code: 'payslip.gross_as_net', severity: 'major', skillNode: 'borrowing.income' },

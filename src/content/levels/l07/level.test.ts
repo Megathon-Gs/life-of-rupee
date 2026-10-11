@@ -101,7 +101,7 @@ describe('Level 7 inflation content', () => {
     expect(en.transfer.cleaning.prompt).toContain('soap and cleaning cloths')
   })
 
-  it('resolves every text key, labels every rate, and marks the Telugu draft for review', () => {
+  it('resolves every text key, labels every rate, and records the approved Telugu translation', () => {
     const visit = (value: unknown, property = ''): void => {
       if (typeof value === 'string' && (property.endsWith('Key') || property.endsWith('Keys'))) {
         for (const lng of ['en', 'te']) expect(i18n.exists(value, { lng, fallbackLng: false }), value).toBe(true)
@@ -112,7 +112,7 @@ describe('Level 7 inflation content', () => {
       }
     }
     visit(level)
-    expect(te._meta.needsReview).toBe(true)
+    expect(te._meta.needsReview).toBe(false)
     for (const [locale, label] of [[en, 'Assumption:'], [te, 'అంచనా:']] as const) {
       for (const text of strings(locale)) {
         for (const sentence of text.split(/(?<=[.!?])\s+/)) {

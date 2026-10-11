@@ -183,7 +183,6 @@
   position: absolute;
   left: 0;
   top: 0;
-  max-width: 10rem;
   padding: var(--sp-1) var(--sp-2);
   border-radius: 4px;
   background: rgb(25 26 51 / 85%);

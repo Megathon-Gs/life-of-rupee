@@ -15,7 +15,7 @@ import { sources } from './sources'
 import en from '../../locales/en/l06.json'
 import te from '../../locales/te/l06.json'
 
-const errorDefs = Object.values(errorCategories).filter(def => /^(receipt|budget)\./.test(def.code))
+const errorDefs = Object.values(errorCategories).filter(def => /^(receipt\.|budget\.no_(essentials|savings)$)/.test(def.code))
 const rubric = level.steps[3].rubric
 const decisionCorrect = { kind: 'choice' as const, stepId: 'decision', correct: true }
 const transferCorrect = { kind: 'choice' as const, stepId: 'transfer', correct: true }
@@ -121,7 +121,7 @@ describe('Level 6', () => {
     for (const source of sources) expect(source.url).toMatch(/^https:\/\/(taxinformation\.cbic\.gov\.in|ncfe\.org\.in)\//)
   })
 
-  it('resolves every player-facing key and claim in English and Telugu; Telugu is needsReview', () => {
+  it('resolves every player-facing key and claim in English and Telugu; Telugu is approved', () => {
     const check = (value: unknown, property = ''): void => {
       if (typeof value === 'string' && (property.endsWith('Key') || property.endsWith('Keys'))) {
         for (const lng of ['en', 'te']) expect(i18n.exists(value, { lng, fallbackLng: false }), value).toBe(true)
@@ -135,7 +135,7 @@ describe('Level 6', () => {
     for (const def of errorDefs) {
       for (const lng of ['en', 'te']) expect(i18n.exists(`l06:${def.reviewKey}`, { lng, fallbackLng: false }), def.reviewKey).toBe(true)
     }
-    expect(te._meta.translationStatus).toContain('needsReview')
+    expect(te._meta.translationStatus).toContain('ఆమోదించబడింది')
   })
 
   it('uses the market location and the l06-receipts id without registering elsewhere', () => {

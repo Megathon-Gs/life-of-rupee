@@ -7,7 +7,9 @@ import { v1Fixture } from '@/core/state/migrations/fixtures'
 import { world } from '@/content/world'
 import { renderUi } from '@/ui/testing/renderUi'
 import { fixtureBankLevel } from '../../tests/e2e/fixtures/levels'
-import { LevelPanel } from './LevelPanel'
+import { levels as contentLevels } from '@/content/levels'
+import { interactions } from '@/ui/interactions'
+import { LevelPanel, parseConfig } from './LevelPanel'
 import { createGameStore, GameStoreContext } from './store'
 
 const save = (): SaveFile => ({ ...migrate(structuredClone(v1Fixture)), attempts: [] })
@@ -46,7 +48,7 @@ describe('LevelPanel', () => {
   })
 
   it('does not add a backdrop to an unmapped location', () => {
-    setup(save(), { ...fixtureBankLevel, location: 'home' as LocationId })
+    setup(save(), { ...fixtureBankLevel, location: 'kirana' as LocationId })
     expect(screen.queryByTestId('interior-backdrop')).toBeNull()
     expect(stepType()).toBe('hook')
   })
@@ -145,7 +147,19 @@ describe('LevelPanel', () => {
     const chainLevel: LevelDef = {
       ...fixtureBankLevel,
       steps: fixtureBankLevel.steps.map((step) =>
-        step.type === 'decision' ? { ...step, interaction: 'scenarioChain' as never } : step,
+        step.type === 'decision'
+          ? {
+              ...step,
+              interaction: 'scenarioChain' as never,
+              config: {
+                titleKey: 'app:level.unsupported',
+                promptKey: 'app:level.unsupported',
+                hintKeys: ['app:level.unsupported', 'app:level.unsupported'],
+                explanationKey: 'app:level.unsupported',
+                links: [{ interaction: 'custom', config: {} }],
+              } as never,
+            }
+          : step,
       ) as LevelDef['steps'],
     }
     const initial = save()
@@ -166,5 +180,22 @@ describe('LevelPanel', () => {
       stepIndex: 3,
       events: [{ kind: 'choice', stepId: 'lesson', correct: true }],
     })
+  })
+
+  it('validates every interaction config of the twelve real levels, including chain links', () => {
+    for (const level of contentLevels) {
+      for (const step of level.steps) {
+        if (!('interaction' in step)) continue
+        expect(interactions, `${level.id}:${step.id}`).toHaveProperty(step.interaction)
+        expect(
+          () => parseConfig(step.interaction, step.config),
+          `${level.id}:${step.id}`,
+        ).not.toThrow()
+        const variants = 'variants' in step ? (step.variants as { config: unknown }[]) : []
+        for (const variant of variants) {
+          expect(() => parseConfig(step.interaction, variant.config)).not.toThrow()
+        }
+      }
+    }
   })
 })

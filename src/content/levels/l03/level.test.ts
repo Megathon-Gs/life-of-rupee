@@ -145,8 +145,8 @@ describe('Level 3 content', () => {
     expect(keys(te).sort()).toEqual(keys(en).sort())
   })
 
-  it('marks the Telugu draft needsReview', () => {
-    expect(te._meta.translationStatus).toContain('needsReview')
+  it('records the approved Telugu translation', () => {
+    expect(te._meta.translationStatus).toContain('ఆమోదించబడింది')
   })
 
   it('backs every claim with a read official source and a review stamp', () => {

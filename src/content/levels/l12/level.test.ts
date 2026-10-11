@@ -101,7 +101,7 @@ describe('Level 12 shape, text and claims', () => {
     ])
     expect(level.steps[2].location).toBe('home')
     expect(level.worldEffects).toEqual([{ key: 'curriculum.completed', value: 'true' }])
-    expect(te._meta.translationStatus).toContain('needsReview')
+    expect(te._meta.translationStatus).toContain('ఆమోదించబడింది')
   })
 
   it('links budget, a UPI check, a borrowing choice and a savings decision in one chain', () => {

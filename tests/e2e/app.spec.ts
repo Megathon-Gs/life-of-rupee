@@ -1,4 +1,5 @@
 import type { Locator, Page } from '@playwright/test'
+import { world } from '../../src/content/world'
 import { wheelBurst } from './harness/input'
 import { expect, test } from '../privacy/network-allowlist'
 
@@ -66,7 +67,7 @@ async function wheelBurstOnBand(page: Page, events: number, deltaPx: number) {
 
 /** Steps forward with the keyboard until the protagonist stands at `id`. */
 async function travelTo(page: Page, id: string) {
-  const order = ['home', 'bank', 'kirana', 'filler-1', 'filler-2']
+  const order = world.locations.map((location) => location.id as string)
   for (let guard = 0; guard < order.length; guard += 1) {
     const at = await band(page).getAttribute('data-location')
     if (at === id) return

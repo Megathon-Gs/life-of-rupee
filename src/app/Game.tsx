@@ -11,7 +11,7 @@ import {
 } from '@/core/contracts'
 import { deriveWorldVisuals } from '@/core/worldVisuals'
 import { skillTree } from '@/content/skillTree'
-import { interiors } from '@/content/interiors'
+import { interiorFor } from '@/content/interiors'
 import { world } from '@/content/world'
 import { attachTravelInput, createTravelMachine } from '@/input'
 import {
@@ -72,7 +72,7 @@ export function Game({ mode, levels, saveStore, features, onSwitchProfile }: Gam
   const reducedMotion = useReducedMotion()
 
   useEffect(() => {
-    const interior = interiors[locationId]
+    const interior = interiorFor(locationId, derived.worldFlags)
     if (!interior) return
     const preload = document.createElement('link')
     preload.rel = 'preload'
@@ -80,7 +80,7 @@ export function Game({ mode, levels, saveStore, features, onSwitchProfile }: Gam
     preload.href = interior
     document.head.append(preload)
     return () => preload.remove()
-  }, [locationId])
+  }, [locationId, derived.worldFlags])
 
   const bandRef = useRef<HTMLDivElement>(null)
   const hostRef = useRef<HTMLDivElement>(null)
@@ -116,7 +116,8 @@ export function Game({ mode, levels, saveStore, features, onSwitchProfile }: Gam
   const location = world.locations.find((l) => l.id === locationId) ?? world.locations[0]!
   const placeName = t(location.labelKey, { ns: 'world' })
   // The capstone concept opens only with its feature flag on.
-  const canEnterCapstone = features.capstone && locationId === 'capstone'
+  // It opens only once Level 12 is done (the derived visuals need the feature and the flag).
+  const canEnterCapstone = visuals.capstone === 'open' && locationId === 'capstone'
   const teacherSummary = useMemo(
     () => buildTeacherSummary(derived, levels, skillTree),
     [derived, levels],
@@ -288,7 +289,7 @@ export function Game({ mode, levels, saveStore, features, onSwitchProfile }: Gam
     if (closing?.kind === 'level') void exitLocation(closing.level.location, transitionCtx())
   }
   const openLevel = (target: LevelDef) => {
-    if (!interiors[target.location]) void enterLocation(target.location, transitionCtx())
+    void enterLocation(target.location, transitionCtx())
     openPanel({ kind: 'level', level: target })
   }
   const enter = () => {
@@ -351,6 +352,7 @@ export function Game({ mode, levels, saveStore, features, onSwitchProfile }: Gam
           onNext={() => step(1)}
           onOpenSettings={() => openPanel({ kind: 'settings' })}
           onOpenSkillTree={() => openPanel({ kind: 'skillTree' })}
+          status={visuals['hud.wallet'] === 'repayment' ? t('hud.repayment') : undefined}
         />
         <LocationLabels renderer={ready ? rendererRef.current : null} hidden={panel !== null} />
         {ready && (level || canEnterCapstone) && !travelling && (
@@ -369,7 +371,7 @@ export function Game({ mode, levels, saveStore, features, onSwitchProfile }: Gam
       <div
         data-reduced-motion={String(reducedMotion)}
         className={
-          panel?.kind === 'level' && interiors[panel.level.location]
+          panel?.kind === 'level' && interiorFor(panel.level.location, derived.worldFlags)
             ? styles.interiorPanel
             : undefined
         }

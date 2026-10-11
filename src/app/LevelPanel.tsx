@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState, type ComponentType, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  BudgetAllocatorConfigSchema,
   DocumentInspectorConfigSchema,
   FormFillerConfigSchema,
   MessageTriageConfigSchema,
   OfferComparatorConfigSchema,
+  ReceiptInspectorConfigSchema,
+  ScenarioChainConfigSchema,
+  TimeSliderConfigSchema,
   UpiPaymentConfigSchema,
   type InteractionEvent,
   type InteractionProps,
@@ -14,7 +18,7 @@ import {
   type SkillNodeId,
 } from '@/core/contracts'
 import { skillTree } from '@/content/skillTree'
-import { interiors } from '@/content/interiors'
+import { interiorFor } from '@/content/interiors'
 import { createLevelRunner, type LevelRunnerImpl, type RunnerView } from '@/level-runner'
 import { interactions } from '@/ui/interactions'
 import { ResultsScreen } from '@/ui/screens/Results'
@@ -34,6 +38,29 @@ const configSchemas: Record<string, { parse: (value: unknown) => unknown }> = {
   upiPayment: UpiPaymentConfigSchema,
   messageTriage: MessageTriageConfigSchema,
   offerComparator: OfferComparatorConfigSchema,
+  budgetAllocator: BudgetAllocatorConfigSchema,
+  receiptInspector: ReceiptInspectorConfigSchema,
+  timeSlider: TimeSliderConfigSchema,
+  scenarioChain: ScenarioChainConfigSchema,
+}
+
+/** Parses a config with its interaction's schema; a chain also validates each link's own config. */
+export function parseConfig(interaction: string, config: unknown): unknown {
+  const schema = configSchemas[interaction]
+  if (!schema) return config
+  const parsed = schema.parse(config)
+  if (interaction !== 'scenarioChain') return parsed
+  const chain = parsed as { links: { interaction: string; config: unknown }[] }
+  return {
+    ...chain,
+    links: chain.links.map((link) => {
+      if (link.interaction === 'scenarioChain') throw new Error('Scenario chains cannot nest')
+      const linkSchema = configSchemas[link.interaction]
+      // Carried numbers are merged into the config at run time, so only the base is checked here.
+      if (linkSchema) linkSchema.parse(link.config)
+      return link
+    }),
+  }
 }
 
 const now = () => new Date().toISOString()
@@ -160,10 +187,11 @@ export function LevelPanel({
 
   if (!shown) return null
 
+  const backdropSrc = interiorFor(level.location, store.derived().worldFlags)
   const withBackdrop = (content: ReactNode) =>
-    interiors[level.location] ? (
+    backdropSrc ? (
       <div className={styles.levelLayout}>
-        <InteriorBackdrop location={level.location} />
+        <InteriorBackdrop location={level.location} src={backdropSrc} />
         <div className={styles.levelContent}>{content}</div>
       </div>
     ) : (
@@ -227,12 +255,11 @@ export function LevelPanel({
     default: {
       const Interaction = interactions[view.interaction as keyof typeof interactions] as
         AnyInteraction | undefined
-      const schema = configSchemas[view.interaction]
       const key = view.type === 'transfer' ? `${view.stepId}:${view.variantId}` : view.stepId
       body = Interaction ? (
         <Interaction
           key={`${shown.levelId}:${key}`}
-          config={schema ? schema.parse(view.config) : view.config}
+          config={parseConfig(view.interaction, view.config)}
           locale={locale}
           stepId={view.stepId}
           onEvent={(event) => act((r) => r.dispatch(event), event)}

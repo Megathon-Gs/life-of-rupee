@@ -17,6 +17,8 @@ export interface HudProps {
   onOpenSettings: () => void
   /** Opens the skill tree; the button only shows when this is set. */
   onOpenSkillTree?: () => void
+  /** Optional standing reminder under the location name (e.g. an active loan instalment). */
+  status?: string
 }
 
 /**
@@ -34,6 +36,7 @@ export function Hud({
   onNext,
   onOpenSettings,
   onOpenSkillTree,
+  status,
 }: HudProps) {
   const { t } = useTranslation('ui')
   return (
@@ -42,6 +45,11 @@ export function Hud({
         <div className={styles.sign}>
           <p className={styles.chapter}>{chapter}</p>
           <h2 className={styles.location}>{location}</h2>
+          {status && (
+            <p className={styles.status} data-testid="hud-status">
+              {status}
+            </p>
+          )}
         </div>
         <div className={styles.actions}>
           {onOpenSkillTree && (

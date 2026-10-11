@@ -50,6 +50,9 @@
     },
     "no_savings": {
       "review": "Your choice: you spent everything and put nothing into savings. Safer choice: after needs are covered, keep a small share of every month for savings. Concept: a budget allocates funds for savings as well as essentials. Why it matters: with no savings, one surprise cost has nothing to be paid from."
+    },
+    "want_as_need": {
+      "review": "Your choice: you picked a want as a need. Safer choice: a need is a must-have, like the bus pass Kiran uses to reach school; a concert or café snacks are wants that can wait. Concept: needs are must-haves, whereas wants are good to have and can be postponed. Why it matters: telling them apart first is what lets a budget pay for needs before wants."
     }
   },
   "claim": {

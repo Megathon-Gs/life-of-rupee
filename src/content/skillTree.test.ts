@@ -1,10 +1,18 @@
 import { describe, expect, it } from 'vitest'
 import { SkillTreeDefSchema } from '@/core/contracts'
+import { levels } from './levels'
 import { LEVEL_SKILL_NODES, skillTree } from './skillTree'
 
 const nodeIds = new Set(skillTree.nodes.map((n) => n.id as string))
 
 describe('skill tree content', () => {
+  it('has every registered level skill node in the tree', () => {
+    expect(levels).toHaveLength(12)
+    for (const level of levels) {
+      for (const node of level.skillNodes) expect(nodeIds.has(node as string)).toBe(true)
+    }
+  })
+
   it('validates against SkillTreeDefSchema', () => {
     expect(SkillTreeDefSchema.safeParse(skillTree).success).toBe(true)
   })

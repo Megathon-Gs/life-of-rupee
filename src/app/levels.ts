@@ -20,6 +20,11 @@ export async function loadLevels(mode: AppMode): Promise<LevelDef[]> {
   return mergeLevels(contentLevels, fixtureLevels, mode.fixturesOnly)
 }
 
+/** Levels offered only after these levels are completed (L12 shares Home with L1). */
+export const LEVEL_PREREQUISITES: Readonly<Record<string, readonly string[]>> = {
+  'l12-capstone': ['l11-investing'],
+}
+
 /**
  * The level played at a location, if the location is unlocked and has one.
  * When a location hosts more than one level (P1: L4 and L5 at the phone shop),
@@ -32,7 +37,11 @@ export function levelAt(
   completed: readonly string[] = [],
 ): LevelDef | undefined {
   if (!unlocked.includes(id)) return undefined
-  const here = levels.filter((level) => level.location === id)
+  const here = levels.filter(
+    (level) =>
+      level.location === id &&
+      (LEVEL_PREREQUISITES[level.id] ?? []).every((need) => completed.includes(need)),
+  )
   return here.find((level) => !completed.includes(level.id)) ?? here[0]
 }
 

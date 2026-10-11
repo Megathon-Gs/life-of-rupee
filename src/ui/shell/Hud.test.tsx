@@ -20,6 +20,24 @@ describe('Hud', () => {
     expect(screen.getByText('Place 2 of 5')).toBeTruthy()
   })
 
+  it('shows a standing status under the location only when given', () => {
+    const { unmount } = renderUi(
+      <Hud {...props} onPrevious={vi.fn()} onNext={vi.fn()} onOpenSettings={vi.fn()} />,
+    )
+    expect(screen.queryByTestId('hud-status')).toBeNull()
+    unmount()
+    renderUi(
+      <Hud
+        {...props}
+        status="Loan instalment active"
+        onPrevious={vi.fn()}
+        onNext={vi.fn()}
+        onOpenSettings={vi.fn()}
+      />,
+    )
+    expect(screen.getByTestId('hud-status').textContent).toBe('Loan instalment active')
+  })
+
   it('tabs in reading order: settings, previous, next', async () => {
     const user = userEvent.setup()
     renderUi(<Hud {...props} onPrevious={vi.fn()} onNext={vi.fn()} onOpenSettings={vi.fn()} />)

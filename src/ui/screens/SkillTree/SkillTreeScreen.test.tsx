@@ -12,7 +12,7 @@ describe('skillNodeStates', () => {
   it('lights completed nodes, opens nodes whose prerequisites are lit, locks the rest', () => {
     const states = skillNodeStates(skillTree, ids('access.identity'))
     expect(states.get('access.identity')).toBe('lit')
-    expect(states.get('access.payments')).toBe('available')
+    expect(states.get('bank.upi')).toBe('available')
     expect(states.get('safety.fraud')).toBe('locked')
     expect(states.get('money.budgeting')).toBe('available')
   })

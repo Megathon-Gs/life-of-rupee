@@ -39,8 +39,8 @@ export const level = LevelDefSchema.parse({
         promptKey: 'l01:lesson.prompt',
         fields: [
           { id: 'busPass', labelKey: 'l01:lesson.busPassLabel', valueKey: 'l01:lesson.busPassValue', isAnswer: true },
-          { id: 'concert', labelKey: 'l01:lesson.concertLabel', valueKey: 'l01:lesson.concertValue', isAnswer: false },
-          { id: 'snacks', labelKey: 'l01:lesson.snacksLabel', valueKey: 'l01:lesson.snacksValue', isAnswer: false },
+          { id: 'concert', labelKey: 'l01:lesson.concertLabel', valueKey: 'l01:lesson.concertValue', isAnswer: false, error: 'budget.want_as_need' },
+          { id: 'snacks', labelKey: 'l01:lesson.snacksLabel', valueKey: 'l01:lesson.snacksValue', isAnswer: false, error: 'budget.want_as_need' },
         ],
       },
     },
@@ -109,5 +109,6 @@ export const level = LevelDefSchema.parse({
     claim('l01:lesson.prompt', 'rbi-fame-school-children'),
     claim('l01:budget.no_essentials.review', 'ncfe-financial-wellbeing'),
     claim('l01:budget.no_savings.review', 'ncfe-financial-wellbeing'),
+    claim('l01:budget.want_as_need.review', 'rbi-fame-school-children'),
   ],
 })

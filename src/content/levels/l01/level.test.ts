@@ -110,8 +110,8 @@ describe('Level 1 content', () => {
     check(level)
   })
 
-  it('marks the Telugu draft needsReview', () => {
-    expect(te._meta.translationStatus).toContain('needsReview')
+  it('records the approved Telugu translation', () => {
+    expect(te._meta.translationStatus).toContain('ఆమోదించబడింది')
   })
 
   it('contains no real-looking phone, UPI, Aadhaar, PAN or IFSC strings', () => {

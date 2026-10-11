@@ -1,5 +1,6 @@
 import gsap from 'gsap'
 import type { LocationId } from '@/core/contracts'
+import { interiors } from '@/content/interiors'
 
 export { BANK_ENTRY_ID, cueDoor, transitionPanel } from '@/transitions'
 
@@ -36,9 +37,97 @@ export async function onArrive(id: LocationId, ctx: TransitionContext): Promise<
   void ctx
 }
 
+const RECEIPT_LINE = '[data-testid^="line-"]'
+const TIME_CHART = '[data-testid="time-chart"]'
+
+let observer: MutationObserver | null = null
+const animated = new WeakSet<Element>()
+let running: gsap.core.Tween[] = []
+
+function track(tween: gsap.core.Tween) {
+  running.push(tween)
+}
+
+/** The receipt paper slides up into place. Visual only: never blocks input. */
+function slideReceipt(paper: Element) {
+  if (animated.has(paper)) return
+  animated.add(paper)
+  track(
+    gsap.fromTo(
+      paper,
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.4, ease: 'power2.out', clearProps: 'transform,opacity' },
+    ),
+  )
+}
+
+/** Time-lapse: the chart columns grow from the baseline left to right. */
+function playTimeLapse(chart: Element) {
+  if (animated.has(chart)) return
+  animated.add(chart)
+  const columns = [...chart.children]
+  if (columns.length === 0) return
+  track(
+    gsap.fromTo(
+      columns,
+      { scaleY: 0, opacity: 0.3, transformOrigin: '50% 100%' },
+      {
+        scaleY: 1,
+        opacity: 1,
+        duration: 0.3,
+        stagger: Math.min(0.05, 0.4 / columns.length),
+        ease: 'power2.out',
+        clearProps: 'transform,opacity,transformOrigin',
+      },
+    ),
+  )
+}
+
+function scan(root: ParentNode) {
+  const line = root.querySelector?.(RECEIPT_LINE)
+  const paper = line?.closest('ul')
+  if (paper) slideReceipt(paper)
+  const chart = root.querySelector?.(TIME_CHART)
+  if (chart) playTimeLapse(chart)
+}
+
+function stopWatching() {
+  observer?.disconnect()
+  observer = null
+  for (const tween of running) {
+    const targets = tween.targets() as Element[]
+    if (targets.some((t) => !t.isConnected)) tween.kill()
+  }
+  running = []
+}
+
+/** Watches for P2 interactions mounting at any step of the level. */
+function watchInteractions() {
+  stopWatching()
+  scan(document.body)
+  observer = new MutationObserver((records) => {
+    for (const record of records) {
+      for (const node of record.addedNodes) {
+        if (node.nodeType !== 1) continue
+        const el = node as Element
+        if (el.matches(RECEIPT_LINE)) {
+          const paper = el.closest('ul')
+          if (paper) slideReceipt(paper)
+        }
+        if (el.matches(TIME_CHART)) playTimeLapse(el)
+        scan(el)
+      }
+    }
+  })
+  observer.observe(document.body, { childList: true, subtree: true })
+}
+
 /** Called when the player goes through a door into a location's level. */
 export async function enterLocation(id: LocationId, ctx: TransitionContext): Promise<void> {
   if (!canAnimate(ctx)) return
+  watchInteractions()
+  // Locations with an interior backdrop use the P2-30 CSS reveal instead.
+  if (interiors[id]) return
   if (id === 'phone-shop') {
     const [panel] = await whenPresent('[data-testid="level-step"]')
     if (!panel) return
@@ -70,4 +159,5 @@ export async function enterLocation(id: LocationId, ctx: TransitionContext): Pro
 export async function exitLocation(id: LocationId, ctx: TransitionContext): Promise<void> {
   void id
   void ctx
+  stopWatching()
 }

@@ -72,7 +72,7 @@ describe('Level 9 steps', () => {
     expect(level.id).toBe('l09-loans-emi')
     expect(level.location).toBe('showroom')
     expect(level.skillNodes).toEqual(['borrowing.emi'])
-    expect(level.worldEffects).toEqual([])
+    expect(level.worldEffects).toEqual([{ key: 'loan.activeInstallment', value: 'true' }])
     expect(level.steps.map((step) => step.type)).toEqual([
       'hook',
       'lesson',

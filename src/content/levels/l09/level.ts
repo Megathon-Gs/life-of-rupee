@@ -220,7 +220,7 @@ export const level = LevelDefSchema.parse({
       ],
     },
   ],
-  worldEffects: [],
+  worldEffects: [{ key: 'loan.activeInstallment', value: 'true' }],
   claims: [
     claim('l09:claim.kfs', 'rbi-key-facts-statement'),
     claim('l09:claim.kfsValidity', 'rbi-key-facts-statement'),
