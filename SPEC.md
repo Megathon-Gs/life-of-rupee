@@ -1,11 +1,11 @@
-# SPEC: Paisa Street
+# SPEC: Lifeof₹
 
 Status: draft · Owner: Parth · Updated: 2026-10-10
 
 Sources: [`docs/product-plan.md`](docs/product-plan.md) (the "plan", what and why) · [`docs/technical-implementation-plan.md`](docs/technical-implementation-plan.md) (the "tech plan", how). This SPEC condenses both. Where they conflict, stop and ask (AGENTS.md).
 
 ## 1. Problem & goal
-Grade 11–12 students served by an NGO in Hyderabad (about 1,500 learners) rarely meet money decisions (opening a bank account, paying by UPI, spotting fraud, judging a loan) in a safe place to practise. Paisa Street is a mobile-first, offline-capable illustrated web game: the student swipes through an Indian town, enters recognisable places, solves a short financial problem with an interactive panel, earns up to three stars, lights a skill-tree node and sees the town change. Success is demonstrated understanding of banking, planning, saving, safety and borrowing, never wealth (plan §1). The guided game is complete with no backend and no LLM.
+Grade 11–12 students served by an NGO in Hyderabad (about 1,500 learners) rarely meet money decisions (opening a bank account, paying by UPI, spotting fraud, judging a loan) in a safe place to practise. Lifeof₹ is a mobile-first, offline-capable illustrated web game: the student swipes through an Indian town, enters recognisable places, solves a short financial problem with an interactive panel, earns up to three stars, lights a skill-tree node and sees the town change. Success is demonstrated understanding of banking, planning, saving, safety and borrowing, never wealth (plan §1). The guided game is complete with no backend and no LLM.
 
 ## 2. Non-goals (explicitly out of scope)
 - Wealth leaderboards or any ranking by money, possessions or status (plan §7).

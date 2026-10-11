@@ -1,6 +1,6 @@
-# Paisa Street — Product, Experience & Design Plan
+# Lifeof₹ — Product, Experience & Design Plan
 
-> **Working title:** Paisa Street (subject to team approval)  
+> **Current title:** Lifeof₹
 > **Format:** Mobile-first, scroll-driven, illustrated financial-learning web game  
 > **Audience:** Primarily Grades 11–12 students, initially through an NGO serving approximately 1,500 students in Hyderabad, Telangana  
 > **Status:** Revised product, creative and AI-production brief (10 October 2026)  

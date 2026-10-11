@@ -6,7 +6,7 @@ Repo: megathon-gs-vanguard · Base: origin/main · Owner: <assign> · Card: P0-0
 Repo root config files, `src/main.tsx`, `.github/workflows/ci.yml`, `docs/adr/`, `tools/content-lint/index.ts` (stub), `tools/asset-lint/index.ts` (stub), `.gitattributes`.
 
 ## Change
-- pnpm + Vite + React 19 + TypeScript (strict) app whose `src/main.tsx` renders a placeholder "Paisa Street" page.
+- pnpm + Vite + React 19 + TypeScript (strict) app whose `src/main.tsx` renders a placeholder "Lifeof₹" page.
 - Install **every P0 dependency** below. After this PR, no other P0 task edits `package.json` or the lockfile.
 - Scripts: `dev`, `build`, `preview`, `typecheck`, `lint`, `format`, `test` (vitest run), `e2e` (playwright test), `lint:content` (runs `tools/content-lint/index.ts`), `lint:assets` (runs `tools/asset-lint/index.ts`), `build:assets` (runs `tools/assetpack/build.ts`). Tool entry files are stubs that print "not configured yet" and exit 0; P0-12 and P0-13 replace them.
 - Path alias `@/` → `src/`.
@@ -28,7 +28,7 @@ Repo root config files, `src/main.tsx`, `.github/workflows/ci.yml`, `docs/adr/`,
 ## Observable acceptance
 - [ ] `pnpm install --frozen-lockfile && pnpm typecheck && pnpm lint && pnpm test && pnpm build` passes (vitest runs with `passWithNoTests`)
 - [ ] A scratch file `src/core/probe.ts` containing `import 'react'` makes `pnpm lint` fail, and `document.title` in it makes `pnpm typecheck` fail (show both in the PR, then delete the file)
-- [ ] `pnpm dev` serves a page showing "Paisa Street"
+- [ ] `pnpm dev` serves a page showing "Lifeof₹"
 - [ ] CI workflow runs all listed steps and is green on the PR
 - [ ] Six ADRs exist in `docs/adr/` following the template
 

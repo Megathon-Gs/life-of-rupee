@@ -1,6 +1,6 @@
 # ADR 0002 — PixiJS v8 for the world renderer (vs Phaser 3)
 
-Status: accepted · Date: 2026-10-10 · Owner: Paisa Street team
+Status: accepted · Date: 2026-10-10 · Owner: Lifeof₹ team
 
 ## Context
 

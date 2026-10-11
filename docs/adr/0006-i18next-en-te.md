@@ -1,6 +1,6 @@
 # ADR 0006 — i18next for English and Telugu
 
-Status: accepted · Date: 2026-10-10 · Owner: Paisa Street team
+Status: accepted · Date: 2026-10-10 · Owner: Lifeof₹ team
 
 ## Context
 

@@ -23,14 +23,14 @@ function GalleryPage() {
   if (solo) {
     return (
       <main>
-        <h1 className="gallery-sr-only">Paisa Street UI gallery: {surfaceParam}</h1>
+        <h1 className="gallery-sr-only">Lifeof₹ UI gallery: {surfaceParam}</h1>
         <GalleryColumn i18n={i18n} locale={locales[0]!} reducedMotion={reducedMotion} surfaces={[surfaceParam!]} solo />
       </main>
     )
   }
   return (
     <main className="gallery">
-      <h1 className="gallery-title">Paisa Street UI gallery</h1>
+      <h1 className="gallery-title">Lifeof₹ UI gallery</h1>
       <div className="gallery-columns">
         {locales.map(locale => (
           <GalleryColumn key={locale} i18n={i18n} locale={locale} reducedMotion={reducedMotion} surfaces={SURFACES} />

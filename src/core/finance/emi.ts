@@ -49,6 +49,6 @@ export function loanTotals(
   return {
     emi: payment,
     totalRepaid,
-    totalInterest: (totalRepaid - principal) as Paise,
+    totalInterest: interest as Paise,
   }
 }

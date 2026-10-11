@@ -18,8 +18,8 @@ export default defineConfig({
       registerType: 'prompt',
       injectRegister: false,
       manifest: {
-        name: 'Paisa Street',
-        short_name: 'Paisa Street',
+        name: 'Lifeof₹',
+        short_name: 'Lifeof₹',
         description: 'Offline-first financial literacy game',
         start_url: '/',
         scope: '/',

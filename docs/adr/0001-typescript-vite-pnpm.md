@@ -1,10 +1,10 @@
 # ADR 0001 — TypeScript (strict), Vite and pnpm as the language and build base
 
-Status: accepted · Date: 2026-10-10 · Owner: Paisa Street team
+Status: accepted · Date: 2026-10-10 · Owner: Lifeof₹ team
 
 ## Context
 
-Paisa Street is one TypeScript codebase that ships the pure core, the React UI, the PixiJS
+Lifeof₹ is one TypeScript codebase that ships the pure core, the React UI, the PixiJS
 world and the build/lint tooling. The core must run identically in tests, offline, and (later)
 in a server check, so the language and build choices have to keep one language across every
 layer and give a fast edit–see loop.

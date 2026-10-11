@@ -1,10 +1,10 @@
-# Paisa Street — story bible
+# Lifeof₹ — story bible
 
 Draft for NGO educator and language review. These pages supply story direction, not final financial claims or legal advice. Level authors source and verify facts, numbers and assumptions before release.
 
 ## One reason to keep going
 
-**Mina** is a fictional older school student learning to make her first allowance last and save her festival money for a reading lamp for her study space. She initially mistakes the biggest number or quickest route for the best choice. Her growing habit is simple: “What does this leave me with?” She learns to ask that about money, time, safety and obligations. The player helps Mina practise; nobody supplies their own identity or finances.
+**Mina** is a fictional older school student learning to make his first allowance last and save his festival money for a reading lamp for his study space. He initially mistakes the biggest number or quickest route for the best choice. His growing habit is simple: “What does this leave me with?” He learns to ask that about money, time, safety and obligations. The player helps Mina practise; nobody supplies their own identity or finances.
 
 L1–7 stay close to student decisions. L8–10 explicitly use **fictional future-adult Mina**, with simulated income, borrowing and insurance. L11 explores goals without telling a student what to buy. L12 brings the ideas together in one labelled future-adult practice month. This is a look ahead, not a claim that a minor has taken employment, a vehicle loan or a policy. No purchase or loan is required to succeed.
 

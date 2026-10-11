@@ -1,6 +1,6 @@
 # ADR 0007 — Preserve level seed and start time in snapshots
 
-Status: accepted · Date: 2026-10-10 · Owner: Paisa Street team
+Status: accepted · Date: 2026-10-10 · Owner: Lifeof₹ team
 
 ## Context
 

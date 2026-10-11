@@ -3,7 +3,7 @@
     "translationStatus": "English draft awaiting NGO educator sign-off. All people, policies, premiums, deductibles, caps and amounts are fictional assumptions, not market rates."
   },
   "hook": {
-    "1": "Dev: Mina’s scooter is how she gets to work. A repair bill could land any day, so she is looking at insurance for it.",
+    "1": "Dev: Mina’s scooter is how he gets to work. A repair bill could land any day, so he is looking at insurance for it.",
     "2": "Dev: Read the terms and conditions before you buy anything, and don’t buy a product until you have understood it fully.",
     "3": "Dev: Having no insurance does not make a scooter break down. Insurance only decides who pays for some kinds of costs."
   },
@@ -29,14 +29,14 @@
   },
   "consequence": {
     "paid": "The insurer pays ₹17,000 of the ₹18,000 repair bill.",
-    "youPay": "Mina pays ₹1,000, the deductible. With the ₹2,400 premium she paid for the year, the accident cost her ₹3,400 in all.",
+    "youPay": "Mina pays ₹1,000, the deductible. With the ₹2,400 premium he paid for the year, the accident cost him ₹3,400 in all.",
     "explanation": "A policy pays only for events it names, and only after the deductible and up to the cap. Here the accident was covered, so most of the bill was paid. A worn-out battery, a service or a flood would not have been covered, and the premium was paid either way. For those costs, the emergency fund is what pays. Not having insurance never makes a scooter break down, and insurance does not replace maintenance. If an insurer’s handling of a claim seems wrong, IRDAI’s Bima Bharosa portal takes complaints and does not ask for any payment. All amounts here are fictional."
   },
   "transfer": {
     "insurer": "The insurer pays",
     "emergencyFund": "Mina’s emergency fund pays",
     "battery": {
-      "title": "Mina’s scooter battery has worn out after years of use. A new one costs ₹3,500. Her Fuller cover lists wear and tear and maintenance as not covered. Mina has a fictional ₹15,000 emergency fund. Answer both questions.",
+      "title": "Mina’s scooter battery has worn out after years of use. A new one costs ₹3,500. His Fuller cover lists wear and tear and maintenance as not covered. Mina has a fictional ₹15,000 emergency fund. Answer both questions.",
       "payerLabel": "Who pays the ₹3,500?",
       "causeLabel": "Why did the battery fail?",
       "noInsurance": "Because Mina had no insurance for it",

@@ -1,6 +1,6 @@
 # ADR 0008 — ReceiptInspector config carries inputs, not totals
 
-Status: accepted · Date: 2026-10-11 · Owner: Paisa Street team
+Status: accepted · Date: 2026-10-11 · Owner: Lifeof₹ team
 
 ## Context
 

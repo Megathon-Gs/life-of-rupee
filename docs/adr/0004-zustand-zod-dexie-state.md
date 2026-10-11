@@ -1,6 +1,6 @@
 # ADR 0004 — Zustand, Zod and Dexie for state and persistence
 
-Status: accepted · Date: 2026-10-10 · Owner: Paisa Street team
+Status: accepted · Date: 2026-10-10 · Owner: Lifeof₹ team
 
 ## Context
 

@@ -1,6 +1,6 @@
 # ADR 0003 — GSAP 3 for animation
 
-Status: accepted · Date: 2026-10-10 · Owner: Paisa Street team
+Status: accepted · Date: 2026-10-10 · Owner: Lifeof₹ team
 
 ## Context
 

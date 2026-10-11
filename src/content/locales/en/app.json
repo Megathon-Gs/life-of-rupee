@@ -1,7 +1,7 @@
 {
   "boot": {
-    "loading": "Opening Paisa Street…",
-    "failed": "Paisa Street could not start. Reload the page to try again."
+    "loading": "Opening Lifeof₹…",
+    "failed": "Lifeof₹ could not start. Reload the page to try again."
   },
   "picker": {
     "title": "Who is playing?",
@@ -15,7 +15,7 @@
   },
   "hud": {
     "repayment": "Loan instalment active",
-    "chapter": "Paisa Street"
+    "chapter": "Lifeof₹"
   },
   "door": {
     "enter": "Go into the {place}"

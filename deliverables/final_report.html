@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Lifeof₹ — Final Report</title>
+  <style>
+    @font-face { font-family: Noto; src: url("../src/ui/tokens/fonts/noto-sans-latin.woff2"); }
+    @font-face { font-family: Silk; src: url("fonts/Silkscreen-Bold.ttf"); font-weight: bold; }
+    @page { size: A4; margin: 0; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #191a33; background: #fff1d0; font-family: Noto, Arial, sans-serif; }
+    .page { width: 210mm; height: 297mm; padding: 13mm 13mm 10mm; page-break-after: always; position: relative; overflow: hidden; background: #fff1d0; }
+    .page:last-child { page-break-after: auto; }
+    .top { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #191a33; padding-bottom: 3mm; margin-bottom: 5mm; font-weight: bold; letter-spacing: .03em; font-size: 9pt; }
+    .team { background: #191a33; color: #ffd34e; padding: 2.3mm 3.5mm; border-bottom: 2px solid #ffd34e; }
+    .eyebrow { color: #0d4f60; font-size: 8.7pt; font-weight: bold; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { font-family: Silk, Noto, sans-serif; font-size: 25pt; line-height: 1.2; margin: 2mm 0 3mm; }
+    .coin { display: inline-block; position: relative; width: .84em; height: .75em; vertical-align: -.04em; }
+    .coin img { position: absolute; width: 1.35em; height: auto; left: -.26em; top: -.13em; image-rendering: pixelated; }
+    .coin span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+    h2 { font-family: Silk, Noto, sans-serif; font-size: 16pt; line-height: 1.28; margin: 1mm 0 3mm; }
+    h3 { font-size: 10.5pt; line-height: 1.22; margin: 0 0 2mm; }
+    p { font-size: 9pt; line-height: 1.46; margin: 0 0 3mm; }
+    strong { font-weight: 800; }
+    .lead { font-size: 11.3pt; line-height: 1.43; max-width: 166mm; }
+    .hero, .shot { border: 2px solid #191a33; box-shadow: 2.5mm 2.5mm 0 #dcb27f; overflow: hidden; background: #5fa3d6; }
+    .hero img, .shot img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; image-rendering: pixelated; }
+    .hero { width: 184mm; height: 112mm; margin: 5mm 0 5mm; }
+    .caption { display: flex; align-items: center; gap: 2mm; color: #0d4f60; font-size: 8.1pt; margin: 3.2mm 0 5mm; }
+    .caption b { color: #191a33; }
+    .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
+    .panel { border: 1.6px solid #191a33; background: #f3d9a4; padding: 4mm; }
+    .panel.teal { background: #d3eef0; }
+    .strip { display: flex; gap: 2.5mm; align-items: stretch; margin-top: 5mm; }
+    .chip { background: #0d4f60; color: #fff1d0; padding: 2.5mm 3.3mm; font-size: 8.2pt; font-weight: bold; }
+    .arrow { color: #b9523c; font-size: 14pt; font-weight: bold; line-height: 1.1; }
+    .footer { position: absolute; left: 13mm; right: 13mm; bottom: 8mm; border-top: 1px solid #191a33; padding-top: 2mm; display: flex; justify-content: space-between; font-size: 7.5pt; }
+    .page2-intro { margin-bottom: 4mm; }
+    .shotgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; margin-bottom: 5mm; }
+    .shotgrid .shot { height: 79mm; }
+    .shotgrid .caption { min-height: 12mm; margin: 3mm 0 0; align-items: start; }
+    .ruleline { border-left: 4px solid #ffd34e; padding-left: 4mm; margin: 5mm 0; }
+    .journey { display: grid; grid-template-columns: 78mm 1fr; gap: 6mm; align-items: start; margin-top: 5mm; }
+    .journey .shot { height: 69mm; }
+    .journey .shot img { object-position: 61% center; }
+    .steps { padding-left: 5mm; margin: 1mm 0; }
+    .steps li { font-size: 8.7pt; line-height: 1.38; padding-left: 1mm; margin-bottom: 2mm; }
+    .loan { height: 113mm; margin: 5mm 0 4mm; }
+    .loan img { object-position: center 12%; }
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin: 5mm 0; }
+    .metric { background: #191a33; color: #fff1d0; padding: 3.4mm 3mm; min-height: 19mm; }
+    .metric .num { display: block; color: #ffd34e; font-size: 15pt; line-height: 1.1; font-weight: bold; }
+    .metric .label { display: block; font-size: 7.1pt; line-height: 1.25; margin-top: 1mm; }
+    .small { font-size: 7.8pt; line-height: 1.36; }
+    .tiny { font-size: 7.1pt; line-height: 1.32; }
+    .pill { display: inline-block; background: #ffd34e; border: 1.5px solid #191a33; padding: 1mm 2.5mm; font-weight: bold; font-size: 7.5pt; }
+    .page3-bottom { display: grid; grid-template-columns: 1.05fr .95fr; gap: 6mm; }
+  </style>
+</head>
+<body>
+  <section class="page">
+    <div class="top"><span class="team">TEAM NUMBER 47</span><span>MEGATHON X · FINAL REPORT</span></div>
+    <div class="eyebrow">One learner. One town. Decisions that stay with you.</div>
+    <h1>Lifeof<span class="coin"><span>₹</span><img src="rupee-coin.png" alt=""></span></h1>
+    <p class="lead">Mina wants to save his festival money for a reading lamp. A visit to the bank begins a journey through an illustrated Indian town, where each choice has a consequence and each lesson follows his home.</p>
+    <div class="hero"><img src="screenshots/01-home-street.png" alt="Game screenshot showing the learner character at home in the illustrated town"></div>
+    <div class="caption"><b>01 / THE WORLD</b> A frame from the running game: travel through a town built around places where money decisions happen.</div>
+    <div class="columns">
+      <div>
+        <h3>Why this game exists</h3>
+        <p>A student may recognise “UPI” or “EMI” and still be unsure what to do at a counter, on a payment screen, or after a worrying message. Lifeof₹ lets Grade 11–12 learners practise those moments safely. Every identity, balance, and transaction is fictional.</p>
+      </div>
+      <div class="panel teal">
+        <h3>What the final build delivers</h3>
+        <p>We built twelve authored missions, from budgeting and banking through UPI safety, borrowing, insurance, investing, and a final connected month. Learners inspect, compare, and decide; specific feedback, replay, a skill tree, and changing places carry their progress forward.</p>
+      </div>
+    </div>
+    <div class="strip"><span class="chip">EXPLORE</span><span class="arrow">→</span><span class="chip">DECIDE</span><span class="arrow">→</span><span class="chip">SEE CONSEQUENCE</span><span class="arrow">→</span><span class="chip">TRY AGAIN</span></div>
+    <div class="footer"><span>Lifeof₹ · ORIGINAL GAME SCREENSHOT</span><span>01 / 03</span></div>
+  </section>
+
+  <section class="page">
+    <div class="top"><span class="team">TEAM NUMBER 47</span><span>THE LEARNING LOOP</span></div>
+    <div class="eyebrow">The story begins with a question, not a quiz.</div>
+    <h2>Mina is a minor. Which account fits?</h2>
+    <p class="page2-intro">At the bank, Mina wants to save his festival money. The player inspects sample documents and chooses an account route. Pick the adult route and the game explains why the minor route is safer, then gives a new case to apply the lesson. No real document or account detail is entered.</p>
+    <div class="shotgrid">
+      <div><div class="shot"><img src="screenshots/02-bank-lesson.png" alt="Game screenshot of the bank interior and simulated identity document choice"></div><div class="caption"><b>02 / ACT</b> Inspect a sample document and choose a route in the bank.</div></div>
+      <div><div class="shot"><img src="screenshots/03-bank-results-2-stars.png" alt="Game screenshot showing two-star result and an explanation of a minor-account mistake"></div><div class="caption"><b>03 / REFLECT</b> A two-star mistake is explained, not erased; replay can improve the best score.</div></div>
+    </div>
+    <div class="ruleline"><p><strong>How this grew:</strong> M1 set out to prove one complete bank journey. We made that journey playable, then connected UPI, fraud, and loans, then built the remaining eight missions. Reusable interactions, original pixel art, and deterministic rules let the same town hold a full curriculum instead of twelve disconnected quizzes.</p></div>
+    <div class="journey">
+      <div><div class="shot"><img src="screenshots/04-skill-tree-after-bank.png" alt="Game screenshot of the skill tree showing Financial Identity learned"></div><div class="caption"><b>04 / REMEMBER</b> Learning stays visible in the skill tree and on return visits.</div></div>
+      <div>
+        <h3>The town remembers what happened</h3>
+        <ol class="steps">
+          <li>After the bank, the teller recognises Mina; saving for the lamp changes his home.</li>
+          <li>At the phone shop, he learns to notice a message that demands a hurried response. That same pressure cue can return in a later easy-loan ad.</li>
+          <li>Attempts, skills, and world changes come from recorded choices. Replay improves a best score without deleting the first try.</li>
+          <li>Progress stays on the device and can resume after a break. English and Telugu text, keyboard controls, and reduced motion make the journey easier to enter.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="footer"><span>Lifeof₹ · ORIGINAL GAME SCREENSHOTS</span><span>02 / 03</span></div>
+  </section>
+
+  <section class="page">
+    <div class="top"><span class="team">TEAM NUMBER 47</span><span>CHOICES THAT TRAVEL FURTHER</span></div>
+    <div class="eyebrow">A later chapter tests what Mina carries with him.</div>
+    <h2>A smaller EMI. A longer promise.</h2>
+    <p>In a fictional future-adult case, Mina compares two ₹60,000 loans at 12% a year plus a ₹600 fee. Paying over 36 months feels easier each month, yet raises total repayment from ₹64,571.13 to ₹72,342.89. The player must check both the whole cost and what remains after essentials; postponing is a valid choice when neither offer fits.</p>
+    <div class="shot loan"><img src="screenshots/05-loan-offers.png" alt="Game screenshot of showroom interior and two fictional loan offers"></div>
+    <div class="caption"><b>05 / TRANSFER</b> A real game frame. The figures come from the finance rules; these fictional offers are not product advice.</div>
+    <div class="metrics">
+      <div class="metric"><span class="num">12</span><span class="label">authored levels integrated</span></div>
+      <div class="metric"><span class="num">580</span><span class="label">unit/component tests passing</span></div>
+      <div class="metric"><span class="num">107</span><span class="label">approved art assets linted</span></div>
+      <div class="metric"><span class="num">2</span><span class="label">languages: English and Telugu</span></div>
+    </div>
+    <div class="page3-bottom">
+      <div>
+        <h3>Evidence of a working build</h3>
+        <p class="small">The final checkout passed TypeScript, ESLint, content lint, asset lint, a production build, and 580 unit/component tests. Browser journeys exercise phone and desktop sizes, accessibility, offline play, and same-origin requests; the full browser suite still needs a clean pass after transition-case failures. All five images are from the running game.</p>
+      </div>
+      <div class="panel">
+        <h3>Designed for trust</h3>
+        <p class="small">The game needs no real names, account identifiers, PINs, OTPs, or payments, and core play needs no backend or model. Scores reward reasoning and improvement, never speed or wealth. Financial claims link to Indian public sources. Newer lessons still need final educator sign-off; a classroom pilot and measured learning outcomes are future work.</p>
+      </div>
+    </div>
+    <div class="footer"><span>Lifeof₹ · MEGATHON X FINAL</span><span>03 / 03</span></div>
+  </section>
+</body>
+</html>

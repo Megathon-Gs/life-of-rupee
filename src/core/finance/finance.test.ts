@@ -26,6 +26,12 @@ describe('finance maths', () => {
     )
   })
 
+  it('keeps loan fees separate from interest', () => {
+    const totals = loanTotals(rupees(60_000), 12, 12, rupees(600))
+    expect(totals.totalInterest).toBe(rupees(3_971.13))
+    expect(totals.totalRepaid).toBe(rupees(64_571.13))
+  })
+
   it('keeps EMI accurate for a very small positive rate', () => {
     expect(emi(rupees(1000), 1e-12, 12)).toBe(8333)
   })

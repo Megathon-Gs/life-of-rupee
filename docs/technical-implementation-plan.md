@@ -1,8 +1,8 @@
-# Paisa Street — Technical Implementation Plan
+# Lifeof₹ — Technical Implementation Plan
 
 Oct 10, 2026 · Parth
 
-Build Paisa Street as a static, offline-capable web app (PWA). A PixiJS canvas draws the pixel-art town. A React DOM layer draws every lesson, form and line of text. A pure TypeScript core owns scoring, finance maths and saved state.
+Build Lifeof₹ as a static, offline-capable web app (PWA). A PixiJS canvas draws the pixel-art town. A React DOM layer draws every lesson, form and line of text. A pure TypeScript core owns scoring, finance maths and saved state.
 
 The P0 slice (one street, one bank, Level 2) runs with no backend and no AI. NPCs are added later without changing the core. This document turns the product plan (`plan (1).md`, 10 Oct 2026), which deliberately leaves architecture open, into concrete engineering decisions.
 

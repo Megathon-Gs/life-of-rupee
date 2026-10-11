@@ -3,8 +3,8 @@
     "translationStatus": "Telugu translation reviewed and approved for app integration (P0-20)."
   },
   "boot": {
-    "loading": "పైసా స్ట్రీట్ తెరుచుకుంటోంది…",
-    "failed": "పైసా స్ట్రీట్ ప్రారంభం కాలేదు. మళ్లీ ప్రయత్నించడానికి పేజీని రీలోడ్ చేయండి."
+    "loading": "Lifeof₹ తెరుచుకుంటోంది…",
+    "failed": "Lifeof₹ ప్రారంభం కాలేదు. మళ్లీ ప్రయత్నించడానికి పేజీని రీలోడ్ చేయండి."
   },
   "picker": {
     "title": "ఎవరు ఆడుతున్నారు?",
@@ -18,7 +18,7 @@
   },
   "hud": {
     "repayment": "రుణ వాయిదా కొనసాగుతోంది",
-    "chapter": "పైసా స్ట్రీట్"
+    "chapter": "Lifeof₹"
   },
   "door": {
     "enter": "{place}లోకి వెళ్లండి"

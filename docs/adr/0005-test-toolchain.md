@@ -1,6 +1,6 @@
 # ADR 0005 — Test toolchain: Vitest, fast-check, Playwright, axe and Lighthouse CI
 
-Status: accepted · Date: 2026-10-10 · Owner: Paisa Street team
+Status: accepted · Date: 2026-10-10 · Owner: Lifeof₹ team
 
 ## Context
 

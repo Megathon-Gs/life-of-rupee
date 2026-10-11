@@ -32,7 +32,7 @@
   },
   "chain": {
     "title": "Check the bill, then plan the money",
-    "prompt": "First read Mina's receipt. Then place her fictional ₹1,500 for the month so the bill and her other needs are covered and something is saved.",
+    "prompt": "First read Mina's receipt. Then place his fictional ₹1,500 for the month so the bill and his other needs are covered and something is saved.",
     "hint1": "Hint 1: Use the amount on the total line, not the tag prices.",
     "hint2": "Hint 2: Cover needs first, then keep some money for savings.",
     "explanation": "The amount payable on the receipt is the real cost. Cover it, and any fixed payment, before spending on wants or saving."
@@ -54,7 +54,7 @@
   "consequence": {
     "tags": "Tag prices added up: ₹400",
     "total": "Receipt total after the ₹20 discount and 10% tax (assumed): ₹418",
-    "budget": "Mina set aside ₹410 for this trip, so the receipt is ₹8 over her budget.",
+    "budget": "Mina set aside ₹410 for this trip, so the receipt is ₹8 over his budget.",
     "explanation": "Compare the receipt total, not the tag prices, with your budget. A discount can lower the bill and tax can raise it. The rate and amounts here are assumptions for a fictional receipt."
   },
   "transfer": {

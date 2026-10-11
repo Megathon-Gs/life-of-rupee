@@ -47,7 +47,7 @@ const figures = (offer: Offer) => {
   return {
     emi: rupees(totals.emi),
     totalRepaid: rupees(totals.totalRepaid),
-    interest: rupees(totals.totalInterest - offer.feesPaise),
+    interest: rupees(totals.totalInterest),
     totalPaise: totals.totalRepaid,
     emiPaise: totals.emi,
   }

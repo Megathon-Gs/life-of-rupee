@@ -1,4 +1,4 @@
-# Task breakdown — Paisa Street
+# Task breakdown — Lifeof₹
 
 Source: [`docs/technical-implementation-plan.md`](../technical-implementation-plan.md). Each task is one Orca card = one worktree = one agent = one PR (see `docs/orca-kit/15-work-division-and-delegation.md`). Every brief in `P0/`, `P1/` and `P2/` follows `templates/TASK-BRIEF.md` and can be pasted as the `--prompt` of `orca-ide worktree create`.
 

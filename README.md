@@ -1,23 +1,24 @@
-# megathon-gs-vanguard
+# Lifeof₹
 
-> Working project repo. Orca multi-agent workflow enabled.
+## Set up and run
 
-This repository is set up for the **Orca multi-agent workflow**: each feature is built in its own
-git worktree by an agent, lands via a PR, and is merged by the automated merge agent. The process
-rules and templates live in this repo.
+Requires Node.js 22 or newer and pnpm 12.10.1. From the repository root:
 
-## Read first
-- **`AGENTS.md`** — rules every agent follows here.
-- **`docs/orca-kit/00-index.md`** — the full process docs (features, specs, delegation, agent rules).
-- **`templates/`** — copy `SPEC.md`, `ADR.md`, `AGENTS.md`, `TASK-BRIEF.md` for each feature.
+```sh
+corepack enable
+pnpm install --frozen-lockfile
+pnpm dev
+```
 
-## How we work (short)
-1. **Spec first** — `SPEC.md`: goal, non-goals, interfaces, verifiable acceptance; decisions as ADRs.
-2. **Split** — one card per slice; one worktree per card.
-3. **Delegate** — brief an agent with a self-contained task brief (`templates/TASK-BRIEF.md`).
-4. **Review** — check against acceptance criteria.
-5. **Ship** — PR → label `merge-ready` → merge agent lands it.
+Open the local URL printed by Vite. For a production build and local preview:
 
-## Status
-- **GitHub remote:** not added yet (add later, then enable protection + the merge agent).
-- Once a remote exists: `orca-kit/setup-existing-repo.sh` finishes labels, protection, and the merge agent.
+```sh
+pnpm build
+pnpm preview
+```
+
+The production app supports offline play after its first successful load. Progress is stored on the device; no account or server is required. There are no external datasets or model weights to download.
+
+## Third-party acknowledgments
+
+The JavaScript libraries and build/test tools are listed in `package.json`, including React, PixiJS, GSAP, Zustand, Zod, Dexie, i18next, Vite, Vitest, Playwright, axe-core, and AssetPack. The bundled Noto Sans fonts use the SIL Open Font License in `src/ui/tokens/fonts/OFL.txt`; the report's Silkscreen font uses the licence in `deliverables/fonts/OFL.txt`. Game artwork was made for this project with PixelLab assistance; each approved asset has a provenance and licence sidecar in `art/approved/`. The final report's rupee coin was generated with OpenAI image generation from a team-provided reference. The reusable Orca workflow documents and templates under `docs/orca-kit/` and `templates/` are general-purpose project scaffolding, not game content.
