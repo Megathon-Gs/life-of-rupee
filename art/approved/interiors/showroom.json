@@ -1,0 +1,19 @@
+{
+  "tool": "PixelLab MCP create_image_pixflux (room + interior-scale NPC redraw) + local composite",
+  "toolVersion": "not exposed by MCP (queried 2026-10-11)",
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-11",
+  "prompt": "interior of a small modern Indian vehicle showroom, side view flat orthographic back wall, cream plaster walls with deep teal and rose accent stripes, a small orange hatchback car on display on the left, a scooter on display on the right, a clean sales desk counter in the centre of the image with a laptop and a small stack of blank papers, an empty standing space behind the desk for the sales officer, recessed ceiling lights, polished cream tiled floor, a potted plant, warm late-afternoon light from upper left, clean clustered shading, dark ink outline. No people. No text, no letters, no numerals, no logos, no watermark, no signage lettering; signboards are blank. Not a tourist postcard; no religious icons, temples, cows, snake charmers, slums, beggars, rags, saffron or turbans as decoration; no caricature; no text, letters, numerals, logos or Telugu on any sign.",
+  "referenceIds": [
+    "pixellab job bfabb596-16a5-400b-948c-ae8b22779a36",
+    "pixellab asset 9899f6f3-d184-55ef-ad4e-8cf24bec080d",
+    "palette A strip (art/bible/palette.json, 32x1, passed as color_image_base64)",
+    "art/approved/urban/showroom-lit.png",
+    "pixellab job ff23011e-9aa7-40f6-8975-dc8609080260 (NPC redraw)",
+    "art/approved/urban/characters/lender-officer-idle-west.png (frame 0, init image at 2x)"
+  ],
+  "notes": "384x288 seed 2803, view side, single color outline, basic shading, medium detail, forced palette; first attempt kept (1 generation); output palette-exact with binary alpha, no post-pass. NPC: frame 0 of the approved street sprite lender-officer-idle-west upscaled 2x to 64x96 (nearest) and redrawn with pixflux img2img (init_image_strength 90, seed 2814, same character prompt as the street sprite, forced palette, 1 generation) so the NPC keeps its identity at interior scale with native 1 px pixel density; the street sprite at 1:1 looked too small next to the furniture. lender officer placed at x 160, y 120 behind the sales desk; drawn only above the desk top (y < 170) and only over wall pixels, so the laptop and desk items stay in front. Where the NPC is behind glass, each NPC pixel is blended 75/25 with the glass pixel behind it and snapped to the nearest palette colour; glass frame lines stay in front. Counter and NPC sit inside the central 384x128 band (y 80-207) for the phone crop. Inspected at 3-4x: no lettering, numerals or logos (clock faces have tick marks only).",
+  "reviewFlags": "architecture and dress are GUESS: needs photo-reference pass and Hyderabad/Telangana reviewer; interiors use a gentle one-point room perspective (side walls visible), unlike the flat street facades; interior NPCs are 64x96 redraws of the 32x48 street sprites (same identity, larger scale)",
+  "kind": "tile",
+  "tags": ["interior", "backdrop", "showroom", "p2", "level-9"]
+}

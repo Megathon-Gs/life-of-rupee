@@ -1,0 +1,19 @@
+{
+  "tool": "PixelLab MCP create_image_pixflux (room + interior-scale NPC redraw) + local composite",
+  "toolVersion": "not exposed by MCP (queried 2026-10-11)",
+  "licence": "Owned by us under PixelLab ToS §1.3/§3.3; commercial use allowed; outputs not used to train other models",
+  "date": "2026-10-11",
+  "prompt": "interior of a small modern Indian mobile phone shop, side view flat orthographic back wall, coral and terracotta walls with cream shelving, wall display rack of smartphones in neat rows, phone cases and earphones hanging on pegboard, a long wooden glass-topped display counter running across the middle of the image with phones under the glass, an empty standing space behind the counter in the centre for the shopkeeper, a small card payment machine on the counter, warm late-afternoon light from upper left, tiled floor, clean clustered shading, dark ink outline. No people. No text, no letters, no numerals, no logos, no watermark, no signage lettering; signboards are blank. Not a tourist postcard; no religious icons, temples, cows, snake charmers, slums, beggars, rags, saffron or turbans as decoration; no caricature; no text, letters, numerals, logos or Telugu on any sign.",
+  "referenceIds": [
+    "pixellab job 4d827b9a-0fbe-4779-bac4-f98b65de9632",
+    "pixellab asset 2f965f51-532d-54dd-ac19-0f117df35464",
+    "palette A strip (art/bible/palette.json, 32x1, passed as color_image_base64)",
+    "art/approved/urban/phone-shop-lit.png",
+    "pixellab job e013fcc9-da9d-44e0-b568-7fa6bd697d0a (NPC redraw)",
+    "art/approved/urban/characters/phone-shopkeeper-idle-east.png (frame 0, init image at 2x)"
+  ],
+  "notes": "384x288 seed 2802, view side, single color outline, basic shading, medium detail, forced palette; first attempt kept (1 generation); output palette-exact with binary alpha, no post-pass. NPC: frame 0 of the approved street sprite phone-shopkeeper-idle-east upscaled 2x to 64x96 (nearest) and redrawn with pixflux img2img (init_image_strength 90, seed 2813, same character prompt as the street sprite, forced palette, 1 generation) so the NPC keeps its identity at interior scale with native 1 px pixel density; the street sprite at 1:1 looked too small next to the furniture. shopkeeper placed at x 140, y 101: head and shoulders above the display case back edge (y 134), torso drawn through the transparent upper glass pane (y 134-158) and hidden behind the opaque pale-blue case top (y 159-177); REPAIR after review: the previous version also drew him over that opaque top. Where the NPC is behind glass, each NPC pixel is blended 75/25 with the glass pixel behind it and snapped to the nearest palette colour; glass frame lines stay in front. Counter and NPC sit inside the central 384x128 band (y 80-207) for the phone crop. Inspected at 3-4x: no lettering, numerals or logos (clock faces have tick marks only).",
+  "reviewFlags": "architecture and dress are GUESS: needs photo-reference pass and Hyderabad/Telangana reviewer; interiors use a gentle one-point room perspective (side walls visible), unlike the flat street facades; interior NPCs are 64x96 redraws of the 32x48 street sprites (same identity, larger scale)",
+  "kind": "tile",
+  "tags": ["interior", "backdrop", "phone-shop", "p2", "level-4", "level-5"]
+}
