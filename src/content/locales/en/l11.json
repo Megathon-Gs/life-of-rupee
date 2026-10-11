@@ -1,0 +1,88 @@
+{
+  "_meta": { "translationStatus": "English source; educator sign-off pending" },
+  "hook": {
+    "1": "Welcome to the learning centre. Let's compare fictional choices, not buy anything.",
+    "2": "A higher possible return is not a promise. Check risk, access to your money and when you need it.",
+    "3": "Spreading money across different investments can reduce concentration risk, but cannot remove all risk."
+  },
+  "lesson": {
+    "title": "A range is not a promise",
+    "prompt": "Move the time slider. Assumption: ₹10,000, a 6% annual model rate with a 2 percentage-point spread, 4% annual inflation and annual compounding for up to 8 years. This toy range excludes losses, fees and taxes: real investments can lose money and fall outside it. What does it show?",
+    "hint1": "Past performance does not guarantee future returns.",
+    "hint2": "Choose the answer that treats the graph as an illustration, not a promise.",
+    "explanation": "The graph uses assumptions, not a forecast or a minimum return. Investments can lose money; a longer horizon does not guarantee success.",
+    "promise": "The graph promises that my money cannot fall below its lower line.",
+    "assumption": "It illustrates assumed growth; neither the return nor the lower line is guaranteed."
+  },
+  "compare": {
+    "assumption": "Assumption: fictional educational cards only. No quoted market rates, fees or taxes; no real provider or product. The answer tests the stated scenario, not what you should buy.",
+    "hint1": "First match the goal, time horizon, risk tolerance and access needs. A higher possible return is not enough.",
+    "hint2": "One company is not diversification. A diversified portfolio can still lose value."
+  },
+  "instrument": {
+    "fd": {
+      "risk": "Risk: a fixed deposit is a term deposit, not stock-market ownership. Lower market-price risk does not mean every financial risk disappears.",
+      "liquidity": "Access: early withdrawal can reduce interest or carry a penalty; check the terms.",
+      "horizon": "Horizon: match the deposit's maturity date to the date you need the money."
+    },
+    "bonds": {
+      "risk": "Risk: a bond lends to an issuer. Default and interest-rate changes can cause losses; a fixed coupon does not fix its resale price.",
+      "liquidity": "Access: selling before maturity needs a buyer and can mean selling at a loss.",
+      "horizon": "Horizon: consider maturity and whether you can hold the bond until then."
+    },
+    "mutualFunds": {
+      "risk": "Risk: mutual funds pool investors' money into securities. Risk depends on the holdings; a diversified equity fund is not a guaranteed-return deposit.",
+      "liquidity": "Access: check the fund's redemption terms, settlement time and any lock-in or exit charge.",
+      "horizon": "Horizon: for equity exposure, consider a longer horizon and ability to bear losses, not money needed soon."
+    },
+    "equities": {
+      "risk": "Risk: equities are company ownership. Prices can fall; holding only one company concentrates risk.",
+      "liquidity": "Access: converting shares into cash depends on selling at the available market price; liquidity is not price safety.",
+      "horizon": "Horizon: volatile equity prices can be unsuitable for money needed soon, even if shares can be sold."
+    }
+  },
+  "decision": {
+    "title": "Check a long-horizon statement",
+    "prompt": "Fictional Mira has a flexible project goal in 8 years, separate emergency savings and can accept losses. She is learning about pooled, diversified equity exposure. Which statement describes that approach without a false promise? This is not a product recommendation.",
+    "fd": "FD: guarantees the highest growth for every long-term goal",
+    "bonds": "Bonds: a fixed coupon guarantees the resale price",
+    "mutualFunds": "Mutual funds: diversified equity holdings, with no guaranteed return",
+    "equities": "Equities: owning one company's shares removes concentration risk",
+    "explanation": "For this question, pooled diversified equity holdings describe the stated approach. Neither a fixed coupon nor diversification guarantees gains; one company's shares are not diversification. Other goals may call for a different approach."
+  },
+  "consequence": {
+    "range": "Assumption, not a forecast: starting with ₹10,000, annual compounding for 8 years at assumed rates of 4% and 8% gives ₹13,685.69 and ₹18,509.30 respectively, before fees and taxes. These are model endpoints, not promised outcomes or bounds on losses.",
+    "explanation": "You compared risk and access, not just a return number. Actual investment outcomes may be lower, including a loss. Diversification reduces concentration risk, not every risk; match your horizon and needs."
+  },
+  "transfer": {
+    "books": {
+      "title": "A different goal: next term's books",
+      "prompt": "Fictional Tara needs the full book budget in 3 months and cannot accept a market loss. Assumption: the fictional low-risk FD matures before payment and its withdrawal terms are suitable; the bond matures in 5 years with no assured early buyer; the fund and shares can fall in value. Which card fits these stated constraints?",
+      "fd": "FD: lower-risk deposit maturing before the book payment",
+      "bonds": "Bonds: wait for a buyer before the book payment",
+      "mutualFunds": "Mutual funds: use volatile equity holdings for the book payment",
+      "equities": "Equities: hope one company's shares rise before the book payment",
+      "explanation": "The assumed deposit terms fit this near-term payment better than volatile or hard-to-sell assets. Check actual maturity and withdrawal conditions; this fictional answer is not a recommendation."
+    },
+    "course": {
+      "title": "A different goal: a course fee",
+      "prompt": "Fictional Arun must pay a course fee in 6 months, needs the whole amount and cannot absorb losses. Assumption: the fictional low-risk FD matures before the fee is due with suitable withdrawal terms; the bond matures in 5 years with no assured early buyer; equity funds and shares may fall. Which card fits this goal?",
+      "fd": "FD: lower-risk deposit with a matching maturity date",
+      "bonds": "Bonds: depend on selling an illiquid bond early",
+      "mutualFunds": "Mutual funds: depend on short-term equity gains",
+      "equities": "Equities: put the full fee into one company's shares",
+      "explanation": "For money needed soon without room for losses, access and capital preservation matter. The assumed deposit matches this scenario; real terms must still be checked, and this is not a product recommendation."
+    }
+  },
+  "investing": {
+    "guaranteed_return": {
+      "review": "Your choice: treated growth or a fixed coupon as a promise. Safer choice: distinguish an assumed return from an assured outcome and check risks. Concept: return and resale value are not guaranteed. Why it matters: a loss can leave a goal unfunded."
+    },
+    "ignored_horizon": {
+      "review": "Your choice: relied on volatile prices or an early buyer for money needed soon. Safer choice: match maturity, access and risk to the payment date. Concept: liquidity and time horizon. Why it matters: you may have to sell at a loss or miss the payment."
+    },
+    "concentrated_risk": {
+      "review": "Your choice: treated one company's shares as diversification. Safer choice: recognise a portfolio spread across different investments. Concept: diversification reduces concentration risk but does not eliminate losses. Why it matters: a single company's setback can hit all the money placed in it."
+    }
+  }
+}
