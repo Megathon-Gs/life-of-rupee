@@ -9,8 +9,8 @@ export interface SwController {
 
 /**
  * Register the generated service worker and surface a waiting update.
- * `clientsClaim` is off, so nothing takes over mid-session: the new worker only
- * becomes active after `apply()` and the page reloads itself.
+ * The first worker claims the page for offline use. Updates still wait for
+ * `apply()` because `skipWaiting` is off, so a deploy never reloads a lesson.
  */
 export function registerServiceWorker(onNeedRefresh: () => void): SwController {
   let waiting: ServiceWorker | null = null

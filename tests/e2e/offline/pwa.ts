@@ -12,11 +12,13 @@ export const step = (page: Page) => page.getByTestId('level-step')
 export const results = (page: Page) => page.getByTestId('results')
 export const updateToast = (page: Page) => page.getByTestId('pwa-update')
 
-/** Waits until the worker is active and the lazy atlas cache is warm. */
+/** Waits until the worker controls this page and the lazy atlas cache is warm. */
 export async function waitForOfflineReady(page: Page): Promise<void> {
-  await page.waitForFunction(async () => {
-    const registration = await navigator.serviceWorker.getRegistration()
-    return Boolean(registration?.active) && document.documentElement.dataset.pwaAssets === 'ready'
+  await page.waitForFunction(() => {
+    return (
+      navigator.serviceWorker.controller?.state === 'activated' &&
+      document.documentElement.dataset.pwaAssets === 'ready'
+    )
   })
 }
 
@@ -87,7 +89,9 @@ export async function playLevel(page: Page): Promise<void> {
     }
     const type = await step(page).getAttribute('data-step-type')
     if (type === 'hook' || type === 'consequence') {
-      await step(page).getByRole('button', { name: /^(Continue|Done)$/ }).click()
+      await step(page)
+        .getByRole('button', { name: /^(Continue|Done)$/ })
+        .click()
     } else if (type && INTERACTION_STEPS.includes(type)) {
       await completeInteraction(page, type)
     } else {

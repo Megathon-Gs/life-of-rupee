@@ -29,7 +29,7 @@ export default defineConfig({
       },
       workbox: {
         skipWaiting: false,
-        clientsClaim: false,
+        clientsClaim: true,
         cleanupOutdatedCaches: true,
         globPatterns: [
           '**/*.{js,css,html,woff2}',
