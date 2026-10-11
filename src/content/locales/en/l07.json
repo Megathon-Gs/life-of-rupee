@@ -1,0 +1,56 @@
+{
+  "_meta": {
+    "translationStatus": "English draft; NGO educator sign-off pending. All baskets, savings and rates are fictional assumptions, not current prices, forecasts or product recommendations."
+  },
+  "hook": {
+    "1": "Mira: My fictional savings have grown. Will they still buy the same rice, dal and vegetables?",
+    "2": "Mira: Interest is money earned on savings.",
+    "3": "Mira: Purchasing power means what money can buy, not just the number on a balance. Rising prices can reduce it."
+  },
+  "choices": {
+    "more": "Buys more of this basket than at the start",
+    "same": "Buys the same amount of this basket as at the start",
+    "less": "Buys less of this basket than at the start"
+  },
+  "lesson": {
+    "title": "Same money, changing price tags",
+    "prompt": "Simulated rice, dal and vegetable basket: ₹1,000 at the start. Assumption: basket prices rise 10% a year. Assumption: your cash earns 0% a year and stays ₹1,000. Move the slider through 2 years and compare the price tags. At the end, what can that unchanged cash buy?",
+    "hint1": "Keep the goods and their quantities the same when comparing prices over time.",
+    "hint2": "The basket price rises but the cash stays unchanged. Can the cash still cover the whole basket?",
+    "explanation": "Under these assumptions, the same money buys less when the basket costs more. Its nominal amount is unchanged, but its purchasing power has fallen."
+  },
+  "decision": {
+    "title": "A bigger balance at the market",
+    "prompt": "Mira starts with ₹1,000, enough for the same rice, dal and vegetable basket. Assumption: basket prices rise 6% a year. Assumption: savings grow 4% a year, compounded annually, with no deposits, withdrawals, fees or tax. After 3 years her savings are ₹1,124.86. Move the basket across the years. Compared with the start, what can her savings buy at the end?",
+    "hint1": "Compare the balance with the price of the same basket, not only with the starting balance.",
+    "hint2": "Assumption: savings grow 4% a year, slower than the assumed basket price rise of 6% a year. Which grows faster?",
+    "explanation": "Under these assumptions, savings grow in rupees but buy less of the basket. A higher nominal balance alone does not show higher purchasing power."
+  },
+  "consequence": {
+    "basket": "After 3 years, the basket price has risen from ₹1,000 to ₹1,191.02. Assumption: prices rise 6% a year.",
+    "savings": "Savings have grown from ₹1,000 to ₹1,124.86. Assumption: growth is 4% a year, compounded annually, without deposits, withdrawals, fees or tax.",
+    "gap": "The savings are ₹66.16 short of the same basket. The bigger balance still buys less of it.",
+    "explanation": "Money's number is not its purchasing power. When savings grow slower than prices, their purchasing power falls. This is a fictional comparison, not a forecast or a recommendation to buy any product."
+  },
+  "transfer": {
+    "school": {
+      "title": "Try a school-supplies basket",
+      "prompt": "A different fictional basket of notebooks, pencils and paper costs ₹600 at the start. Assumption: these prices rise 5% a year. Assumption: cash earns 0% a year and stays ₹600. Move forward 2 years. Compared with the start, what can this cash buy?",
+      "hint1": "Purchasing power is about goods you can afford, not whether the cash number changed.",
+      "hint2": "The cash is unchanged while this basket becomes more expensive.",
+      "explanation": "Under these assumptions, unchanged cash buys less of the school-supplies basket because its price rises."
+    },
+    "cleaning": {
+      "title": "Try a cleaning-supplies basket",
+      "prompt": "A different fictional basket of soap and cleaning cloths costs ₹800 at the start. Assumption: these prices rise 8% a year. Assumption: savings grow 10% a year, compounded annually, with no deposits, withdrawals, fees or tax. After 2 years the savings are ₹968. Move the basket across 2 years. Compared with the start, what can these savings buy?",
+      "hint1": "Compare these savings with this basket's price before choosing.",
+      "hint2": "Assumption: savings grow 10% a year, faster than the assumed basket price rise of 8% a year.",
+      "explanation": "Under these assumptions, the savings grow faster than this basket's price, so they buy more of it. Rising prices do not always mean growing savings buy less."
+    }
+  },
+  "inflation": {
+    "nominal_vs_real": {
+      "review": "Your choice: the selected purchasing-power comparison does not match this basket and balance. Safer choice: compare the money with the price of the same basket at the same time. Concept: nominal amount is the number of rupees; purchasing power is what they buy. Savings growing slower than basket prices buy less; savings growing faster buy more, under the stated assumptions. Why it matters: savings that grow slower than prices can leave a planned purchase out of reach, even with a bigger balance."
+    }
+  }
+}
