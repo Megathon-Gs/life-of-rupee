@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import '@/i18n'
+import '@/platform/pwa/boot'
 import { migrate } from '@/core/state'
 import { installLifecycleFlush } from '@/persistence/lifecycle'
 import { createSaveStore } from '@/persistence/saveStore'
