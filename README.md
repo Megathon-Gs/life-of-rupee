@@ -1,3 +1,10 @@
+> **Note:** this is a **full-history mirror** of the *Paisa Street* project built at Megathon by
+> Team 47 with a self-hosted multi-agent fleet (Orca + Claude Code / Codex / OpenCode / Cursor).
+> The reusable system that built it is open-sourced at **https://github.com/JAGUARAVI/orca-kit**.
+> Every branch and commit is preserved from the original private repo.
+
+---
+
 # Lifeof₹
 
 Live demo: https://life-of-rupee-megathon-47.netlify.app
